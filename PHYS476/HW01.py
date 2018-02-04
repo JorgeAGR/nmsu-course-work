@@ -2,73 +2,111 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sympy as sym
 
-# 3
 
-x = np.linspace(-3.0, 3.0, num = 50)
-l = len(x)
-nMax = 5 #Number of Hermite polynomials desired
+
+# 3 - Hermite Polynomials (Explicit and Recursion)
+
+x3 = np.linspace(-3.0, 3.0, num = 100)
+nMaxH = 5 #Number of Hermite polynomials desired
 
 X = sym.Symbol('x')
-H = []
+H = [] 
 Hf = []
 
-for n in range(nMax):
+for n in range(nMaxH):
     h = sym.diff(sym.exp(-X**2), X, n) * ((-1)**n) * (sym.exp(X**2))
     H.append(h)
     Hf.append(sym.lambdify(X, H[n], 'numpy'))
 
-hermiteAnalyticalMemory = np.zeros((nMax, l), dtype = int)
-hermiteRecursionMemory = np.zeros((nMax, l), dtype = int)
+def hermite(x,n):
+    if n == 0:
+        return 1
+    elif n == 1:
+        return 2*x
+    else:
+        h = 2 * x * hermite(x,n-1) - 2 * (n-1) * hermite(x,n-2)
+        return h
 
-for n in range(nMax):
-    for i in range(l):
-        hermiteAnalyticalMemory[n, i] = Hf[n](x[i])
-        if n == 0:
-                hermiteRecursionMemory[n, i] = 1
-        elif n == 1:
-                hermiteRecursionMemory[n, i] = 2 * x[i]
-        else:
-                hermiteRecursionMemory[n, i] = 2 * x[i] * hermiteRecursionMemory[n-1, i] - 2 * (n-1) * hermiteRecursionMemory[n-2, i]
+hRecursion = []
+hExplicit = []
+for n in range(nMaxH):
+    hR = list(map(lambda x: hermite(x,n), x3))
+    hE = list(map(lambda x: Hf[n](x), x3))
+    hRecursion.append(hR)
+    hExplicit.append(hE)
 
-fig = plt.figure(3)
+fig3b = plt.figure()
 
-plt.subplot2grid((2,2), (0,0))
-for n in range(nMax):
-    plt.plot(x, hermiteRecursionMemory[n, :])
+plt.subplot2grid((2,1), (0,0))
+for n in range(nMaxH):
+    plt.plot(x3, hRecursion[n])
 plt.ylim(-25, 25)
+plt.xlim(-3,3)
 plt.grid()
 plt.title('Recursion H$_n$')
 
-plt.subplot2grid((2,2), (0,1))
-for n in range(nMax):
-    plt.plot(x, hermiteAnalyticalMemory[n, :], '--')
-plt.ylim(-50, 50)
+plt.subplot2grid((2,1), (1,0))
+for n in range(nMaxH):
+    plt.plot(x3, hExplicit[n], '--')
+plt.ylim(-25, 25)
+plt.xlim(-3,3)
 plt.grid()
-plt.title('Analytical H$_n$')
+plt.title('Explicit H$_n$')
 
-plt.subplot2grid((2,2),(1,0))
-plt.plot(x, hermiteRecursionMemory[3, :], 'r')
-plt.plot(x, hermiteAnalyticalMemory[3, :], 'b--')
-plt.ylim(-50,50)
+fig3c = plt.figure()
+
+plt.subplot2grid((2,1),(0,0))
+plt.plot(x3, hRecursion[3], 'c')
+plt.plot(x3, hExplicit[3], 'b:')
+plt.ylim(-25,25)
+plt.xlim(-3,3)
 plt.grid()
 plt.title('H$_3$')
 
-plt.subplot2grid((2,2),(1,1))
-plt.plot(x, hermiteRecursionMemory[4, :], 'r')
-plt.plot(x, hermiteAnalyticalMemory[4, :], 'b--')
-plt.ylim(-50,50)
+plt.subplot2grid((2,1),(1,0))
+plt.plot(x3, hRecursion[4], 'c')
+plt.plot(x3, hExplicit[4], 'b:')
+plt.ylim(-25,25)
+plt.xlim(-3,3)
 plt.grid()
 plt.title('H$_4$')
 
 plt.show()
 
-# 5a
+# 4 - Legendre Polynomials
 
-x = 10
+def legendre(x,n):
+    if n == 0:
+        return 1
+    elif n == 1:
+        return x
+    else:
+        p = ((2*(n-1) + 1) * x * legendre(x,n-1) - (n-1) * legendre(x,n-2)) / (n)
+        return p
 
-f = x**4
+x4 = np.linspace(-1, 1, num = 100)
+nMaxP = 6
+
+pRecursion = []
+for n in range(nMaxP):
+    p = list(map(lambda x: legendre(x,n), x4))
+    pRecursion.append(p)
+
+fig4, ax4 = plt.subplots()
+for n in range(nMaxP):
+    ax4.plot(x4, pRecursion[n])
+ax4.set_ylim(-1,1.05)
+ax4.set_xlim(-1,1)
+ax4.grid()
+ax4.set_title('Legendre Polynomials')
+
+# 5 - Compute numerical derivatives
+
+x5 = 10
+
+f = x5**4
 
 h = np.linspace(1, 0, num = 250, endpoint = False) 
 for i in h:
-    df2p = ((x+h)**4 - (x-h)**4)/(2*h)
-    df4p = ((x-2*h)**4 - 8*(x-h)**4 + 8*(x+h)**4 - (x+2*h)**4)/(12*h)
+    df2p = ((x5+h)**4 - (x5-h)**4)/(2*h)
+    df4p = ((x5-2*h)**4 - 8*(x5-h)**4 + 8*(x5+h)**4 - (x5+2*h)**4)/(12*h)

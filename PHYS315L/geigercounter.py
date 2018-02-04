@@ -41,7 +41,7 @@ def poisson(array):
     
     probabilityElements = dict.fromkeys(arrayElements,0)
     for i in arrayElements:
-        probability = ((arrayMean ** i) * (np.exp( - controlMean))) / (math.factorial( i ))
+        probability = ((arrayMean ** i) * (np.exp( - arrayMean))) / (math.factorial( i ))
         probabilityElements[i] = probability
     
     arrayPoison = []
