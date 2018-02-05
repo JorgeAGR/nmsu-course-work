@@ -5,8 +5,22 @@ def shiftTheta(measurement):
     for i in measurement:
         measurement[i] = np.abs(measurement[i] - shift)
 
-def avgTheta():
-    None
+def avgTheta(measurement):
+    tv = []
+    tg = []
+    ty = []
+    to = []
+    for m in measurement:
+        tv.append(m['violet'])
+        tg.append(m['green'])
+        ty.append(m['yellow'])
+        to.append(m['orange'])
+    v = np.mean(tv)
+    g = np.mean(tg)
+    y = np.mean(ty)
+    o = np.mean(to)
+    return v, g, y, o
+    
 
 def deltaTheta(color):
     ((max(color) - min(color)) / 2 ) * (1 / (np.sqrt(len(color))))
@@ -32,20 +46,9 @@ measurements = [
 for m in measurements:
     shiftTheta(m)
 
-tv = []
-tg = []
-ty = []
-to = []
+theta_v_avg, theta_g_avg, theta_y_avg, theta_o_avg = avgTheta(measurements)
 
-for m in measurements:
-    tv.append(m['violet'])
-    tg.append(m['green'])
-    ty.append(m['yellow'])
-    to.append(m['orange'])
-
-violet_t = np.mean(tv)
-green_t = np.mean(tg)
-yellow_t = np.mean(ty)
-orange_t = np.mean(to)
-
-lv = wavelength(d, violet_t, 1)
+lv = wavelength(d, theta_v_avg, 2)
+lg = wavelength(d, theta_g_avg, 2)
+ly = wavelength(d, theta_y_avg, 2)
+lo = wavelength(d, theta_o_avg, 2)
