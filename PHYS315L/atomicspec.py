@@ -41,8 +41,6 @@ measurements = [
 {'blue': 139.4, 'violet': 154.5, 'green': 158.5, 'yellow': 159.6, 'orange': 159.7}, # Angle Ryan Left
 ]
 
-
-
 for m in measurements:
     shiftTheta(m)
 
