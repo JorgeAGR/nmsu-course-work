@@ -1,0 +1,14 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\graphicspath{documents/}
+\usepackage{caption}
+\captionsetup{font=scriptsize}
+
+\title{Statistics, Uncertainties and Linear Fitting}
+\author{Jorge A. Garcia}
+\date{February 6th, 2018}
+
+\begin{document}
+ \maketitle
+\end{document}
