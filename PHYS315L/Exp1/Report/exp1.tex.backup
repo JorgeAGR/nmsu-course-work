@@ -122,5 +122,10 @@
  A good approximation is achieved, with the parameters being close to their expected values ($a = \bar{r} = 54.23, b = 0$).
  \vfill\eject
  \subsection{Determining the Source Count Rate}
+ With the obtained data, the source's actual count rate can be determined. Knowing that:
+ \begin{align*}
+  R_{tot} = 
+ \end{align*}
+
  
 \end{document}

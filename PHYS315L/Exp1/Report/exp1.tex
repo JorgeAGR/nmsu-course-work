@@ -69,7 +69,7 @@
   s^2 = 1.87 \approx \bar{r} = 1.92 
  \end{equation*}
   The fraction of trials with an absolute deviation from the mean larger than the standard deviation $s$ is approximately $30\%$ of the sample. If one were to look at the
-  probability of getting a result above that of the mean of the ideal Poisson distribution($\approx 2$), then:
+  probability of getting a result above that of the mean of the ideal Poisson distribution ($\approx 2$), then:
  \begin{equation*}
   \sum_{r=3}^{5} P_\mu(r) = \sum_{r=3}^{5} \frac{\mu^re^{-\mu}}{r!} = 29\%
  \end{equation*}
@@ -81,7 +81,7 @@
  As can be seen, the Poisson distribution gives a much better model for the data, showing that the number of counts from the background detected by 
  the Geiger-Müller Counter is entirely random.
  \vfill\eject
- The following figure shows a plot of the data points of the experiment, displaying counts against sample number:
+ The data points of the experiment are shown below, displaying counts against sample number:
  \centerline{\includegraphics[scale = 0.41]{fig3b}}
  A linear Least Squares Fit was used in attempt to recreate the trend of the data. While the experiment assumed that the probability of detecting a
  radioactive decay product was constant in time ($a = \bar{r} = 1.92 , b = 0$), the calculated parameters were very close to the ideal values, within their uncertainties.
@@ -117,15 +117,29 @@
  \begin{equation*}
   P(r) = \frac{\bar{r}^r e^{-\bar{r}}}{r!}
  \end{equation*}
-  The following figure shows the plot of the data points of the experiment and its appropriate Linear Least Squares Fit as well:
+  The figure below shows the plot of the data points of the experiment and its appropriate Linear Least Squares Fit as well:
  \centerline{\includegraphics[scale = 0.6]{fig3d}}
  A good approximation is achieved, with the parameters being close to their expected values ($a = \bar{r} = 54.23, b = 0$).
  \vfill\eject
  \subsection{Determining the Source Count Rate}
  With the obtained data, the source's actual count rate can be determined. Knowing that:
  \begin{align*}
-  R_{tot} = 
+  R_{tot} = 54.23 \pm 9.09 &\equiv \text{Source + Background} \\
+  R_b = 1.92 \pm 1.37 &\equiv \text{Background}
  \end{align*}
-
+ The total rate of counts from just the source is then:
+ \begin{align*}
+  R &= R_{tot} - R_b \\
+  &= 54.23 - 1.92 \\
+  R &= 52.31
+ \end{align*}
+ \begin{align*}
+  \Delta R &= \sqrt{\Delta R_{tot}^2 + \Delta R_b^2} \\
+  &= \sqrt{(9.09)^2 + (1.36)^2} \\
+  \Delta R &= 9.19
+ \end{align*}
+ \begin{equation*}
+  \boxed{R = 52.31 \pm 9.19}
+ \end{equation*}
  
 \end{document}

@@ -1,6 +1,5 @@
 import numpy as np
 import math
-from fractions import Fraction
 import matplotlib.pyplot as plt
 import openpyxl
 from scipy.optimize import curve_fit
