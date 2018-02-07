@@ -1,4 +1,6 @@
 import numpy as np
+from uncertainties import ufloat
+import uncertainties.umath as umath
 
 def shiftTheta(measurement):
     shift = measurement['blue']
@@ -15,24 +17,23 @@ def avgTheta(measurement):
         tg.append(m['green'])
         ty.append(m['yellow'])
         to.append(m['orange'])
-    v = np.mean(tv)
-    g = np.mean(tg)
-    y = np.mean(ty)
-    o = np.mean(to)
+    v = ufloat(np.mean(tv), np.std(tv))
+    g = ufloat(np.mean(tg), np.std(tg))
+    y = ufloat(np.mean(ty), np.std(ty))
+    o = ufloat(np.mean(to), np.std(to))
     return v, g, y, o
-    
-
-def deltaTheta(color):
-    ((max(color) - min(color)) / 2 ) * (1 / (np.sqrt(len(color))))
 
 def wavelength(d, theta, m):
-    l = d * np.sin(theta) / m
+    t = umath.radians(theta)
+    l = d * umath.sin(t) / m
     return l
 
-d = 1/(600 / (10**(-3))) # meters
-m1 = 1
+# == Mercury == #
 
-measurements = [
+d = 1/(600 / (10**(-3))) # meters
+mHg = 1
+
+measurementsHg = [
 {'blue': 139.4, 'violet': 124.4, 'green': 120.2, 'yellow': 119.1, 'orange': 118.9}, # Angle Patrick Right
 {'blue': 139.4, 'violet': 154.5, 'green': 158.7, 'yellow': 159.7, 'orange': 159.9}, # Angle Patrick Left
 {'blue': 139.3, 'violet': 124.1, 'green': 120.0, 'yellow': 119.0, 'orange': 118.9}, # Angle Jorge Right
@@ -41,12 +42,22 @@ measurements = [
 {'blue': 139.4, 'violet': 154.5, 'green': 158.5, 'yellow': 159.6, 'orange': 159.7}, # Angle Ryan Left
 ]
 
-for m in measurements:
+for m in measurementsHg:
     shiftTheta(m)
 
-theta_v_avg, theta_g_avg, theta_y_avg, theta_o_avg = avgTheta(measurements)
+theta_vHg_avg, theta_gHg_avg, theta_yHg_avg, theta_oHg_avg = avgTheta(measurementsHg)
 
-lv = wavelength(d, theta_v_avg, 2)
-lg = wavelength(d, theta_g_avg, 2)
-ly = wavelength(d, theta_y_avg, 2)
-lo = wavelength(d, theta_o_avg, 2)
+vHg = wavelength(d, theta_v_avg, mHg)
+gHg = wavelength(d, theta_g_avg, mHg)
+yHg = wavelength(d, theta_y_avg, mHg)
+oHg = wavelength(d, theta_o_avg, mHg)
+
+# == Hydrogren == #
+
+measurementsH = [
+{'pink': 139.5, 'violet': 124.2, 'cyan': 122.2, 'red': 116.0, 'blue': 103.4}, # Angle Patrick Right
+{'pink': , 'violet': , 'cyan': , 'red': , 'blue': }, # Angle Patrick Left
+{'pink': , 'violet': , 'cyan': , 'red': , 'blue': }, # Angle Jorge Right
+{'pink': , 'violet': , 'cyan': , 'red': , 'blue': }, # Angle Jorge Left
+{'pink': 139.3, 'violet': 124.2, 'cyan': 122.3, 'red': 116.0, 'blue': 103.4}, # Angle Ryan Right
+{'pink': 139.3, 'violet': 154.5, 'cyan': 156.3, 'red': 162.5, 'blue': 174.9}, # Angle Ryan Left

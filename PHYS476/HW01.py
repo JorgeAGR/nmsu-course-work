@@ -2,7 +2,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sympy as sym
 
+# == 1 - Machine Numbers == # 
 
+def binary(number):
+    
 
 # 3 - Hermite Polynomials (Explicit and Recursion)
 
@@ -70,8 +73,6 @@ plt.ylim(-25,25)
 plt.xlim(-3,3)
 plt.grid()
 plt.title('H$_4$')
-
-plt.show()
 
 # 4 - Legendre Polynomials
 
