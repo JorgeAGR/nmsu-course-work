@@ -1,20 +1,17 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import sympy as sym
+import matplotlib as mpl
+
+mpl.rcParams['font.size'] = 15
+mpl.rcParams['figure.titlesize'] = 'medium'
+mpl.rcParams['legend.fontsize'] = 'small'
 
 # == 1 - Machine Numbers == # 
 
-'''def binary(number):
-    def binexp(x):
-        y = 1/(2**(x)
-        return y
-    n = 0
-    fracc = binexp(n)
-    while fracc > number:
-        n += 1
-        fracc = binexp(n)
-    else:'''
-        
+def binary(number):
+    
+
 # 3 - Hermite Polynomials (Explicit and Recursion)
 
 x3 = np.linspace(-3.0, 3.0, num = 100)
@@ -46,37 +43,47 @@ for n in range(nMaxH):
     hRecursion.append(hR)
     hExplicit.append(hE)
 
-figHR, axHR = plt.subplots()
-for n in range(nMaxH):
-    plt.plot(x3, hRecursion[n])
-axHR.set_ylim(-25, 25)
-axHR.set_xlim(-3,3)
-axHR.grid()
-axHR.set_title('Recursion H$_n$')
-
 figHE, axHE = plt.subplots()
+figHE.set_size_inches(9,9)
 for n in range(nMaxH):
-    plt.plot(x3, hExplicit[n], '--')
+    text = 'H$_%i$' % n
+    plt.plot(x3, hExplicit[n], '--', label = text)
 axHE.set_ylim(-25, 25)
 axHE.set_xlim(-3,3)
 axHE.grid()
 axHE.set_title('Explicit H$_n$')
+axHE.legend()
+
+figHR, axHR = plt.subplots()
+figHR.set_size_inches(9,9)
+for n in range(nMaxH):
+    text = 'H$_%i$' % n
+    plt.plot(x3, hRecursion[n], label = text)
+axHR.set_ylim(-25, 25)
+axHR.set_xlim(-3,3)
+axHR.grid()
+axHR.set_title('Recursion H$_n$')
+axHR.legend()
 
 figH3, axH3 = plt.subplots()
-axH3.plot(x3, hRecursion[3], 'c')
-axH3.plot(x3, hExplicit[3], 'b:')
+figH3.set_size_inches(9,9)
+axH3.plot(x3, hRecursion[3], 'c', label = 'Recursion')
+axH3.plot(x3, hExplicit[3], 'b:', label = 'Explicit')
 axH3.set_ylim(-25,25)
 axH3.set_xlim(-3,3)
 axH3.grid()
 axH3.set_title('H$_3$')
+axH3.legend()
 
 figH4, axH4 = plt.subplots()
-axH4.plot(x3, hRecursion[4], 'c')
-axH4.plot(x3, hExplicit[4], 'b:')
+figH4.set_size_inches(9,9)
+axH4.plot(x3, hRecursion[4], 'c', label = 'Recursion')
+axH4.plot(x3, hExplicit[4], 'b:', label = 'Explicit')
 axH4.set_ylim(-25,25)
 axH4.set_xlim(-3,3)
 axH4.grid()
 axH4.set_title('H$_4$')
+axH4.legend()
 
 # 4 - Legendre Polynomials
 
@@ -98,12 +105,15 @@ for n in range(nMaxP):
     pRecursion.append(p)
 
 figP, axP = plt.subplots()
+figP.set_size_inches(9,9)
 for n in range(nMaxP):
-    axP.plot(x4, pRecursion[n])
+    text = 'P$_%i$' % n
+    axP.plot(x4, pRecursion[n], label = text)
 axP.set_ylim(-1,1.05)
 axP.set_xlim(-1,1)
 axP.grid()
 axP.set_title('Legendre Polynomials')
+axP.legend()
 
 # 5 - Compute numerical derivatives
 
@@ -111,7 +121,56 @@ x5 = 10
 
 f = x5**4
 
-h = np.linspace(1, 0, num = 250, endpoint = False) 
+hlist = []
+for i in range(10):
+    n = 10**(-i)
+    hlist.append(n)
+
+h1 = np.linspace(100,1, endpoint = False)
+h2 = np.linspace(1,0.01, endpoint = False)
+h3 = np.linspace(0.01,0.0001, endpoint = False)
+h4 = np.linspace(0.0001,0.000001, endpoint = False)
+h5 = np.linspace(0.000001,0.00000001)
+
+#h = np.asarray(hlist)
+h = np.hstack((h1,h1,h2,h3,h4,h5))
+
 for i in h:
     df2p = ((x5+h)**4 - (x5-h)**4)/(2*h)
     df4p = ((x5-2*h)**4 - 8*(x5-h)**4 + 8*(x5+h)**4 - (x5+2*h)**4)/(12*h)
+    d2f2p = ((x5+h)**4 - 2*((x5)**4) + (x5-h)**4)/(h**2)
+
+df2pUAE = np.abs(df2p - 4000)
+df4pUAE = np.abs(df4p - 4000)
+d2f2pUAE = np.abs(d2f2p - 1200)
+
+figdf2p, axdf2p = plt.subplots()
+figdf2p.set_size_inches(9,9)
+axdf2p.plot(h, df2pUAE)
+axdf2p.set_title('First Derivative: 2-Point Central Finite Difference', fontsize = 15)
+axdf2p.set_xscale('log')
+axdf2p.set_yscale('log')
+axdf2p.grid()
+axdf2p.set_xlabel('log$_{10}$h', fontsize = 15)
+axdf2p.set_ylabel('$log_{10}\Delta df$', fontsize = 15)
+#axdf2p.set_xlimit()
+
+figdf4p, axdf4p = plt.subplots()
+figdf4p.set_size_inches(9,9)
+axdf4p.plot(h, df4pUAE)
+axdf4p.set_xscale('log')
+axdf4p.set_yscale('log')
+axdf4p.set_title('First Derivative: 4-Point Central Finite Difference', fontsize = 15)
+axdf4p.grid()
+axdf4p.set_xlabel('log$_{10}$h', fontsize = 15)
+axdf4p.set_ylabel('$log_{10}\Delta df$', fontsize = 15)
+
+figd2f2p, axd2f2p = plt.subplots()
+figd2f2p.set_size_inches(9,9)
+axd2f2p.plot(h, d2f2pUAE)
+axd2f2p.set_yscale('log')
+axd2f2p.set_xscale('log')
+axd2f2p.set_title('Second Derivative: 2-Point Central Finite Difference', fontsize = 15)
+axd2f2p.grid()
+axd2f2p.set_xlabel('log$_{10}$h', fontsize = 15)
+axd2f2p.set_ylabel('$log_{10}\Delta d^2f$', fontsize = 15)

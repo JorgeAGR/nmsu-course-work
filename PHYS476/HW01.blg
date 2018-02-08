@@ -1,0 +1,48 @@
+This is BibTeX, Version 0.99d (TeX Live 2016)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: HW01.aux
+The style file: apalike.bst
+Database file #1: HW01.bib
+Warning--empty publisher in hjorth
+You've used 4 entries,
+            1935 wiz_defined-function locations,
+            487 strings with 3892 characters,
+and the built_in function-call counts, 1023 in all, are:
+= -- 101
+> -- 28
+< -- 4
++ -- 9
+- -- 8
+* -- 65
+:= -- 203
+add.period$ -- 11
+call.type$ -- 4
+change.case$ -- 23
+chr.to.int$ -- 3
+cite$ -- 5
+duplicate$ -- 44
+empty$ -- 69
+format.name$ -- 12
+if$ -- 188
+int.to.chr$ -- 2
+int.to.str$ -- 0
+missing$ -- 2
+newline$ -- 22
+num.names$ -- 12
+pop$ -- 18
+preamble$ -- 1
+purify$ -- 24
+quote$ -- 0
+skip$ -- 37
+stack$ -- 0
+substring$ -- 48
+swap$ -- 1
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 22
+warning$ -- 1
+while$ -- 8
+width$ -- 0
+write$ -- 48
+(There was 1 warning)
