@@ -1,0 +1,24 @@
+\documentclass[twocolumn]{article}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\graphicspath{documents/}
+\usepackage{caption}
+\captionsetup{font=scriptsize}
+\usepackage[margin=0.5in]{geometry}
+
+\title{Statistics, Uncertainties and Linear Fitting}
+\author{Jorge A. Garcia}
+\date{February 6th, 2018\\\line(1,0){500}}
+
+\begin{document}
+\maketitle
+
+\section{Machine Numbers}
+
+\section{Hermite Polynomials}
+
+\section{Legendre Polynomials}
+
+\section{Numerical Derivatives}
+
+\end{document}

@@ -4,9 +4,17 @@ import sympy as sym
 
 # == 1 - Machine Numbers == # 
 
-def binary(number):
-    
-
+'''def binary(number):
+    def binexp(x):
+        y = 1/(2**(x)
+        return y
+    n = 0
+    fracc = binexp(n)
+    while fracc > number:
+        n += 1
+        fracc = binexp(n)
+    else:'''
+        
 # 3 - Hermite Polynomials (Explicit and Recursion)
 
 x3 = np.linspace(-3.0, 3.0, num = 100)
@@ -38,41 +46,37 @@ for n in range(nMaxH):
     hRecursion.append(hR)
     hExplicit.append(hE)
 
-fig3b = plt.figure()
-
-plt.subplot2grid((2,1), (0,0))
+figHR, axHR = plt.subplots()
 for n in range(nMaxH):
     plt.plot(x3, hRecursion[n])
-plt.ylim(-25, 25)
-plt.xlim(-3,3)
-plt.grid()
-plt.title('Recursion H$_n$')
+axHR.set_ylim(-25, 25)
+axHR.set_xlim(-3,3)
+axHR.grid()
+axHR.set_title('Recursion H$_n$')
 
-plt.subplot2grid((2,1), (1,0))
+figHE, axHE = plt.subplots()
 for n in range(nMaxH):
     plt.plot(x3, hExplicit[n], '--')
-plt.ylim(-25, 25)
-plt.xlim(-3,3)
-plt.grid()
-plt.title('Explicit H$_n$')
+axHE.set_ylim(-25, 25)
+axHE.set_xlim(-3,3)
+axHE.grid()
+axHE.set_title('Explicit H$_n$')
 
-fig3c = plt.figure()
+figH3, axH3 = plt.subplots()
+axH3.plot(x3, hRecursion[3], 'c')
+axH3.plot(x3, hExplicit[3], 'b:')
+axH3.set_ylim(-25,25)
+axH3.set_xlim(-3,3)
+axH3.grid()
+axH3.set_title('H$_3$')
 
-plt.subplot2grid((2,1),(0,0))
-plt.plot(x3, hRecursion[3], 'c')
-plt.plot(x3, hExplicit[3], 'b:')
-plt.ylim(-25,25)
-plt.xlim(-3,3)
-plt.grid()
-plt.title('H$_3$')
-
-plt.subplot2grid((2,1),(1,0))
-plt.plot(x3, hRecursion[4], 'c')
-plt.plot(x3, hExplicit[4], 'b:')
-plt.ylim(-25,25)
-plt.xlim(-3,3)
-plt.grid()
-plt.title('H$_4$')
+figH4, axH4 = plt.subplots()
+axH4.plot(x3, hRecursion[4], 'c')
+axH4.plot(x3, hExplicit[4], 'b:')
+axH4.set_ylim(-25,25)
+axH4.set_xlim(-3,3)
+axH4.grid()
+axH4.set_title('H$_4$')
 
 # 4 - Legendre Polynomials
 
@@ -93,13 +97,13 @@ for n in range(nMaxP):
     p = list(map(lambda x: legendre(x,n), x4))
     pRecursion.append(p)
 
-fig4, ax4 = plt.subplots()
+figP, axP = plt.subplots()
 for n in range(nMaxP):
-    ax4.plot(x4, pRecursion[n])
-ax4.set_ylim(-1,1.05)
-ax4.set_xlim(-1,1)
-ax4.grid()
-ax4.set_title('Legendre Polynomials')
+    axP.plot(x4, pRecursion[n])
+axP.set_ylim(-1,1.05)
+axP.set_xlim(-1,1)
+axP.grid()
+axP.set_title('Legendre Polynomials')
 
 # 5 - Compute numerical derivatives
 
