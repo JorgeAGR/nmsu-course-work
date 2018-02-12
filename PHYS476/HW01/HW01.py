@@ -7,11 +7,6 @@ mpl.rcParams['font.size'] = 15
 mpl.rcParams['figure.titlesize'] = 'medium'
 mpl.rcParams['legend.fontsize'] = 'small'
 
-# == 1 - Machine Numbers == # 
-
-def binary(number):
-    
-
 # 3 - Hermite Polynomials (Explicit and Recursion)
 
 x3 = np.linspace(-3.0, 3.0, num = 100)
