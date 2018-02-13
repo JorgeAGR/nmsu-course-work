@@ -3,8 +3,11 @@ from uncertainties import ufloat
 import uncertainties.umath as umath
 import matplotlib.pyplot as plt
 
-def rydberg():
-    None
+def rydberg(n, i):
+    # n = Landing state
+    # i = Level jump
+    R = 10973731.6
+    l = 1 / ( R ( (1/n) - (1/(n+i)) ) )
     
 
 def shiftTheta(measurement, center):
@@ -96,3 +99,6 @@ measurementsA = [
 {'center': , 'color1': , 'color2': , 'color3': , 'color4': }, # Angle Ryan Right
 {'center': , 'color1': , 'color2': , 'color3': , 'color4': }, # Angle Ryan Left
 '''
+
+while (l < 700) and (l > 400):
+    l = rydberg()
