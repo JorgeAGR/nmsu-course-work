@@ -22,6 +22,7 @@ def avgTheta(measurement, color1, color2, color3, color4, color5):
     t3 = []
     t4 = []
     t5 = []
+    std = 0.1
     for m in measurement:
         t1.append(m[color1])
         t2.append(m[color2])
@@ -33,6 +34,10 @@ def avgTheta(measurement, color1, color2, color3, color4, color5):
     c2 = ufloat(np.mean(t2), np.std(t2))
     c3 = ufloat(np.mean(t3), np.std(t3))
     c4 = ufloat(np.mean(t4), np.std(t4))
+    '''c1 = ufloat(np.mean(t1), std)
+    c2 = ufloat(np.mean(t2), std)
+    c3 = ufloat(np.mean(t3), std)
+    c4 = ufloat(np.mean(t4), std)'''
     if color5:
         c5 = ufloat(np.mean(t5), np.std(t5))
         return c1, c2, c3, c4, c5
@@ -52,13 +57,7 @@ def linearLSF(x, y, dy):
     
     fit = linear(x, *popt)
     
-    if len(dy) == 1:
-        chisq = np.sum(((y - fit)/dy)**2) #Chi Squared
-    else:
-        chisq = 0
-        for i in range(len(y)):
-            chisq += (y[i] - fit[i])/dy[i]
-            
+    chisq = np.sum(((y - fit)/dy)**2) #Chi Squared
     chire = chisq / (len(x) - len(popt)) # Chi-Reduced (Chi Squared / Dof)
     perr = np.sqrt(np.diag(pcov)) # Error in parameters a, b
     
@@ -99,9 +98,12 @@ axHg.errorbar(sintheta, mlambda, xerr = sintheta_ds, yerr = mlambda_ds, fmt = 'o
 axHg.plot(sintheta, dFit, label = 'Fit')
 axHg.set_title('Mercury (Hg)')
 axHg.set_xlabel('$sin\\theta$')
-axHg.set_ylabel('m$\lambda$')
-textHg = 'Parameters:\nd = %.3e \xb1 %.3e\n\n $\chi^2/\\nu$ = %.3e' % (dPopt[1], dPerr[1], dChiRe)
+axHg.set_ylabel('m$\lambda$ $(m)$')
+textHg = 'Parameters:\nd = %.1e \xb1 %.1e m\n\n $\chi^2/\\nu$ = %.1e' % (dPopt[1], dPerr[1], dChiRe)
 axHg.text(0.32,4.75*10**(-7), textHg, fontsize = 12, bbox = {'facecolor':'white','alpha':0.9,})
+axHg.yaxis.set_major_formatter(mtick.FormatStrFormatter('%.2e'))
+plt.yticks(rotation=45)
+axHg.tick_params(axis='y',labelsize = 11)
 axHg.grid()
 axHg.legend()
 
@@ -136,12 +138,14 @@ rFit, rPopt, rPerr, rChiSq, rChiRe = linearLSF(ni_inverse_sq, l_i, l_i_ds)
 figH, axH = plt.subplots()
 axH.errorbar(ni_inverse_sq, l_i, yerr = l_i_ds, fmt = 'o', label = 'H Data')
 axH.plot(ni_inverse_sq, rFit, label = 'Fit')
-textH = 'Parameters: \n$(R/n_f)^2$ = %.3f \xb1 %.3f\nR = %.3f \xb1 %.3f\n\n $\chi^2/\\nu$ = %.3f' % (rPopt[0], rPerr[0], rPopt[1], rPerr[1], rChiRe)
+textH = 'Parameters: \n$(R/n_f)^2$ = %.1f \xb1 %.1f\nR = %.1f \xb1 %.1f $m^{-1}$\n\n $\chi^2/\\nu$ = %.3f' % (rPopt[0], rPerr[0], rPopt[1], rPerr[1], rChiRe)
 axH.text(0.08,1600000, textH, fontsize = 12, bbox = {'facecolor':'white','alpha':0.9,})
 axH.set_title('Hydrogen (H)')
-axH.set_ylabel('$1/\lambda^2$')
+axH.set_ylabel('$1/\lambda$ $(m^{-1})$')
 axH.set_xlabel('$1/n_i^2$')
 axH.yaxis.set_major_formatter(mtick.FormatStrFormatter('%.2e'))
+plt.yticks(rotation=45)
+axH.tick_params(axis='y',labelsize = 11)
 axH.grid()
 axH.legend()
 
