@@ -1,7 +1,15 @@
 import numpy as np
-from uncertainties import ufloat
+from uncertainties import ufloat, unumpy
 import uncertainties.umath as umath
 import matplotlib.pyplot as plt
+import matplotlib as mpl
+from scipy.optimize import curve_fit
+import matplotlib.ticker as mtick
+
+mpl.rcParams['font.size'] = 15
+mpl.rcParams['figure.titlesize'] = 'medium'
+mpl.rcParams['legend.fontsize'] = 'small'
+mpl.rcParams['figure.figsize'] = [9.0, 9.0]
 
 def avgVoltage(measurement, color1, color2, color3, color4, color5):
     v1 = []
@@ -22,6 +30,19 @@ def avgVoltage(measurement, color1, color2, color3, color4, color5):
     c5 = ufloat(np.mean(v5), np.std(v5))
     return c1, c2, c3, c4, c5
 
+def linearLSF(x, y, dy):
+    def linear(x, a, b):
+        return b * x + a
+    
+    popt, pcov = curve_fit(linear, x, y)
+    
+    fit = linear(x, *popt)
+    
+    chisq = np.sum(((y - fit)/dy)**2) #Chi Squared
+    chire = chisq / (len(x) - len(popt)) # Chi-Reduced (Chi Squared / Dof)
+    perr = np.sqrt(np.diag(pcov)) # Error in parameters a, b
+    
+    return fit, popt, perr, chisq, chire
 
 # == Constants == #
 e = 1.602 * 10 ** (-19) # C
@@ -49,11 +70,25 @@ for i in range(len(volt_avg)):
     volt_avg_s.append(volt_avg[i].s)
 
 freqs = c / ( np.array([wly, wlg, wlb, wlv, wluv]) * 10**(-9))
+
+VFit, VPopt, VPerr, VChiSq, VChiRe = linearLSF(freqs, volt_avg_n, volt_avg_s)
+
 # == Plots == #
 fig1, ax1 = plt.subplots()
-ax1.plot(freqs, volt_avg_n, 'o')
-'''
+ax1.errorbar(freqs, volt_avg_n, yerr = volt_avg_s, fmt = 'o', label = 'Data')
+ax1.plot(freqs, VFit, label = 'Fit')
+text1 = 'Parameters: \n$h/e$ = %.3e \xb1 %.3e $J/A$\n\n $\chi^2/\\nu$ = %.3f' % (VPopt[1], VPerr[1], VChiRe)
+ax1.text(6.5*10**14,0.8, text1, fontsize = 12, bbox = {'facecolor':'white','alpha':0.9,})
+ax1.xaxis.set_major_formatter(mtick.FormatStrFormatter('%.3e'))
+plt.xticks(rotation=45)
+ax1.tick_params(axis='x',labelsize = 11)
+ax1.grid()
+ax1.set_title("Measurement of Planck's constant")
+ax1.set_xlabel('Frequency $(Hz)$')
+ax1.set_ylabel('Voltage $(V)$')
+ax1.legend()
+
+
 # == Intensisity Differences == #
-measurementsGreen = {'100': , '80': , '60':, '40': , '20': }
-measurementsBlue = {'100': , '80': , '60': , '40': , '20': }
-'''
+measurementsYellow = {'20': 0.727,'40': 0.739,'60': 0.746,'80': 0.750, '100': 0.750}
+measurementsBlue = {'20': 1.440, '40': 1.459, '60': 1.463, '80': 1.465, '100': 1.462}

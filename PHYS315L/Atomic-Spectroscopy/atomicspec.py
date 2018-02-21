@@ -22,7 +22,6 @@ def avgTheta(measurement, color1, color2, color3, color4, color5):
     t3 = []
     t4 = []
     t5 = []
-    std = 0.1
     for m in measurement:
         t1.append(m[color1])
         t2.append(m[color2])
@@ -129,7 +128,7 @@ cH, sintcH = wavelength(d, theta_cH_avg, 1)
 rH, sintrH = wavelength(d, theta_rH_avg, 1)
 bH, sintbH = wavelength(d, theta_bH_avg, 2)
 
-lambda_inverse = 1 / np.array([vH, cH, rH])
+lambda_inverse = 1 / np.array([rH, cH, vH])
 l_i = unumpy.nominal_values(lambda_inverse)
 l_i_ds = unumpy.std_devs(lambda_inverse)
 ni_inverse_sq = 1 / (np.array([3, 4, 5]))**2
@@ -138,8 +137,8 @@ rFit, rPopt, rPerr, rChiSq, rChiRe = linearLSF(ni_inverse_sq, l_i, l_i_ds)
 figH, axH = plt.subplots()
 axH.errorbar(ni_inverse_sq, l_i, yerr = l_i_ds, fmt = 'o', label = 'H Data')
 axH.plot(ni_inverse_sq, rFit, label = 'Fit')
-textH = 'Parameters: \n$(R/n_f)^2$ = %.1f \xb1 %.1f\nR = %.1f \xb1 %.1f $m^{-1}$\n\n $\chi^2/\\nu$ = %.3f' % (rPopt[0], rPerr[0], rPopt[1], rPerr[1], rChiRe)
-axH.text(0.08,1600000, textH, fontsize = 12, bbox = {'facecolor':'white','alpha':0.9,})
+textH = 'Parameters: \n$(R/n_f)^2$ = %.1f \xb1 %.1f\nR = %.1f \xb1 %.1f $m^{-1}$\n\n $\chi^2/\\nu$ = %.3e' % (rPopt[0], rPerr[0], rPopt[1], rPerr[1], rChiRe)
+axH.text(0.05,1600000, textH, fontsize = 12, bbox = {'facecolor':'white','alpha':0.9,})
 axH.set_title('Hydrogen (H)')
 axH.set_ylabel('$1/\lambda$ $(m^{-1})$')
 axH.set_xlabel('$1/n_i^2$')
