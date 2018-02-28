@@ -6,6 +6,11 @@ import matplotlib as mpl
 from scipy.optimize import curve_fit
 import matplotlib.ticker as mtick
 
+mpl.rcParams['font.size'] = 15
+mpl.rcParams['figure.titlesize'] = 'medium'
+mpl.rcParams['legend.fontsize'] = 'small'
+mpl.rcParams['figure.figsize'] = [9.0, 9.0]
+
 def groupMeasurement(measurementDic):
     marray = []
     for m in measurementDic:
@@ -41,10 +46,10 @@ def dfunction(Length, Diameter, Voltage):
     d = (2.46 * Length) / (Diameter * 10**(-2) * umath.sqrt(Voltage * 10**(3)))
     return d
 
-L = ufloat(0.132,0.001) # m
+L = ufloat(0.135,0.001) # m
 
-d1 = 0.123 # nm
-d2 = 0.213 # nm
+d1nom = 0.123 # nm
+d2nom = 0.213 # nm
 
 V1 = ufloat(3,0.1) # kV
 V2 = ufloat(4,0.1) # kV
@@ -52,45 +57,39 @@ V3 = ufloat(4.9,0.1) # kV
 
 # measurements in cm
 measurementSmallV1 = [
-{'inner': 3.89 , 'outer': 3.95}, # Patrick 1
-{'inner': 3.51, 'outer': 3.86}, # Ryan 1
-{'inner': 3.49, 'outer': 3.87}, # Patrick 2
-{'inner': 3.46, 'outer': 3.82}, # Ryan 2
+{'inner': 2.65 , 'outer': 3.19}, # Patrick
+{'inner': 2.76, 'outer': 3.03}, # Ryan
+{'inner': 2.51, 'outer': 2.95}, # Jorge
 ]
 
 measurementLargeV1 = [
-{'inner': 5.33 , 'outer': 5.82}, # Patrick 1
-{'inner': 5.93, 'outer': 6.02}, # Ryan 1
-{'inner': 5.39, 'outer': 5.95}, # Patrick 2
-{'inner': 5.50, 'outer': 5.87}, # Ryan 2
+{'inner': 4.61, 'outer': 5.19}, # Patrick
+{'inner': 4.75, 'outer': 5.14}, # Ryan
+{'inner': 4.87, 'outer': 5.18}, # Jorge
 ]
 
 measurementSmallV2 = [
-{'inner': 3.12, 'outer': 3.45}, # Patrick 1
-{'inner': 3.12, 'outer': 3.43}, # Ryan 1
-{'inner': 3.13, 'outer': 3.39}, # Patrick 2
-{'inner': 3.12, 'outer': 3.38}, # Ryan 2
+{'inner': 2.30, 'outer': 2.69}, # Patrick
+{'inner': 2.33, 'outer': 2.65}, # Ryan
+{'inner': 2.34, 'outer': 2.72}, # Jorge
 ]
 
 measurementLargeV2 = [
-{'inner': 4.75, 'outer': 5.19}, # Patrick 1
-{'inner': 4.81, 'outer': 5.14}, # Ryan 1
-{'inner': 4.70, 'outer': 5.19}, # Patrick
-{'inner': 4.82, 'outer': 5.18}, # Ryan 2
+{'inner': 3.99, 'outer': 4.46}, # Patrick
+{'inner': 4.14, 'outer': 4.49}, # Ryan
+{'inner': 4.12, 'outer': 4.45}, # Jorge
 ]
 
 measurementSmallV3 = [
-{'inner': 2.99, 'outer': 3.23}, # Patrick 1
-{'inner': 2.91, 'outer': 3.18}, # Ryan 1
-{'inner': 2.94, 'outer': 3.23},# Patrick 2
-{'inner': 2.94, 'outer': 3.19}, # Ryan 2
+{'inner': 2.15, 'outer': 2.50}, # Patrick
+{'inner': 2.09, 'outer': 2.39}, # Ryan
+{'inner': 2.23, 'outer': 2.49},# Jorge
 ]
 
 measurementLargeV3 = [
-{'inner': 4.45, 'outer': 4.85}, # Patrick 1
-{'inner': 4.49, 'outer': 4.82}, # Ryan 1
-{'inner': 4.36, 'outer': 4.70}, # Patrick 2
-{'inner': 4.50, 'outer': 4.81}, # Ryan 2
+{'inner': 3.67, 'outer': 3.99}, # Patrick
+{'inner': 3.70, 'outer': 4.01}, # Ryan
+{'inner': 3.68, 'outer': 4.05}, # Jorge
 ]
 
         
@@ -103,9 +102,28 @@ largeV2_avg = avgMeasurement(groupMeasurement(measurementLargeV2), 0.1, 1)
 smallV3_avg = avgMeasurement(groupMeasurement(measurementSmallV3), 0.1, 1)
 largeV3_avg = avgMeasurement(groupMeasurement(measurementLargeV3), 0.1, 1)
 
-d1_V1 = dfunction(L, smallV1_avg, V1)
-d2_V1 = dfunction(L, largeV1_avg, V1)
-d1_V2 = dfunction(L, smallV2_avg, V2)
-d2_V2 = dfunction(L, largeV2_avg, V2)
-d1_V3 = dfunction(L, smallV3_avg, V3)
-d2_V3 = dfunction(L, largeV3_avg, V3)
+d2_V1 = dfunction(L, smallV1_avg, V1)
+d1_V1 = dfunction(L, largeV1_avg, V1)
+d2_V2 = dfunction(L, smallV2_avg, V2)
+d1_V2 = dfunction(L, largeV2_avg, V2)
+d2_V3 = dfunction(L, smallV3_avg, V3)
+d1_V3 = dfunction(L, largeV3_avg, V3)
+
+d1 = (d1_V1.n, d1_V2.n, d1_V3.n)
+d1_s = (d1_V1.s, d1_V2.s, d1_V3.s)
+d2 = (d2_V1.n, d2_V2.n, d2_V3.n)
+d2_s = (d2_V1.s, d2_V2.s, d2_V3.s)
+V = (V1.n, V2.n, V3.n)
+V_s = (V1.s, V2.s, V3.s)
+
+d1_avg = np.mean(d1)
+d2_avg = np.mean(d2)
+
+fig1, ax1 = plt.subplots()
+ax1.errorbar(d1, V, xerr = d1_s, yerr = V_s, fmt = 'o', label = '$d_1$ data')
+ax1.errorbar(d2, V, xerr = d2_s, yerr = V_s, fmt = 'o', label = '$d_2$ data')
+ax1.set_title('Calculated diffraction slits')
+ax1.set_xlabel('Calculated Slit Size $d_n$ $(nm)$')
+ax1.set_ylabel('Voltage (kV)')
+ax1.grid()
+ax1.legend()
