@@ -200,7 +200,7 @@ sm_heat_res = unumpy.uarray(np.round(unumpy.nominal_values(sm_heat_res), decimal
 sm_heat_lnr = unumpy.uarray(np.log(unumpy.nominal_values(sm_heat_res)),
                                    unumpy.std_devs(sm_heat_res) / unumpy.nominal_values(sm_heat_res))
 
-sm_heat_invt = 1 / unumpy.uarray(sm_heat_temp[4:-5], std_devs = sm_temp_std)
+sm_heat_invt = 1 / unumpy.uarray(np.asarray(sm_heat_temp[4:-5])+273.15, std_devs = sm_temp_std+273.15)
 sm_heat_invt = unumpy.uarray(np.round(unumpy.nominal_values(sm_heat_invt), decimals = 5),
                              np.round(unumpy.std_devs(sm_heat_invt), decimals = 5))
 
@@ -214,7 +214,7 @@ sm_cool_res = unumpy.uarray(np.round(unumpy.nominal_values(sm_cool_res), decimal
 sm_cool_lnr = unumpy.uarray(np.log(unumpy.nominal_values(sm_cool_res)),
                                    unumpy.std_devs(sm_cool_res) / unumpy.nominal_values(sm_cool_res))
 
-sm_cool_invt = 1 / unumpy.uarray(sm_cool_temp[50:], std_devs = sm_temp_std)
+sm_cool_invt = 1 / unumpy.uarray(np.asarray(sm_cool_temp[50:])+273.15, std_devs = sm_temp_std+273.15)
 sm_cool_invt = unumpy.uarray(np.round(unumpy.nominal_values(sm_cool_invt), decimals = 5),
                              np.round(unumpy.std_devs(sm_cool_invt), decimals = 5))
 
@@ -229,20 +229,25 @@ kb = 1.380649e-23
 sm_heat_dE = sm_heat_dE2Kb * (2*kb)
 sm_cool_dE = sm_cool_dE2Kb * (2*kb)
 
-'''
+
 figsm, axsm = plt.subplots(ncols = 2, sharex = True, sharey = True)
-figsm.suptitle('Semiconductor', fontsize = 18)https://texblog.org/2014/06/24/big-o-and-related-notations-in-latex/?share=facebook&nb=1
+figsm.suptitle('Semiconductor', fontsize = 18)
 axsm[0].plot(unumpy.nominal_values(sm_heat_invt), sm_heat_fit, label = 'Fit')
 axsm[0].errorbar(unumpy.nominal_values(sm_heat_invt), unumpy.nominal_values(sm_heat_lnr), fmt = '.', label = 'Data')
 axsm[1].plot(unumpy.nominal_values(sm_cool_invt), sm_cool_fit, label = 'Fit')
 axsm[1].errorbar(unumpy.nominal_values(sm_cool_invt), unumpy.nominal_values(sm_cool_lnr), fmt = '.', label = 'Data')
 axsm[0].set_title('Heating Up')
 axsm[1].set_title('Cooling Down')
-axsm[0].set_xlabel('1/T (1/C)')
-axsm[1].set_xlabel('1/T (1/C)')
+axsm[0].set_xlabel('1/T (1/K)')
+axsm[1].set_xlabel('1/T (1/K)')
 axsm[0].set_ylabel('ln(R)')
+for tick in axsm[0].get_xticklabels():
+    tick.set_rotation(45)
+for tick in axsm[1].get_xticklabels():
+    tick.set_rotation(45)
 axsm[0].grid()
 axsm[1].grid()
 axsm[0].legend()
 axsm[1].legend()
-'''
+
+plt.show()

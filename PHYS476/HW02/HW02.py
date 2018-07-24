@@ -88,7 +88,7 @@ def newtonraphson(func, dfunc, a, b, iterations):
     print('Max iterations reached')
 
 # == 1 - Interpolation == #
-'''
+
 x = np.linspace(-10,10, num = 250)
 
 xtest = np.array([-3, 1, 8])
@@ -153,9 +153,9 @@ ax1c.text(0,-6, text1c2, fontsize = 12, bbox = {'facecolor':'white','alpha':0.9,
 ax1c.set_ylim(-7.5,10)
 ax1c.grid()
 ax1c.legend()
-'''
-# == 2 - Linear Algebra == #
 
+# == 2 - Linear Algebra == #
+'''
 btest = np.array([19, 43])
 Atest = np.matrix([[1,2],[3,4]])
 xtest = np.linalg.solve(Atest,btest)
@@ -181,7 +181,7 @@ row10 = [0.72396,0.23809,0.96664,0.50911,-0.62429,0.83198,0.33306,-0.92702,0.034
 A = np.matrix([row1, row2, row3, row4, row5, row6, row7, row8, row9, row10])
 x2 = np.linalg.solve(A, b)
 Ainv = np.linalg.inv(A)
-
+'''
 # == 3 - f(x) = x^3 - x == #
 
 x = np.linspace(-3, 3, num = 250)
@@ -330,7 +330,7 @@ ax4c.legend()
 '''
 
 # == 5 - Hermite Polynomials 5 & 6 == #
-
+'''
 h5r_bi = np.array([bisection(hermite5,-2.5,-2.0), bisection(hermite5, -1.2, -0.7),
                    bisection(hermite5, -0.3, 0.2), bisection(hermite5, 0.7, 1.2),
                    bisection(hermite5, 2.0, 2.5)])
@@ -379,3 +379,4 @@ ax6a.set_ylim(-900,900)
 #ax5a.set_xlim()
 ax6a.grid()
 ax6a.legend()
+'''

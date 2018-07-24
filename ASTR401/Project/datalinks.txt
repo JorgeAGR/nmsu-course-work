@@ -1,0 +1,6 @@
+databases:
+GCSV - http://www.sai.msu.su/gcvs/gcvs/index.htm
+	Data: http://www.sai.msu.su/gcvs/gcvs/v/EVS_CAT.DAT
+
+DDO - http://www.astro.utoronto.ca/DDO/research/cepheids/cepheids.html
+	Data: http://www.astro.utoronto.ca/DDO/research/cepheids/table_physical.html
