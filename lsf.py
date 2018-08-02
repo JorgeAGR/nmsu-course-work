@@ -56,11 +56,7 @@ class LSF(object):
         self.fit = fit
         self.n = n # Should be 1 unless dealing with polys
         
-        if self.fit in ('linear', 'poly'):
-            self.fit_poly()
-        elif self.fit == 'trig':
-            self.fit_trig()
-        
+        self.fit_poly()
         self.evaluate()
         
         print(self.a, self.da, self.rechisq)
@@ -88,7 +84,7 @@ class LSF(object):
         
         self.a = self.a.flatten()
         self.da = np.sqrt(np.linalg.inv(M).diagonal())
-        
+    '''    
     def fit_trig(self): # Only finds them if frequency known!
         X = np.zeros(shape = (self.n+1, 1))
         M = np.zeros(shape = (self.n+1, self.n+1))
@@ -113,6 +109,7 @@ class LSF(object):
                 break
             self.a = self.a.flatten()
             self.da = np.sqrt(np.linalg.inv(M).diagonal())
+    '''
         
     def evaluate(self):
         chisq = np.sum((y - self.func(x))**2 * self.w)
@@ -211,7 +208,7 @@ sx = df['X error'].values
 y = df['Y data'].values
 sy = df['Y error'].values
 '''
-lsffit = LSF(x, y, sx, sy, fit='trig', n=1)
+lsffit = LSF(x, y, sx, sy, fit='poly', n=1)
 #coeff, dcoeff, rechisq = lsf(x, y, sx, sy, n=1)
 #npcoeff = np.polyfit(x, y, 3)
 #spcoeff, _ = leastsq(residual, [0, 1], args = (x, y, sy))
@@ -220,7 +217,7 @@ lsffit = LSF(x, y, sx, sy, fit='trig', n=1)
 #npfit = np.poly1d(npcoeff)
 #spfit = lambda x: spcoeff[0] + spcoeff[1] * x + spcoeff[2] * x ** 2
 
-linspace = np.linspace(0,20)
+linspace = np.linspace(0,4)
 
 #plt.plot(linspace, f(linspace), 'o')
 plt.errorbar(x, y, xerr = sx, yerr = sy, fmt = '.')
