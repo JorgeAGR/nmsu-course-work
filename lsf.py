@@ -112,8 +112,10 @@ class LSF(object):
     '''
         
     def evaluate(self):
-        chisq = np.sum((y - self.func(x))**2 * self.w)
-        self.rechisq = chisq / (len(x) - 2)
+        chisq = np.sum((y - self.func(x))**2 * self.w) # chisq matters too!
+        self.rechisq = chisq / (len(x) - 2) # Check this? Apparent DOF is not just on x & y
+        
+        #WSSR - Weighted sum square residuals
         
     def func(self, x):
         def linear():
@@ -180,7 +182,7 @@ class LSF(object):
 '''
 
 def f(x):
-	return 5*np.cos(x)
+	return 12 * x ** 5 - 4 * x ** 4 + 8 * x ** 3 + 6 * x ** 2 - 7 * x + 10
 '''
 def residual(vars, x, data, eps_data):
 	
@@ -194,12 +196,12 @@ def residual(vars, x, data, eps_data):
 '''
 
 x = np.random.uniform(0, 4, 10)
-sx = np.random.uniform(-0.01, 0.01, 10)
-#sx = np.zeros(10)
+#sx = np.random.uniform(-0.01, 0.01, 10)
+sx = np.zeros(10)
 y_real = f(x)
-sy = np.random.uniform(-1, 1, 10)
-#sy = np.ones(10)
-y = y_real + sy
+#sy = np.random.uniform(-1, 1, 10)
+sy = np.ones(10)
+y = y_real #+ sy
 
 '''
 df = pd.read_csv('CMU_LSF3.csv')
@@ -208,7 +210,7 @@ sx = df['X error'].values
 y = df['Y data'].values
 sy = df['Y error'].values
 '''
-lsffit = LSF(x, y, sx, sy, fit='poly', n=1)
+lsffit = LSF(x, y, sx, sy, fit='poly', n=5)
 #coeff, dcoeff, rechisq = lsf(x, y, sx, sy, n=1)
 #npcoeff = np.polyfit(x, y, 3)
 #spcoeff, _ = leastsq(residual, [0, 1], args = (x, y, sy))
