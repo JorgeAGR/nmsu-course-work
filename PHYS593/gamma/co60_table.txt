@@ -1,0 +1,17 @@
+\begin{tabular}{rrrrr}
+\toprule
+Angle [deg] &  Coincidence Counts [counts/Sample Time] &  Sample Time [s] &  Right Detector Singles [counts/s] &  Left Detector Singles [counts/s] \\
+\midrule
+180 &                                      654 &              600 &                                915 &                               877 \\
+170 &                                      744 &              600 &                                915 &                               916 \\
+160 &                                      788 &              600 &                                887 &                               836 \\
+150 &                                      737 &              600 &                                965 &                               908 \\
+140 &                                      705 &              600 &                                912 &                               806 \\
+130 &                                      695 &              600 &                                943 &                               910 \\
+120 &                                      754 &              600 &                                918 &                               924 \\
+110 &                                      716 &              600 &                                931 &                               984 \\
+100 &                                      720 &              600 &                                958 &                               826 \\
+ 90 &                                      719 &              600 &                                909 &                              1061 \\
+\bottomrule
+\end{tabular}
+

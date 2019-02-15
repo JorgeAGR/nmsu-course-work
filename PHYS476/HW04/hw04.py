@@ -38,8 +38,8 @@ def schrodinger_1d(rmin, rmax, n, potential, numeigen):
     for i in range(n-2):
         e = np.append(e, -1/h**2)
     
-    eigen = linalg.eigvalsh_tridiagonal(d, e, select = 'i', select_range = (0,numeigen-1)) / 2
-    return eigen
+    eigval, eigvec = linalg.eigh_tridiagonal(d, e, select = 'i', select_range = (0,numeigen-1))
+    return eigval / 2, eigvec / 2
 
 def eigen_infwell(n, L): 
     # hbar = m = 1

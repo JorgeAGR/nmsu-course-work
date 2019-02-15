@@ -1,0 +1,20 @@
+\begin{tabular}{rrrrr}
+\toprule
+Angle [deg] &  Coincidence Counts [counts/Sample Time] &  Sample Time [s] &  Right Detector Singles [counts/s] &  Left Detector Singles [counts/s] \\
+\midrule
+150 &                                      687 &              600 &                                514 &                               284 \\
+160 &                                      721 &              600 &                                491 &                               293 \\
+170 &                                     3367 &              600 &                                535 &                               301 \\
+175 &                                      957 &               60 &                                538 &                               299 \\
+177 &                                     1280 &               60 &                                597 &                               308 \\
+180 &                                     1583 &               60 &                                563 &                               315 \\
+183 &                                     1901 &               60 &                                547 &                               316 \\
+184 &                                     1891 &               60 &                                558 &                               301 \\
+185 &                                     1843 &               60 &                                522 &                               305 \\
+190 &                                     1206 &               60 &                                551 &                               286 \\
+200 &                                      159 &               60 &                                535 &                               301 \\
+210 &                                       65 &               60 &                                550 &                               299 \\
+220 &                                       84 &               60 &                                643 &                               288 \\
+\bottomrule
+\end{tabular}
+

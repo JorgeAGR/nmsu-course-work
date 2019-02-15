@@ -47,7 +47,7 @@ def lsf(x, y, sx, sy, n=1):
 	
 class LSF(object):
     
-    def __init__(self, x, y, sx, sy, fit='linear', n=1):
+    def __init__(self, x, y, sx, sy, fit='poly', n=1):
         
         self.x = x
         self.y = y
@@ -73,47 +73,21 @@ class LSF(object):
             counter += 1
             #dydx = np.zeros(len(x))
             A = self.a.copy()
-            self.w = 1 / (self.sy ** 2 + (self.dfunc(x) * self.sx)**2)
+            self.w = 1 / (self.sy ** 2 + (self.dfunc(self.x) * self.sx)**2)
             for i in range(self.n+1):
                 for j in range(self.n+1):
-                    M[i][j] = np.sum(self.w * x**(j+i))
-                X[i][0] = np.sum(self.w * y * x ** i)
+                    M[i][j] = np.sum(self.w * self.x**(j+i))
+                X[i][0] = np.sum(self.w * self.y * self.x ** i)
             self.a = np.dot(np.linalg.inv(M), X).flatten()
             if (np.abs(A - self.a).all() < 1e-12) or (counter == 100):
                 break
         
         self.a = self.a.flatten()
         self.da = np.sqrt(np.linalg.inv(M).diagonal())
-    '''    
-    def fit_trig(self): # Only finds them if frequency known!
-        X = np.zeros(shape = (self.n+1, 1))
-        M = np.zeros(shape = (self.n+1, self.n+1))
-        self.a = np.zeros(self.n+1)
-        counter = 0
-        while True:
-            counter += 1
-            A = self.a.copy()
-            self.w = 1 / (self.sy ** 2 + (self.dfunc(x) * self.sx)**2)
-            for i in range(self.n+1):
-                for j in range(self.n+1):
-                    if i != j:
-                        M[i][j] = np.sum(self.w * np.cos(f*x) * np.sin(f*x))
-                        X[i][0] = np.sum(self.w * y * np.sin(f*x))
-                    elif (i == j == 1):
-                        M[i][j] = np.sum(self.w * np.cos(f*x)**2)
-                        X[i][0] = np.sum(self.w * y * np.cos(f*x))
-                    else:
-                        M[i][j] = np.sum(self.w * np.sin(x)**2)
-            self.a = np.dot(np.linalg.inv(M), X).flatten()
-            if (np.abs(A - self.a).all() < 1e-12) or (counter == 100):
-                break
-            self.a = self.a.flatten()
-            self.da = np.sqrt(np.linalg.inv(M).diagonal())
-    '''
         
     def evaluate(self):
-        chisq = np.sum((y - self.func(x))**2 * self.w) # chisq matters too!
-        self.rechisq = chisq / (len(x) - 2) # Check this? Apparent DOF is not just on x & y
+        self.chisq = np.sum((self.y - self.func(self.x))**2 * self.w) # chisq matters too!
+        self.rechisq = self.chisq / (len(self.x) - self.n + 1) # Check this? Apparent DOF is not just on x & y
         
         #WSSR - Weighted sum square residuals
         
@@ -152,48 +126,9 @@ class LSF(object):
                   'poly': dpoly,
                   'trig': dtrig,}
         return dfuncs.get(self.fit)()
-'''
-    def cmu_fit(self):
-        # For documentation purposes. Translation of the macro made
-        # by CMU
-    	try:
-    		if not sx:
-    			sx = np.zeros(len(x))
-    	except:
-    		pass
-    	A = 0
-    	while True:
-    		a = A
-    		w = 1/(sy**2 + (A*sx)**2)
-    		S = np.sum(w)
-    		Sx = np.sum(w * x)
-    		Sy = np.sum(w * y)
-    		Sxx = np.sum(w * x**2)
-    		Sxy = np.sum(w * x * y)
-    		delta = S * Sxx - Sx ** 2
-    		A = (S * Sxy - Sx * Sy) / delta
-    		if np.abs(A-a) < 1e-10:
-    			break
-    	B = (Sxx * Sy - Sx * Sxy) / delta
-    	sA = np.sqrt(S / delta)
-    	sB = np.sqrt(Sxx / delta)
-    	chisq = np.sum((y - (A*x + B))**2 * w)
-    	rechisq = chisq / (len(x) - 2)
-'''
 
 def f(x):
-	return 12 * x ** 5 - 4 * x ** 4 + 8 * x ** 3 + 6 * x ** 2 - 7 * x + 10
-'''
-def residual(vars, x, data, eps_data):
-	
-	a0 = vars[0]
-	a1 = vars[1]
-	#a2 = vars[2]
-	
-	model = a0 + a1 * x #+ a2 * x ** 2 
-	
-	return (data - model) / eps_data
-'''
+	return 7 * x + 10
 
 x = np.random.uniform(0, 4, 10)
 #sx = np.random.uniform(-0.01, 0.01, 10)
@@ -210,22 +145,9 @@ sx = df['X error'].values
 y = df['Y data'].values
 sy = df['Y error'].values
 '''
-lsffit = LSF(x, y, sx, sy, fit='poly', n=5)
-#coeff, dcoeff, rechisq = lsf(x, y, sx, sy, n=1)
-#npcoeff = np.polyfit(x, y, 3)
-#spcoeff, _ = leastsq(residual, [0, 1], args = (x, y, sy))
-
-#fit = lambda x: coeff[0] + coeff[1] * x #+ coeff[2] * x ** 2 + coeff[3] * x ** 3
-#npfit = np.poly1d(npcoeff)
-#spfit = lambda x: spcoeff[0] + spcoeff[1] * x + spcoeff[2] * x ** 2
+lsffit = LSF(x, y, sx, sy, fit='poly', n=0)
 
 linspace = np.linspace(0,4)
 
-#plt.plot(linspace, f(linspace), 'o')
-plt.errorbar(x, y, xerr = sx, yerr = sy, fmt = '.')
-#plt.plot(linspace, fit(linspace), '--', label = 'My')
-plt.plot(linspace, lsffit.func(linspace), label = 'LSF')
-#plt.plot(linspace, npfit(linspace), '.-', label = 'Np')
-#plt.plot(linspace, spfit(linspace), '--', label = 'Sp')
 plt.legend()
 plt.show()

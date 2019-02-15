@@ -19,10 +19,10 @@ class LSF(object):
     
     def __init__(self, x, y, sx, sy, fit='linear', n=1):
         
-        self.x = x
-        self.y = y
-        self.sx = sx
-        self.sy = sy
+        self.x = np.asarray(x)
+        self.y = np.asarray(y)
+        self.sx = np.asarray(sx)
+        self.sy = np.asarray(sy)
         self.fit = fit
         self.n = n # Should be 1 unless dealing with polys
         
@@ -82,6 +82,9 @@ class Canvas(tk.Frame):
         self.f, self.ax = plt.subplots(figsize = (9,golden_ratio(5)))
         self.ax.grid()
         
+        self.x = []
+        self.y = []
+        
         self.canvas = FigureCanvasTkAgg(self.f, self)
         self.canvas.draw()
         self.canvas.get_tk_widget().pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
@@ -123,7 +126,7 @@ class DataRow(tk.Frame):
 
 class Spreadsheet(tk.Frame):
     
-    def __init__(self, parent, cells=10):
+    def __init__(self, parent, cells=20):
     
         tk.Frame.__init__(self, parent)
         
@@ -131,12 +134,24 @@ class Spreadsheet(tk.Frame):
         
         self.sheet = {}
         
+        self.xlabel = tk.Label(self, text = 'x')
+        self.xlabel.grid(row = 0, column = 0)
+        
+        self.sxlabel = tk.Label(self, text = 'sx')
+        self.sxlabel.grid(row = 0, column = 1)
+        
+        self.ylabel = tk.Label(self, text = 'y')
+        self.ylabel.grid(row = 0, column = 2)
+        
+        self.sylabel = tk.Label(self, text = 'sy')
+        self.sylabel.grid(row = 0, column = 3)
+        
         for i in range(cells):
             self.add_Row()
     
     def add_Row(self):
         i = len(self.sheet.keys())
-        self.sheet[i] = DataRow(self, i)
+        self.sheet[i] = DataRow(self, i+1)
         self.data.loc[i] = np.zeros(4)
     
     def cell_To_Data(self):
@@ -163,8 +178,14 @@ class MainApp(tk.Tk):
         toolsMenu = tk.Frame(rightFrame)
         toolsMenu.grid(row = 0, column = 1, sticky = 'NSWE')
         
-        self.TestButton = tk.Button(toolsMenu, text = 'Add', command = self.SpreadSheet.add_Row)
-        self.TestButton.grid()
+        self.TestButton = tk.Button(toolsMenu, text = 'Add Row', command = self.SpreadSheet.add_Row)
+        self.TestButton.grid(row = 0, column = 0)
+        
+        self.YButton = tk.Button(toolsMenu, text = 'Y Error', command = None)
+        self.YButton.grid(row = 0, column = 1)
+        
+        self.XYButton = tk.Button(toolsMenu, text = 'X & Y Errors', command = None)
+        self.XYButton.grid(row = 0, column = 2)
         
         self.PlotCanvas = Canvas(rightFrame)
         self.PlotCanvas.grid(row = 1, column = 1, sticky = 'NSWE')
@@ -173,6 +194,6 @@ class MainApp(tk.Tk):
         self.VarianceCanvas.grid(row = 2, column = 1, sticky = 'NSWE')
         
 app = MainApp()
-app.tk.call('tk', 'scaling', 2.0)
+#app.tk.call('tk', 'scaling', 2.0)
 #app.protocol("WM_DELETE_WINDOW", exiting)
 app.mainloop()
