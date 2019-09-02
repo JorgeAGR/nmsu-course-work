@@ -1,0 +1,44 @@
+\begin{table}[h!]
+    \centering
+    \begin{tabularx}{0.4\columnwidth}{|L|R|}
+        \hline
+        \multicolumn{2}{|c|}{\textbf{Regression Statistics}} \\
+        \hline
+        Multiple $R$ & 0.9103 \\
+        \hline
+        $R^2$ & 0.8286 \\
+        \hline
+        Adjusted $R^2$ & 0.8130 \\
+        \hline
+        Standard Error &  2.6608 \\
+        \hline
+        Observations & 13 \\
+        \hline
+    \end{tabularx}
+    
+    \begin{tabularx}{0.75\columnwidth}{|L|R|R|R|R|}
+        \hline
+        \multicolumn{5}{|c|}{\textbf{ANOVA}} \\
+        \hline
+         & \multicolumn{1}{c|}{df} & \multicolumn{1}{c|}{SS} & \multicolumn{1}{c|}{MS} & \multicolumn{1}{c|}{F}\\
+        \hline
+        Regression & 1 & 376.5478 & 376.5478 & 53.184 \\
+        \hline
+        Residual & 11 & 77.8810 & 7.0801 & \\
+        \hline
+        Total & 12 & 454.4288 &  & \\
+        \hline
+    \end{tabularx}
+    
+    \begin{tabularx}{0.75\columnwidth}{|L|R|R|R|R|}
+        \hline
+        \multicolumn{5}{|c|}{\textbf{Model}} \\
+        \hline
+         & \multicolumn{1}{c|}{Coefficients} & \multicolumn{1}{c|}{Std Error} & \multicolumn{1}{c|}{t-Stat} & \multicolumn{1}{c|}{P-value}\\
+        \hline
+        Intercept & -6.5090 & 2.4792 & -2.6254 & 0.0235992 \\
+        \hline
+        YRS & 1.4384 & 0.1972 & 7.2927 & 0.0000156 \\
+        \hline
+    \end{tabularx}
+\end{table}

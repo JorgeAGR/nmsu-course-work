@@ -10,7 +10,7 @@ mpl.rcParams['legend.fontsize'] = 'small'
 mpl.rcParams['figure.figsize'] = [9.0, 9.0]
 
 # == Problem 1 == #
-
+'''
 np.random.seed(1234)
 
 n = np.arange(1, 21, 1)
@@ -33,9 +33,9 @@ ax1.set_xlabel('n')
 ax1.set_ylabel(r'$x_n$')
 ax1.xaxis.set_major_locator(MultipleLocator(1))
 ax1.legend()
-
-# == Problem 2 == #
 '''
+# == Problem 2 == #
+
 np.random.seed(1000)
 
 def mc_pi(N):
@@ -59,7 +59,7 @@ def coords(array):
     return x, y
         
 
-n = np.array([1e1, 1e2, 1e3, 1e4, 1e5, 1e6, 1e7])
+n = np.array([1e1, 1e2, 1e3, 1e4,])
 
 pi_calc = np.zeros(7)
 points = list(np.zeros(7))
@@ -152,3 +152,4 @@ def mc_multint(func1, func2, func3, N):
         mcsum2 += fx2
         mcsum3 += fx3
     return mcsum1*mcsum2*mcsum3/(N**3)
+'''
