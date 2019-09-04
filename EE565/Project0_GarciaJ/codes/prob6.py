@@ -10,9 +10,8 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 
-golden_ratio = (np.sqrt(5) + 1) / 2
-width = 15
-height = width / golden_ratio
+width = 10
+height = 10
 
 mpl.rcParams['figure.figsize'] = (width, height)
 mpl.rcParams['font.size'] = 28
@@ -41,3 +40,4 @@ ax.set_xlabel('Eruption Time [min]')
 ax.set_ylabel('Waiting Time [min]')
 ax.legend()
 plt.tight_layout()
+plt.savefig('../prob6.eps', dpi=500)

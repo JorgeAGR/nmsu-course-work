@@ -11,9 +11,8 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 
-golden_ratio = (np.sqrt(5) + 1) / 2
-width = 15
-height = width / golden_ratio
+width = 10
+height = 10
 
 mpl.rcParams['figure.figsize'] = (width, height)
 mpl.rcParams['font.size'] = 28
@@ -48,3 +47,4 @@ ax.yaxis.set_minor_locator(mtick.MultipleLocator(0.1e-4))
 ax.set_xlabel('Time')
 ax.set_ylabel('Amplitude')
 plt.tight_layout()
+plt.savefig('../prob7.eps', dpi=500)

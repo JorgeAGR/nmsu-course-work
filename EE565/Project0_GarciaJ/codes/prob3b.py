@@ -11,9 +11,8 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 from requiredFunctions.concentGauss import concentGauss
 
-golden_ratio = (np.sqrt(5) + 1) / 2
-width = 15
-height = width / golden_ratio
+width = 10
+height = 10
 
 mpl.rcParams['figure.figsize'] = (width, height)
 mpl.rcParams['font.size'] = 28
@@ -26,7 +25,7 @@ mpl.rcParams['ytick.major.size'] = 12
 mpl.rcParams['ytick.minor.size'] = 8
 mpl.rcParams['ytick.labelsize'] = 24
 
-dist = concentGauss(500, 5, 1, 1)
+dist = concentGauss(500, 5, 1, 1, seed=10)
 inner_gauss = dist[np.where(dist[:,2] == 1)]
 outer_gauss = dist[np.where(dist[:,2] == -1)]
 
@@ -43,3 +42,4 @@ ax.set_xlabel(r'x$_1$')
 ax.set_ylabel(r'x$_2$')
 ax.legend()
 plt.tight_layout()
+plt.savefig('../prob3.eps', dpi=500)

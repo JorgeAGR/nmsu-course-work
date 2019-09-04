@@ -11,9 +11,8 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 from requiredFunctions.noisySin import noisySin
 
-golden_ratio = (np.sqrt(5) + 1) / 2
-width = 15
-height = width / golden_ratio
+width = 10
+height = 10
 
 mpl.rcParams['figure.figsize'] = (width, height)
 mpl.rcParams['font.size'] = 28
@@ -46,6 +45,7 @@ ax.set_xlabel('x')
 ax.set_ylabel('t')
 ax.legend()
 plt.tight_layout()
+plt.savefig('../prob5_draw.eps', dpi=500)
 
 file_data = np.loadtxt('../data/curvefitting.txt')
 fig2, ax2 = plt.subplots()
@@ -63,3 +63,4 @@ ax2.set_xlabel('x')
 ax2.set_ylabel('t')
 ax2.legend()
 plt.tight_layout()
+plt.savefig('../prob5_load.eps', dpi=500)

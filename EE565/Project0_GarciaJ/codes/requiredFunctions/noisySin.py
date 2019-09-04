@@ -7,7 +7,8 @@ Created on Sat Aug 24 20:06:19 2019
 """
 import numpy as np
 
-def noisySin(N, var):
+def noisySin(N, var, seed=None):
+    np.random.seed(seed)
     data = np.ones((N, 2))
     x = np.sort(np.random.rand(N))
     noise = np.random.normal(scale=np.sqrt(var), size=N)

@@ -7,14 +7,14 @@ Created on Sat Aug 24 14:33:18 2019
 """
 
 import numpy as np
-from scipy.stats import norm
 
-def circGauss(N, var, *mus):
+def circGauss(N, var, *mus, seed=None):
     '''
     N: Number of points to be sampled
     var: Variance of all distribution
     mus: Means of the various dimensions (also tells dimensionality)
+    seed: RNG seed
     '''
-    data = norm.rvs(size=(N, len(mus))) * np.sqrt(var) + mus
-    
+    np.random.seed(seed)
+    data = np.random.normal(loc=mus, scale=np.sqrt(var), size=(N, len(mus)))
     return data

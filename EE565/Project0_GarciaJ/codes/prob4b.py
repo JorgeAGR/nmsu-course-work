@@ -11,9 +11,8 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 from requiredFunctions.gaussX import gaussX
 
-golden_ratio = (np.sqrt(5) + 1) / 2
-width = 15
-height = width / golden_ratio
+width = 10
+height = 10
 
 mpl.rcParams['figure.figsize'] = (width, height)
 mpl.rcParams['font.size'] = 28
@@ -26,7 +25,7 @@ mpl.rcParams['ytick.major.size'] = 12
 mpl.rcParams['ytick.minor.size'] = 8
 mpl.rcParams['ytick.labelsize'] = 24
 
-dist = gaussX(500, 1)
+dist = gaussX(500, 1, seed=1)
 pos_gauss = dist[np.where(dist[:,2] == 1)]
 neg_gauss = dist[np.where(dist[:,2] == -1)]
 
@@ -43,3 +42,4 @@ ax.set_xlabel(r'x$_1$')
 ax.set_ylabel(r'x$_2$')
 ax.legend()
 plt.tight_layout()
+plt.savefig('../prob4.eps', dpi=500)
