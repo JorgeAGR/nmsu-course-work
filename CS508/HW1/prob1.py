@@ -11,6 +11,7 @@ import numpy as np
 import scipy as sp
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
 
 golden_ratio = (np.sqrt(5) + 1) / 2
 width = 12
@@ -30,16 +31,15 @@ mpl.rcParams['ytick.labelsize'] = 14
 with open('prob1_output.txt', 'w+') as file:
 
     data = pd.read_csv('dataR2.csv')
-    data_desc = data.describe()
+    data = data.round(3)
+    data_nc = data[data.keys()[:-1]]
+    data_desc = data_nc.describe().round(3)
     print(data_desc.to_string(), end='\n\n', file=file)
-    
-    for key in data_desc:
-        print(data_desc[key], end='\n\n', file=file)
         
-    data_cov = data.cov()
+    data_cov = data_nc.cov().round(3)
     print(data_cov.to_string(), end='\n\n', file=file)
     
-    data_corr = data.corr()
+    data_corr = data_nc.corr().round(3)
     print(data_corr.to_string(), end='\n\n', file=file)
     
     data.hist(bins=10)
@@ -47,7 +47,7 @@ with open('prob1_output.txt', 'w+') as file:
     
     data_subset = data[['Age', 'BMI', 'Glucose', 'Insulin']]
     
-    pd.plotting.scatter_matrix(data_subset)
+    pd.plotting.scatter_matrix(data_subset, c=data['Classification'])
     plt.savefig('scatter_matrix.eps', dpi=500)
     
     fig, ax = plt.subplots()
@@ -65,8 +65,13 @@ with open('prob1_output.txt', 'w+') as file:
     
     print(rand_sample.to_string(), file=file)
     
-with open('latex_tables.txt', 'w+') as file2:
+    pca = PCA(n_components=2)
+    pca.fit(data_nc.values)
     
+    data_trans = pca.transform(data_nc.values)
+    
+with open('latex_tables.txt', 'w+') as file2:
+    data_latex = data[data.keys()[:-1]]
     print(data_desc.to_latex(), end='\n\n', file=file2)
     print(data_cov.to_latex(), end='\n\n', file=file2)
     print(data_corr.to_latex(), end='\n\n', file=file2)
