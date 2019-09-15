@@ -8,6 +8,7 @@ Created on Thu Sep  5 13:35:13 2019
 
 import numpy as np
 
-def euclidian(x_arr):
-    return np.sqrt((x_arr**2).sum(axis=1))
+def euclidian(x_arr1, x_arr2):
+    return (x_arr1 - x_arr2
+    #return np.sqrt((x_arr**2).sum(axis=1))
 
