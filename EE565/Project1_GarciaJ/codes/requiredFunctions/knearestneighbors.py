@@ -19,7 +19,7 @@ class KNN(object):
     
     def predict(self, x_data, k_neighbors):
         
-        distancesq = ((x_data - self.train_x)**2.sum(axis=0))
+        distancesq = (((x_data - self.train_x)**2).sum(axis=0))
         nn_ind = np.argsort(distancesq)[:k_neighbors]
         nn_class, counts = np.unique(self.train_class[nn_ind], return_counts=True)
         

@@ -42,9 +42,9 @@ class KMeans(object):
             avg_change = np.sqrt(((centroids - old_centroids)**2).sum()).mean()
             if avg_change <= converge:
                 break
-        self.centroids = np.sort(centroids, axis=0)
+        self.centroids = centroids[np.argsort(centroids[:,0])]
         
-        return self.centroids, np.argmax(r_index, axis=1), iters
+        return centroids, np.argmax(r_index, axis=1), iters
     
     def fit_online(self, X_data, k_groups, centroids=None, learn_rate=1e-3, converge=1e-5, max_epochs=10, seed=None):
         '''
@@ -77,9 +77,9 @@ class KMeans(object):
             avg_change = np.sqrt(((centroids - old_centroids)**2).sum()).mean()
             if avg_change <= converge:
                 break
-        self.centroids = np.sort(centroids, axis=0)
+        self.centroids = centroids[np.argsort(centroids[:,0])]
         
-        return self.centroids, epoch
+        return centroids, epoch
     
     def predict_cluster(self, X_data, centroids=None):
         '''
@@ -91,7 +91,7 @@ class KMeans(object):
             centroids = self.centroids
         distancesq = np.zeros((X_data.shape[0], centroids.shape[0]))
         for k in range(centroids.shape[0]):
-            distancesq[:, k] = ((X_data - centroids)**2).sum(axis=1)
+            distancesq[:, k] = ((X_data - centroids[k])**2).sum(axis=1)
         r_index = self._find_min(distancesq)
         
         return np.argmax(r_index, axis=1)
