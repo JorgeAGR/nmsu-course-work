@@ -38,7 +38,7 @@ iterations = np.zeros(trials)
 
 for i in range(trials):
     kmeans = KMeans()
-    _, _, iters = kmeans.fit_batch(data, 2)
+    _, iters = kmeans.fit_batch(data, 2)
     iterations[i] = iters
     
 print('Average number of iterations to converge:', iterations.mean())
