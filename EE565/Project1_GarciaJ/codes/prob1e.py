@@ -8,7 +8,7 @@ Created on Sun Sep 15 22:36:21 2019
 
 import numpy as np
 from requiredFunctions.circGauss import circGauss
-from requiredFunctions.kmeans import KMeans
+from requiredFunctions.kMeans import KMeans
 #from requiredFunctions.color_map import *
 import matplotlib as mpl
 import matplotlib.pyplot as plt

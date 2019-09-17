@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Sun Sep 15 16:50:41 2019
+Created on Mon Sep 16 14:21:34 2019
 
 @author: jorgeagr
 """
@@ -9,6 +9,7 @@ Created on Sun Sep 15 16:50:41 2019
 import numpy as np
 from requiredFunctions.circGauss import circGauss
 from requiredFunctions.kMeans import KMeans
+#from requiredFunctions.color_map import *
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
@@ -27,20 +28,27 @@ mpl.rcParams['ytick.major.size'] = 12
 mpl.rcParams['ytick.minor.size'] = 8
 mpl.rcParams['ytick.labelsize'] = 24
 
-N = 50
+N = 500
 
 data1 = circGauss(N//2, 3, 0, 0, seed=1)
 data2 = circGauss(N//2, 3, 5, 5, seed=2)
 data = np.vstack((data1, data2))
-trials = 500
 
-iterations = np.zeros(trials)
+log_learning_rates = np.arange(-3, 0.1, 0.1)
 
-for i in range(trials):
-    kmeans = KMeans()
-    _, _, iters = kmeans.fit_batch(data, 2)
-    iterations[i] = iters
+epochs_converge = np.zeros(log_learning_rates.shape[0])
+epochs_converge_std = np.zeros(log_learning_rates.shape[0])
+centroids = []
+for i, log_eta in enumerate(log_learning_rates):
+    trials = 10
+    epochs = np.zeros(trials)
+    for j in range(trials):
+        kmeans = KMeans()
+        c, e = kmeans.fit_online(data, 2, learn_rate=10**log_eta, converge=1e-1, max_epochs=30)
+        epochs[j] += e
+    epochs_converge[i] += epochs.mean()
+    epochs_converge_std[i] += epochs.std()
+    centroids.append(c)
     
-print('Average number of iterations to converge:', iterations.mean())
-print('Minimum number of iterations:', iterations.min())
-print('Maximum number of iterations:', iterations.max())
+fig, ax = plt.subplots()
+ax.errorbar(log_learning_rates, epochs_converge, yerr=epochs_converge_std)
