@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon Sep 16 16:51:30 2019
+Created on Tue Sep 17 21:58:09 2019
 
 @author: jorgeagr
 """
@@ -27,7 +27,7 @@ mpl.rcParams['ytick.major.size'] = 12
 mpl.rcParams['ytick.minor.size'] = 8
 mpl.rcParams['ytick.labelsize'] = 24
 
-img, img_pix = readImage('../data/machine-learning-1.png')
+img, img_pix = readImage('../data/Nature-Brain.png')
 
 bits =     [ 2,  3,  4, 5, 6, 7, 8]
 max_iter = [20, 15, 10, 6, 4, 2, 1]
@@ -49,10 +49,10 @@ for i, b in enumerate(bits):
     if i == 0:
         max_change = pix_change.max()
     pix_change = pix_change / max_change
-    diff = ax[1].imshow(pix_change, vmin=0, vmax=1)
-    cbar = fig.colorbar(diff, orientation='horizontal', fraction=0.078, pad=0.01)
+    diff = ax[1].imshow(pix_change, vmin=0, vmax=1)#max_change)
+    cbar = fig.colorbar(diff, orientation='horizontal', fraction=0.047, pad=0.01)
     cbar.set_label(r'$\Delta d_{RGB}$')
     ax[1].axis('off')
     fig.tight_layout()
     fig.subplots_adjust(wspace=0, hspace=0)
-    #plt.savefig('../prob3a_' + str(b) + 'bit.eps')
+    #plt.savefig('../prob3b_' + str(b) + 'bit.eps')
