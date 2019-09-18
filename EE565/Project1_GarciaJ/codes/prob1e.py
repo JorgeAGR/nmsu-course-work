@@ -40,9 +40,10 @@ np.random.shuffle(data_ind)
 
 centroids = [data[data_ind[:5]], data[data_ind[5:10]], data[data_ind[10:15]]]
 
+j = 0
 for cent in centroids:
     kmeans = KMeans()
-    new_cent, _, _ = kmeans.fit_batch(data, 5, centroids=cent)
+    new_cent, _ = kmeans.fit_batch(data, 5, centroids=cent)
     pred_class = kmeans.predict_cluster(data)
     
     cmap = plt.get_cmap('Set1')
@@ -55,3 +56,14 @@ for cent in centroids:
     for i in range(5):
         ax.plot([cent[i,0], new_cent[i,0]], [cent[i,1], new_cent[i,1]], 
                 color='black')
+    ax.xaxis.set_major_locator(mtick.MultipleLocator(2))
+    ax.xaxis.set_minor_locator(mtick.MultipleLocator(0.5))
+    ax.yaxis.set_major_locator(mtick.MultipleLocator(2))
+    ax.yaxis.set_minor_locator(mtick.MultipleLocator(0.5))
+    ax.set_xlim(-2.5, 8)
+    ax.set_ylim(-4.5, 9.5)
+    ax.set_ylabel(r'$x_2$')
+    ax.set_xlabel(r'$x_1$')
+    plt.tight_layout()
+    j += 1
+    plt.savefig('../prob1e_' + str(j) + '.eps', dpi=500)
