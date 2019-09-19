@@ -4,6 +4,11 @@
 Created on Mon Sep  9 14:40:15 2019
 
 @author: jorgeagr
+
+Assignment 1 for CS 508
+Jorge Garcia
+Kelly Sanderson
+
 """
 
 import pandas as pd
