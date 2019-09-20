@@ -66,6 +66,17 @@ with open('prob1_output.txt', 'w+') as file:
     #plt.savefig('figs/histograms.eps', dpi=500)
     print('Problem 1c: Histograms (see figs)', end='\n\n', file=file)
     
+    # Generate boxplots of every attribute
+    fig1, ax1 = plt.subplots(nrows=3, ncols=3)
+    for i, key in enumerate(data_nc.keys()):
+        ax1[i//3][i%3].boxplot(data[key])
+        ax1[i//3][i%3].set_xlabel(key)
+        ax1[i//3][i%3].tick_params(axis='x', which='both', bottom=False, top=False, labelbottom=False)
+    fig1.tight_layout()
+    fig1.subplots_adjust(wspace=0.2, hspace=0.2)
+    #plt.savefig('figs/boxplots.eps', dpi=500)
+    print('Problem 1d: Boxplots', end='\n\n', file=file)
+    
     # Subset of attributes to make scatter plots of
     data_subset = data[['Age', 'BMI', 'Glucose', 'Insulin']]
     
@@ -108,7 +119,13 @@ with open('prob1_output.txt', 'w+') as file:
     fig4, ax4 = plt.subplots()
     pca_scat = ax4.scatter(data_trans[:,0], data_trans[:,1],
                            c=data['Classification'], cmap=plot_colors)
-    ax4.add_artist(ax4.legend(pca_scat.legend_elements()[0], ('Healthy', 'Patient')))
+    ax4.set_xlabel(r'$x_1$')
+    ax4.set_ylabel(r'$x_2$')
+    legend_elements = [mpl.lines.Line2D([0], [0], marker='.', color='white',
+                                        markerfacecolor=plot_colors.colors[0], markersize=14, label='Healthy'),
+                       mpl.lines.Line2D([0], [0], marker='.', color='white',
+                                        markerfacecolor=plot_colors.colors[1], markersize=14, label='Patient')]
+    ax4.legend(handles=legend_elements)
     fig4.tight_layout()
     #plt.savefig('figs/pca_scatter.eps', dpi=500)
     print('Problem 2b: PCA Scatter Plot (see figs)', end='\n\n', file=file)
