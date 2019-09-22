@@ -7,7 +7,7 @@ Created on Sat Aug 24 16:27:42 2019
 """
 import numpy as np
 
-def doublemoon(N, w, r, d, seed=None):
+def doubleMoon(N, w, r, d, seed=None):
     '''
     N: Number of samples
     w: Moon width

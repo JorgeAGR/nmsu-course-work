@@ -18,9 +18,11 @@ class KNN(object):
         return
     
     def predict(self, x_data, k_neighbors):
+        pred_class = np.zeros(x_data.shape[0])
+        for i, x in enumerate(x_data):
+            distancesq = (((x - self.train_x)**2).sum(axis=1))
+            nn_ind = np.argsort(distancesq)[:k_neighbors]
+            nn_class, counts = np.unique(self.train_class[nn_ind], return_counts=True)
+            pred_class[i] += nn_class[np.argmax(counts)]
         
-        distancesq = (((x_data - self.train_x)**2).sum(axis=0))
-        nn_ind = np.argsort(distancesq)[:k_neighbors]
-        nn_class, counts = np.unique(self.train_class[nn_ind], return_counts=True)
-        
-        return nn_class[np.argmax(counts)]
+        return pred_class
