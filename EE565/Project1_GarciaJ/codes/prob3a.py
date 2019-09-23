@@ -40,11 +40,11 @@ for i, b in enumerate(bits):
     
     img_new = remapImage(img, kmeans)
     
-    fig, ax = plt.subplots(nrows=2)
-    ax[0].imshow(img_new)
-    ax[0].set_title(str(b) + ' bits')
-    ax[0].axis('off')
-    
+    fig, ax = plt.subplots()
+    ax.imshow(img_new)
+    ax.set_title(str(b) + ' bits')
+    ax.axis('off')
+    '''
     pix_change = np.sqrt(((img_new - img)**2).sum(axis=2))
     if i == 0:
         max_change = pix_change.max()
@@ -53,6 +53,7 @@ for i, b in enumerate(bits):
     cbar = fig.colorbar(diff, orientation='horizontal', fraction=0.078, pad=0.01)
     cbar.set_label(r'$\Delta d_{RGB}$')
     ax[1].axis('off')
+    '''
     fig.tight_layout()
-    fig.subplots_adjust(wspace=0, hspace=0)
-    plt.savefig('../prob3a_' + str(b) + 'bit.eps')
+    #fig.subplots_adjust(wspace=0, hspace=0)
+    #plt.savefig('../prob3a_' + str(b) + 'bit.eps')
