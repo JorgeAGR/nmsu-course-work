@@ -16,7 +16,7 @@ height = 10
 width = 10
 
 mpl.rcParams['figure.figsize'] = (width, height)
-mpl.rcParams['font.size'] = 28
+mpl.rcParams['font.size'] = 20
 mpl.rcParams['figure.titlesize'] = 'large'
 mpl.rcParams['legend.fontsize'] = 'small'
 mpl.rcParams['xtick.major.size'] = 12
@@ -33,6 +33,7 @@ x_grid = np.linspace(0, 1, num=200)
 m_power = 9
 data_samples = [15, 100]
 
+fig, ax = plt.subplots(nrows=2)
 for i, N in enumerate(data_samples):
     train_data = noisySin(N, 0.3**2, seed=15)
     train_data[0,0], train_data[0,1] = 0, 0
@@ -40,12 +41,16 @@ for i, N in enumerate(data_samples):
     polyfit = PolyFit(m_power)
     polyfit.fit_LS(train_data[:,0], train_data[:,1])
     
-    fig, ax = plt.subplots()
-    ax.scatter(train_data[:,0], train_data[:,1], 100, facecolors='none', 
+    ax[i].scatter(train_data[:,0], train_data[:,1], 100, facecolors='none', 
            edgecolors='blue', linewidth=2)
-    ax.plot(x_grid, polyfit.predict(x_grid), color='red')
-    ax.plot(x_grid, sinfunc(x_grid), color='lightgreen')
-    ax.xaxis.set_major_locator(mtick.MultipleLocator(1))
-    ax.yaxis.set_major_locator(mtick.MultipleLocator(1))
-    ax.set_ylim(-1.5, 1.5)
-    ax.set_xlim(-0.1, 1.1)
+    ax[i].plot(x_grid, polyfit.predict(x_grid), color='red')
+    ax[i].plot(x_grid, sinfunc(x_grid), color='lightgreen')
+    ax[i].xaxis.set_major_locator(mtick.MultipleLocator(1))
+    ax[i].yaxis.set_major_locator(mtick.MultipleLocator(1))
+    ax[i].set_xlabel(r'$x$')
+    ax[i].set_ylabel(r'$t$')
+    ax[i].set_ylim(-1.5, 1.5)
+    ax[i].set_xlim(-0.1, 1.1)
+    ax[i].text(0.8, 1, r'$N = $' + str(N))
+fig.tight_layout()
+plt.savefig('../prob4c.eps', dpi=500)

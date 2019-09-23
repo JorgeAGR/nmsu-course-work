@@ -18,7 +18,7 @@ class PolyFit(object):
         phi = self._build_Data(train_x)
         train_y = np.reshape(train_y, (train_y.shape[0], 1))
         phi_H = phi.transpose().conjugate()
-        phi_dag = np.dot(np.linalg.inv((np.identity(self.m_powers) * reg + np.dot(phi_H, phi))), 
+        phi_dag = np.dot(np.linalg.inv((np.identity(self.m_powers) * reg + np.dot(phi_H, phi))),
                      phi_H)
         self.weights = np.dot(phi_dag, train_y)
         
@@ -32,17 +32,17 @@ class PolyFit(object):
         
         phi = self._build_Data(x_data)
         
-        return np.dot(phi, self.weights)
+        return np.dot(phi, self.weights).flatten()
     
-    def _build_Data(self, x):
+    def _build_Data(self, x_data):
         
-        phi = np.ones((x.shape[0], self.m_powers))
+        phi = np.ones((x_data.shape[0], self.m_powers))
         
         for m in range(self.m_powers):
-            phi[:, m] = x ** m
+            phi[:, m] = x_data ** m
         
         return phi
     
     def _eval_Error(self, x_data, y_data):
-        
+        y_data = y_data.flatten()
         return (1/2)*((self.predict(x_data) - y_data)**2).sum()

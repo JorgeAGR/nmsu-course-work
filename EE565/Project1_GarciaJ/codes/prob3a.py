@@ -55,4 +55,4 @@ for i, b in enumerate(bits):
     ax[1].axis('off')
     fig.tight_layout()
     fig.subplots_adjust(wspace=0, hspace=0)
-    #plt.savefig('../prob3a_' + str(b) + 'bit.eps')
+    plt.savefig('../prob3a_' + str(b) + 'bit.eps')

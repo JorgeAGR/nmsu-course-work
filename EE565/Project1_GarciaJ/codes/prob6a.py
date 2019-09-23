@@ -12,6 +12,20 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 
+height = 10
+width = 10
+
+mpl.rcParams['figure.figsize'] = (width, height)
+mpl.rcParams['font.size'] = 20
+mpl.rcParams['figure.titlesize'] = 'large'
+mpl.rcParams['legend.fontsize'] = 'small'
+mpl.rcParams['xtick.major.size'] = 12
+mpl.rcParams['xtick.minor.size'] = 8
+mpl.rcParams['xtick.labelsize'] = 24
+mpl.rcParams['ytick.major.size'] = 12
+mpl.rcParams['ytick.minor.size'] = 8
+mpl.rcParams['ytick.labelsize'] = 24
+
 train_data = concentGauss(500, 5, 1, 1, seed=5)
 
 knn = KNN(train_data[:,:2], train_data[:,2])
@@ -37,6 +51,13 @@ for k in k_neighbors:
         pred_surface[i] = knn.predict(data, k)
     
     fig, ax = plt.subplots()
-    ax.contourf(xx, yy, pred_surface, alpha=0.8, colors=('lightgreen', 'blue'))
+    ax.contourf(xx, yy, pred_surface, colors=('lightgreen', 'blue'))
     ax.set_xlim(-10, 10)
     ax.set_ylim(-10, 10)
+    ax.set_title(r'$K = $' + str(k))
+    ax.set_xlabel(r'$x_1$')
+    ax.set_ylabel(r'$x_2$')
+    ax.xaxis.set_major_locator(mtick.MultipleLocator(5))
+    ax.yaxis.set_major_locator(mtick.MultipleLocator(5))
+    fig.tight_layout()
+    plt.savefig('../prob6a_' + str(k) + '.eps', dpi=500)

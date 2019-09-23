@@ -61,4 +61,4 @@ for n, img_ex in enumerate(images_ex):
         ax[1].axis('off')
         fig.tight_layout()
         fig.subplots_adjust(wspace=0, hspace=0)
-        #plt.savefig('../prob3e_' + 'img_' + str(n) + '_' + str(b) + 'bit.eps')
+        plt.savefig('../prob3e_' + 'img_' + str(n) + '_' + str(b) + 'bit.eps')
