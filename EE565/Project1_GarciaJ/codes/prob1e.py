@@ -18,7 +18,7 @@ height = 10
 width = 10
 
 mpl.rcParams['figure.figsize'] = (width, height)
-mpl.rcParams['font.size'] = 28
+mpl.rcParams['font.size'] = 20
 mpl.rcParams['figure.titlesize'] = 'large'
 mpl.rcParams['legend.fontsize'] = 'small'
 mpl.rcParams['xtick.major.size'] = 12
@@ -40,30 +40,34 @@ np.random.shuffle(data_ind)
 
 centroids = [data[data_ind[:5]], data[data_ind[5:10]], data[data_ind[10:15]]]
 
-j = 0
-for cent in centroids:
+cmap = plt.get_cmap('Set1')
+plot_colors = mpl.colors.ListedColormap(cmap(np.arange(0, 5, 1)))
+    
+fig = plt.figure()
+ax = [plt.subplot2grid((4,4), (0,0), colspan=2, rowspan = 2, fig=fig),
+      plt.subplot2grid((4,4), (0,2), colspan=2, rowspan = 2, fig=fig),
+      plt.subplot2grid((4,4), (2,1), colspan=2, rowspan = 2, fig=fig)]
+
+for n, cent in enumerate(centroids):
     kmeans = KMeans()
     new_cent, _ = kmeans.fit_batch(data, 5, centroids=cent)
     pred_class = kmeans.predict_cluster(data)
     
-    cmap = plt.get_cmap('Set1')
-    plot_colors = mpl.colors.ListedColormap(cmap(np.arange(0, 5, 1)))
-    fig, ax = plt.subplots()
-    ax.scatter(data[:,0], data[:,1],
+    ax[n].scatter(data[:,0], data[:,1],
                c=pred_class, cmap=plot_colors)
-    ax.scatter(cent[:,0], cent[:,1], color='orange', marker='x')
-    ax.scatter(new_cent[:,0], new_cent[:,1], color='red', marker='x')
+    ax[n].scatter(cent[:,0], cent[:,1], color='orange', marker='x')
+    ax[n].scatter(new_cent[:,0], new_cent[:,1], color='red', marker='x')
     for i in range(5):
-        ax.plot([cent[i,0], new_cent[i,0]], [cent[i,1], new_cent[i,1]], 
+        ax[n].plot([cent[i,0], new_cent[i,0]], [cent[i,1], new_cent[i,1]], 
                 color='black')
-    ax.xaxis.set_major_locator(mtick.MultipleLocator(2))
-    ax.xaxis.set_minor_locator(mtick.MultipleLocator(0.5))
-    ax.yaxis.set_major_locator(mtick.MultipleLocator(2))
-    ax.yaxis.set_minor_locator(mtick.MultipleLocator(0.5))
-    ax.set_xlim(-2.5, 8)
-    ax.set_ylim(-4.5, 9.5)
-    ax.set_ylabel(r'$x_2$')
-    ax.set_xlabel(r'$x_1$')
-    plt.tight_layout()
-    j += 1
-    plt.savefig('../prob1e_' + str(j) + '.eps', dpi=500)
+    ax[n].xaxis.set_major_locator(mtick.MultipleLocator(4))
+    ax[n].xaxis.set_minor_locator(mtick.MultipleLocator(1))
+    ax[n].yaxis.set_major_locator(mtick.MultipleLocator(4))
+    ax[n].yaxis.set_minor_locator(mtick.MultipleLocator(1))
+    ax[n].set_xlim(-3, 8)
+    ax[n].set_ylim(-5, 10)
+    ax[n].set_ylabel(r'$x_2$')
+    ax[n].set_xlabel(r'$x_1$')
+
+fig.tight_layout()
+plt.savefig('../prob1e.eps', dpi=500)

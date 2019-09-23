@@ -16,8 +16,7 @@ height = 10
 width = 10
 
 mpl.rcParams['figure.figsize'] = (width, height)
-mpl.rcParams['font.size'] = 16
-mpl.rcParams['axes.titlesize'] = 16
+mpl.rcParams['font.size'] = 20
 mpl.rcParams['figure.titlesize'] = 'large'
 mpl.rcParams['legend.fontsize'] = 'small'
 mpl.rcParams['xtick.major.size'] = 12
@@ -73,6 +72,6 @@ ax[0].set_ylabel(r'$x_2$')
 ax[0].xaxis.set_major_locator(mtick.MultipleLocator(1))
 ax[0].xaxis.set_minor_locator(mtick.MultipleLocator(0.25))
 ax[0].yaxis.set_major_locator(mtick.MultipleLocator(1))
-ax[0].xaxis.set_minor_locator(mtick.MultipleLocator(0.25))
+ax[0].yaxis.set_minor_locator(mtick.MultipleLocator(0.25))
 fig.tight_layout(w_pad=0.8, h_pad=0.8)
 plt.savefig('../prob6b.eps', dpi=500)

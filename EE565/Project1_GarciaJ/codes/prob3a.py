@@ -14,7 +14,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 
 height = 10
-width = 8
+width = 6
 
 mpl.rcParams['figure.figsize'] = (width, height)
 mpl.rcParams['font.size'] = 20
@@ -29,8 +29,9 @@ mpl.rcParams['ytick.labelsize'] = 24
 
 img, img_pix = readImage('../data/machine-learning-1.png')
 
-bits =     [ 2,  3,  4, 5, 6, 7, 8]
-max_iter = [20, 15, 10, 6, 4, 2, 1]
+bits =     [ 2,  3,  5]
+max_iter = [20, 15,  6]
+fig, ax = plt.subplots(nrows=3)
 for i, b in enumerate(bits):
     print('Remapping to', b, 'bits')
     kmeans = KMeans()
@@ -40,10 +41,9 @@ for i, b in enumerate(bits):
     
     img_new = remapImage(img, kmeans)
     
-    fig, ax = plt.subplots()
-    ax.imshow(img_new)
-    ax.set_title(str(b) + ' bits')
-    ax.axis('off')
+    ax[i].imshow(img_new)
+    ax[i].set_title(str(b) + ' bits')
+    ax[i].axis('off')
     '''
     pix_change = np.sqrt(((img_new - img)**2).sum(axis=2))
     if i == 0:
@@ -54,6 +54,6 @@ for i, b in enumerate(bits):
     cbar.set_label(r'$\Delta d_{RGB}$')
     ax[1].axis('off')
     '''
-    fig.tight_layout()
-    #fig.subplots_adjust(wspace=0, hspace=0)
-    #plt.savefig('../prob3a_' + str(b) + 'bit.eps')
+fig.tight_layout()
+#fig.subplots_adjust(wspace=0, hspace=0)
+#plt.savefig('../prob3a_' + str(b) + 'bit.eps')

@@ -16,8 +16,7 @@ height = 10
 width = 10
 
 mpl.rcParams['figure.figsize'] = (width, height)
-mpl.rcParams['font.size'] = 16
-mpl.rcParams['axes.titlesize'] = 16
+mpl.rcParams['font.size'] = 20
 mpl.rcParams['figure.titlesize'] = 'large'
 mpl.rcParams['legend.fontsize'] = 'small'
 mpl.rcParams['xtick.major.size'] = 12
@@ -59,10 +58,10 @@ for n, k in enumerate(k_neighbors):
     ax[n+1].set_title(r'$K = $' + str(k))
     ax[n+1].set_xlabel(r'$x_1$')
     ax[n+1].set_ylabel(r'$x_2$')
-    ax[n+1].xaxis.set_major_locator(mtick.MultipleLocator(1))
-    ax[n+1].xaxis.set_minor_locator(mtick.MultipleLocator(0.25))
-    ax[n+1].yaxis.set_major_locator(mtick.MultipleLocator(1))
-    ax[n+1].yaxis.set_minor_locator(mtick.MultipleLocator(0.25))
+    ax[n+1].xaxis.set_major_locator(mtick.MultipleLocator(1.5))
+    ax[n+1].xaxis.set_minor_locator(mtick.MultipleLocator(0.5))
+    ax[n+1].yaxis.set_major_locator(mtick.MultipleLocator(1.5))
+    ax[n+1].yaxis.set_minor_locator(mtick.MultipleLocator(0.5))
 
 ax[0].scatter(train_data[pos][:,0], train_data[pos][:,1], 100, marker='+', color='blue', label=r'target: $+1$')
 ax[0].scatter(train_data[neg][:,0], train_data[neg][:,1], 100, marker='x', color='lightgreen', label=r'target: $-1$')
@@ -70,9 +69,9 @@ ax[0].set_xlim(-3, 3)
 ax[0].set_ylim(-3, 3)
 ax[0].set_xlabel(r'$x_1$')
 ax[0].set_ylabel(r'$x_2$')
-ax[0].xaxis.set_major_locator(mtick.MultipleLocator(1))
-ax[0].xaxis.set_minor_locator(mtick.MultipleLocator(0.25))
-ax[0].yaxis.set_major_locator(mtick.MultipleLocator(1))
-ax[0].xaxis.set_minor_locator(mtick.MultipleLocator(0.25))
+ax[0].xaxis.set_major_locator(mtick.MultipleLocator(1.5))
+ax[0].xaxis.set_minor_locator(mtick.MultipleLocator(0.5))
+ax[0].yaxis.set_major_locator(mtick.MultipleLocator(1.5))
+ax[0].yaxis.set_minor_locator(mtick.MultipleLocator(0.5))
 fig.tight_layout(w_pad=0.8, h_pad=0.8)
 plt.savefig('../prob6c.eps', dpi=500)

@@ -22,10 +22,10 @@ mpl.rcParams['figure.titlesize'] = 'large'
 mpl.rcParams['legend.fontsize'] = 'small'
 mpl.rcParams['xtick.major.size'] = 12
 mpl.rcParams['xtick.minor.size'] = 8
-mpl.rcParams['xtick.labelsize'] = 24
+mpl.rcParams['xtick.labelsize'] = 16
 mpl.rcParams['ytick.major.size'] = 12
 mpl.rcParams['ytick.minor.size'] = 8
-mpl.rcParams['ytick.labelsize'] = 24
+mpl.rcParams['ytick.labelsize'] = 16
 
 train_data = np.loadtxt('../data/curvefitting.txt')
 test_data = noisySin(50, 0.3**2, seed=5)
