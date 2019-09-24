@@ -24,7 +24,7 @@ class KMeans(object):
         if centroids is None:
             np.random.seed(seed)
             centroids = self._shuffle_Data(X_data)[:k_groups]
-        avg_change = np.sqrt(((centroids - old_centroids)**2).sum()).mean()
+        avg_change = np.sqrt(((centroids - old_centroids)**2).sum(axis=1)).mean()
         distancesq = np.zeros((X_data.shape[0], k_groups))
         
         for iters in np.arange(1, max_iter+1, 1):
@@ -37,7 +37,7 @@ class KMeans(object):
             if np.isnan(centroids).any():
                 nan_rows = np.unique(np.argwhere(np.isnan(centroids))[:,0])
                 centroids[nan_rows, :] = X_data[np.random.randint(0, X_data.shape[0], len(nan_rows))]
-            avg_change = np.sqrt(((centroids - old_centroids)**2).sum()).mean()
+            avg_change = np.sqrt(((centroids - old_centroids)**2).sum(axis=1)).mean()
             if avg_change <= converge:
                 break
         self.centroids = centroids[np.argsort(centroids[:,0])]
@@ -46,7 +46,6 @@ class KMeans(object):
     
     def fit_online(self, X_data, k_groups, centroids=None, learn_rate=1e-2, converge=1e-5, max_epochs=20, seed=None):
         '''
-        Not really stable? Seems to give wild predictions compared to scikit
         Uses online training to fit point by point.
         X_data: input data
         k_groups: Number of groups to find
@@ -60,7 +59,7 @@ class KMeans(object):
         if centroids is None:
             np.random.seed(seed)
             centroids = self._shuffle_Data(X_data)[:k_groups]
-        avg_change = np.sqrt(((centroids - old_centroids)**2).sum()).mean()
+        avg_change = np.sqrt(((centroids - old_centroids)**2).sum(axis=1)).mean()
         
         for epoch in np.arange(1, max_epochs+1, 1):
             old_centroids[:,:] = centroids
@@ -70,7 +69,7 @@ class KMeans(object):
                 distancesq = ((point - centroids)**2).sum(axis=1).reshape(1, point.shape[0])
                 cluster_ind = np.argmax(self._find_min(distancesq))
                 centroids[cluster_ind] = centroids[cluster_ind] + learn_rate * (point[0] - centroids[cluster_ind])
-            avg_change = np.sqrt(((centroids - old_centroids)**2).sum()).mean()
+            avg_change = np.sqrt(((centroids - old_centroids)**2).sum(axis=1)).mean()
             if avg_change <= converge:
                 break
         self.centroids = centroids[np.argsort(centroids[:,0])]

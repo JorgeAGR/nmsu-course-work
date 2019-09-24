@@ -34,7 +34,7 @@ data1 = circGauss(N//2, 3, 0, 0, seed=1)
 data2 = circGauss(N//2, 3, 5, 5, seed=2)
 data = np.vstack((data1, data2))
 
-log_learning_rates = np.arange(-3, 0.1, 0.1)
+log_learning_rates = np.arange(-3, -1.1, 0.1)
 
 epochs_converge = np.zeros(log_learning_rates.shape[0])
 epochs_converge_std = np.zeros(log_learning_rates.shape[0])
@@ -44,20 +44,20 @@ for i, log_eta in enumerate(log_learning_rates):
     epochs = np.zeros(trials)
     for j in range(trials):
         kmeans = KMeans()
-        c, e = kmeans.fit_online(data, 2, learn_rate=10**log_eta, converge=1e-1, max_epochs=30)
+        c, e = kmeans.fit_online(data, 2, learn_rate=10**log_eta, converge=1e-1, max_epochs=20)
         epochs[j] += e
     epochs_converge[i] += epochs.mean()
     epochs_converge_std[i] += epochs.std()
     centroids.append(c)
     
 fig, ax = plt.subplots()
-ax.errorbar(log_learning_rates, epochs_converge, yerr=epochs_converge_std, color='black')
+ax.errorbar(log_learning_rates, epochs_converge, yerr=epochs_converge_std, color='black', capsize=5)
 ax.xaxis.set_major_locator(mtick.MultipleLocator(0.5))
 ax.xaxis.set_minor_locator(mtick.MultipleLocator(0.1))
 ax.yaxis.set_major_locator(mtick.MultipleLocator(5))
 ax.yaxis.set_minor_locator(mtick.MultipleLocator(1))
-ax.set_xlim(-3.1, 0.1)
-ax.set_ylim(0, 36)
+ax.set_xlim(-3.1, -1.1)
+ax.set_ylim(0, 24)
 ax.set_ylabel(r'Epochs')
 ax.set_xlabel(r'$\log\eta$')
 plt.tight_layout()

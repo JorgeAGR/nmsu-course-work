@@ -32,7 +32,7 @@ N = 50
 data1 = circGauss(N//2, 3, 0, 0, seed=1)
 data2 = circGauss(N//2, 3, 5, 5, seed=2)
 data = np.vstack((data1, data2))
-trials = 500
+trials = 1000
 
 iterations = np.zeros(trials)
 

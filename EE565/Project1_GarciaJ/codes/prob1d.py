@@ -29,8 +29,8 @@ mpl.rcParams['ytick.labelsize'] = 24
 
 N = 50
 
-data1 = circGauss(N//2, 3, 0, 0, seed=1)
-data2 = circGauss(N//2, 3, 5, 5, seed=2)
+data1 = circGauss(N//2, 3, 0, 0, seed=0)
+data2 = circGauss(N//2, 3, 5, 5, seed=1)
 data = np.vstack((data1, data2))
 
 kmeans = KMeans()
@@ -43,13 +43,13 @@ for i, k in enumerate(k_groups):
     trials = 100
     cost = np.zeros(trials)
     for j in range(trials):
-        kmeans.fit_batch(data, k)
+        m, _ = kmeans.fit_batch(data, k)
         cost[j] += kmeans.eval_cost(data)
     cost_per_k[i] += cost.mean()
     cost_per_k_std[i] += cost.std()
     
 fig, ax = plt.subplots()
-ax.errorbar(k_groups, cost_per_k, yerr=cost_per_k_std, color='black')
+ax.errorbar(k_groups, cost_per_k, yerr=cost_per_k_std, color='black', capsize=5)
 ax.xaxis.set_major_locator(mtick.MultipleLocator(5))
 ax.xaxis.set_minor_locator(mtick.MultipleLocator(1))
 ax.yaxis.set_major_locator(mtick.MultipleLocator(50))

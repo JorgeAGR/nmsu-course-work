@@ -55,8 +55,8 @@ for n, cent in enumerate(centroids):
     
     ax[n].scatter(data[:,0], data[:,1],
                c=pred_class, cmap=plot_colors)
-    ax[n].scatter(cent[:,0], cent[:,1], color='orange', marker='x')
-    ax[n].scatter(new_cent[:,0], new_cent[:,1], color='red', marker='x')
+    ax[n].scatter(cent[:,0], cent[:,1], 100, color='orange', marker='x')
+    ax[n].scatter(new_cent[:,0], new_cent[:,1], 100, color='red', marker='x')
     for i in range(5):
         ax[n].plot([cent[i,0], new_cent[i,0]], [cent[i,1], new_cent[i,1]], 
                 color='black')

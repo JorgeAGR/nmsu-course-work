@@ -14,7 +14,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 
 height = 10
-width = 8
+width = 6
 
 mpl.rcParams['figure.figsize'] = (width, height)
 mpl.rcParams['font.size'] = 20
@@ -34,10 +34,14 @@ img2, img2_pix = readImage('../data/Nature-Brain.png')
 images = [img1, img2]
 image_pixels = [img1_pix, img2_pix]
 
-bits =     [ 2,  3,  4, 5, 6, 7, 8]
-max_iter = [20, 15, 10, 6, 4, 2, 1]
+bits =     [ 2,  3, 5]
+max_iter = [20, 15, 10]
 for n, img in enumerate(images):
+    fig, ax = plt.subplots(nrows=3)
     for i, b in enumerate(bits):
+        if (n==1) and (i == 2):
+            b = 7
+            max_iter[i] = 5
         print('Remapping to', b, 'bits')
         kmeans = KMeans()
         _, iters = kmeans.fit_batch(img_ex_pix, 2**b, converge=1e-2, max_iter=max_iter[i], seed=1)
@@ -46,23 +50,10 @@ for n, img in enumerate(images):
         
         img_new = remapImage(img, kmeans)
         
-        fig, ax = plt.subplots(nrows=2)
-        ax[0].imshow(img_new)
-        ax[0].set_title(str(b) + ' bits')
-        ax[0].axis('off')
+        ax[i].imshow(img_new)
+        ax[i].set_title(str(b) + ' bits')
+        ax[i].axis('off')
         
-        pix_change = np.sqrt(((img_new - img)**2).sum(axis=2))
-        if i == 0:
-            max_change = pix_change.max()
-        pix_change = pix_change / max_change
-        diff = ax[1].imshow(pix_change, vmin=0, vmax=1)
-        if n == 1:
-            frac = 0.078
-        else:
-            frac = 0.047
-        cbar = fig.colorbar(diff, orientation='horizontal', fraction=frac, pad=0.01)
-        cbar.set_label(r'$\Delta d_{RGB}$')
-        ax[1].axis('off')
-        fig.tight_layout()
-        fig.subplots_adjust(wspace=0, hspace=0)
-        plt.savefig('../prob3d_' + 'img_' + str(n) + '_' + str(b) + 'bit.eps')
+    fig.tight_layout()
+    fig.subplots_adjust(wspace=0.2, hspace=0.2)
+    plt.savefig('../prob3d_' + str(n) + '.eps')

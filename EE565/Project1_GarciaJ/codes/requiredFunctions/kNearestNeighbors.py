@@ -11,13 +11,18 @@ import numpy as np
 class KNN(object):
     
     def __init__(self, train_x, train_class):
-        
+        '''
+        Initialize the data set that classification will be based on.
+        '''
         self.train_x = train_x
         self.train_class = train_class
         
         return
     
     def predict(self, x_data, k_neighbors):
+        '''
+        Find the nearest k-neighbors and classify the new set of data points.
+        '''
         pred_class = np.zeros(x_data.shape[0])
         for i, x in enumerate(x_data):
             distancesq = (((x - self.train_x)**2).sum(axis=1))

@@ -14,7 +14,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 
 height = 10
-width = 8
+width = 6
 
 mpl.rcParams['figure.figsize'] = (width, height)
 mpl.rcParams['font.size'] = 20
@@ -29,8 +29,9 @@ mpl.rcParams['ytick.labelsize'] = 24
 
 img, img_pix = readImage('../data/nature-1.png')
 
-bits =     [ 2,  3,  4, 5, 6, 7, 8]
-max_iter = [20, 15, 10, 6, 4, 2, 1]
+bits =     [ 2,  3, 7]
+max_iter = [20, 15, 4]
+fig, ax = plt.subplots(nrows=3)
 for i, b in enumerate(bits):
     print('Remapping to', b, 'bits')
     kmeans = KMeans()
@@ -40,19 +41,10 @@ for i, b in enumerate(bits):
     
     img_new = remapImage(img, kmeans)
     
-    fig, ax = plt.subplots(nrows=2)
-    ax[0].imshow(img_new)
-    ax[0].set_title(str(b) + ' bits')
-    ax[0].axis('off')
+    ax[i].imshow(img_new)
+    ax[i].set_title(str(b) + ' bits')
+    ax[i].axis('off')
     
-    pix_change = np.sqrt(((img_new - img)**2).sum(axis=2))
-    if i == 0:
-        max_change = pix_change.max()
-    pix_change = pix_change / max_change
-    diff = ax[1].imshow(pix_change, vmin=0, vmax=1)#max_change)
-    cbar = fig.colorbar(diff, orientation='horizontal', fraction=0.047, pad=0.01)
-    cbar.set_label(r'$\Delta d_{RGB}$')
-    ax[1].axis('off')
-    fig.tight_layout()
-    fig.subplots_adjust(wspace=0, hspace=0)
-    plt.savefig('../prob3c_' + str(b) + 'bit.eps')
+fig.tight_layout()
+fig.subplots_adjust(wspace=0.2, hspace=0.2)
+plt.savefig('../prob3c.eps')
