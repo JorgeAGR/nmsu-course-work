@@ -70,12 +70,12 @@ with open('prob1_output.txt', 'w+') as file:
     fig1, ax1 = plt.subplots(nrows=3, ncols=3)
     for i, key in enumerate(data_nc.keys()):
         ax1[i//3][i%3].boxplot(data[key])
-        ax1[i//3][i%3].set_xlabel(key)
         ax1[i//3][i%3].tick_params(axis='x', which='both', bottom=False, top=False, labelbottom=False)
+        ax1[i//3][i%3].set_title(key)
     fig1.tight_layout()
     fig1.subplots_adjust(wspace=0.2, hspace=0.2)
     #plt.savefig('figs/boxplots.eps', dpi=500)
-    print('Problem 1d: Boxplots', end='\n\n', file=file)
+    print('Problem 1d: Boxplots (see figs)', end='\n\n', file=file)
     
     # Subset of attributes to make scatter plots of
     data_subset = data[['Age', 'BMI', 'Glucose', 'Insulin']]
