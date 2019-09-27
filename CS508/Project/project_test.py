@@ -10,12 +10,17 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from keras.layers import Input, Dense, Conv2D, MaxPooling2D, UpSampling2D
 from keras.models import Model
+from tensorflow.losses import huber_loss
 from sklearn.ensemble import RandomForestClassifier
 
 df = pd.read_csv('train_images.csv', header=None)
 df_labels = pd.read_csv('train_labels.csv')
 df_test = pd.read_csv('test_images.csv', header=None)
 df_test_labels = pd.read_csv('test_labels.csv')
+
+volcano_ind = np.where(df_labels['Volcano?'].values == 1)[0]
+not_ind = np.where(df_labels['Volcano?'].values == 0)[0]
+
 train_pix = df.values / 255
 train_img = train_pix.reshape(len(df), 110, 110, 1)[:,2:,2:]
 test_pix = df_test.values / 255
@@ -25,7 +30,6 @@ test_y = df_test_labels.values[:,0]
 
 compression_size = 128
 
-'''
 input_img = Input(shape=(110*110,))
 
 encoding = Dense(compression_size, activation='relu')(input_img)
@@ -38,11 +42,12 @@ encoder = Model(input_img, encoding)
 decoded_output = autoencoder.layers[-1]
 decoder = Model(encoded_input, decoded_output(encoded_input))
 
-autoencoder.compile('adam', loss='binary_crossentropy')
+autoencoder.compile('adam', loss=huber_loss)
 
 autoencoder.fit(train_pix, train_pix, epochs=50,
                 batch_size=128, shuffle=True,
-                validation_pix=(test_pix, test_pix))
+                validation_data=(test_pix, test_pix))
+
 '''
 input_img = Input(shape=(108, 108, 1))  # adapt this if using `channels_first` image data format
 
@@ -53,11 +58,11 @@ x = MaxPooling2D((2, 2), padding='same')(x)
 x = Conv2D(8, (3, 3), activation='relu', padding='same')(x)
 x = MaxPooling2D((2, 2), padding='same')(x)
 
-encoding = Dense(compression_size, activation='relu')(x)
+encoder = Dense(compression_size, activation='relu')(x)
 
 # at this point the representation is (4, 4, 8) i.e. 128-dimensional
 
-x = Conv2D(8, (3, 3), activation='relu', padding='same')(encoding)
+x = Conv2D(8, (3, 3), activation='relu', padding='same')(encoder)
 x = UpSampling2D((2, 2))(x)
 x = Conv2D(8, (3, 3), activation='relu', padding='same')(x)
 x = UpSampling2D((2, 2))(x)
@@ -72,18 +77,20 @@ autoencoder.compile('adam', loss='binary_crossentropy')
 autoencoder.fit(train_img, train_img, epochs=50,
                 batch_size=128, shuffle=True,
                 validation_data=(test_img, test_img))
+'''
+reconstructed = autoencoder.predict(train_pix)
 
-reconstructed = autoencoder.predict(train_img)
-
-train_encoded = encoding.predict(train_img)
-test_encoded = encoding.predict(test_img)
+train_encoded = encoder.predict(train_pix)
+test_encoded = encoder.predict(test_pix)
 
 fig, ax = plt.subplots()
-ax.imshow(reconstructed[0].reshape(108, 108))
+ax.imshow(reconstructed[150].reshape(110, 110))
 fig2, ax2 = plt.subplots()
-ax2.imshow(train_img[0].reshape(108, 108))
+ax2.imshow(train_pix[150].reshape(110, 110))
 
 rf = RandomForestClassifier(bootstrap=True)
 rf.fit(train_encoded, df_labels.values[:,0])
 print('train score:', rf.score(train_encoded, train_y))
 print('test score:', rf.score(test_encoded, test_y))
+
+images = train_pix.reshape(len(df), 110, 110)

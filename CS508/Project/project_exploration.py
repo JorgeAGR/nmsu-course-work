@@ -9,18 +9,24 @@ Created on Tue Sep 17 20:58:49 2019
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.decomposition import PCA
+from sklearn.cluster import KMeans
 
 df = pd.read_csv('train_images.csv', header=None)
 df_labels = pd.read_csv('train_labels.csv')
 
 dataset_pixels = df.values.flatten()
 
-volcano_ids = np.where(df_labels['Volcano?'].values == 1)[0]
+volcano_ind = np.where(df_labels['Volcano?'].values == 1)[0]
+not_ind = np.where(df_labels['Volcano?'].values == 0)[0]
+
+np.random.shuffle(volcano_ind)
+np.random.shuffle(not_ind)
+
+
 
 '''
 for i in range(10):
-    img = df.loc[volcano_ids[i],:].values.reshape((110, 110))
+    img = df.loc[volcano_ind[i],:].values.reshape((110, 110))
     kmeans = KMeans(n_clusters=2**2)
     kmeans.fit(img.flatten().reshape(-1,1))
     img_new = kmeans.cluster_centers_[kmeans.predict(img.flatten().reshape(-1,1))].flatten().reshape(110, 110)
@@ -31,9 +37,23 @@ for i in range(10):
     
 '''
 
-pca = PCA(n_components=10)
+#pca = PCA(n_components=10)
+#pca.fit(df.values)
+'''
+pca = KernelPCA(kernel='rbf', gamma=10)
 pca.fit(df.values)
 
 df_trans = pca.transform(df.values)
 
 plt.scatter(df[4], df[1], c=df_labels.values[:,0])
+'''
+'''
+bits = np.arange(0, 255, 1)
+for i in range(5):
+    img_vol = df.loc[volcano_ind[i],:].values
+    img_not = df.loc[not_ind[i],:].values
+    
+    fig, ax = plt.subplots(nrows=2)
+    ax[0].hist(img_vol, bits)
+    ax[1].hist(img_not, bits)
+'''
