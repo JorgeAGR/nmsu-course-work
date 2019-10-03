@@ -15,8 +15,9 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 
+# Settings for plots
 golden_ratio = (np.sqrt(5) + 1) / 2
-width = 15
+width = 12
 height = width / golden_ratio
 
 mpl.rcParams['figure.figsize'] = (width, height)
@@ -30,17 +31,22 @@ mpl.rcParams['ytick.major.size'] = 12
 mpl.rcParams['ytick.minor.size'] = 8
 mpl.rcParams['ytick.labelsize'] = 14
 
+# Load train data. Split into X matrix and Y array
 train_data = pd.read_csv('data/glass_train.csv', index_col=0)
 train_x = train_data.iloc[:,:9].values
 train_y = train_data.iloc[:,-1].values
 
+# Load test data. Split into X matrix and Y array.
 test_data = pd.read_csv('data/glass_test.csv', index_col=0)
 test_x = test_data.iloc[:,:9].values
 test_y = test_data.iloc[:,-1].values
 
+# Define array of range of k-neighbors to consider
 k_range = [i for i in range(1,11)]
 k_range.append(15), k_range.append(20), k_range.append(25)
 
+# Function to evaluate k-Nearest Neighbors performance for different metrics and
+# k-neighbors considered.
 def evaluate_neighbors(metric):
     train_acc = np.zeros(len(k_range))
     test_acc = np.zeros(len(k_range))
@@ -53,8 +59,11 @@ def evaluate_neighbors(metric):
     
     return train_acc, test_acc
 
+# Different metrics to consider for the KNN algorithm
 metrics = ['euclidean', 'manhattan', 'cosine']
 
+# Evaluate KNN accuracy as a function of metric and k-neighbors
+# Plot accuracy results
 for metric in metrics:
     train_acc, test_acc = evaluate_neighbors(metric)
     
@@ -70,5 +79,6 @@ for metric in metrics:
     ax.yaxis.set_minor_locator(mtick.MultipleLocator(0.02))
     ax.set_xlabel('k-Neighbors')
     ax.set_ylabel('Accuracy')
+    ax.set_title(metric)
     fig.tight_layout()
     plt.savefig('figs/prob3_' + metric + '.eps', dpi=500)

@@ -12,8 +12,9 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 
+# Settings for plots
 golden_ratio = (np.sqrt(5) + 1) / 2
-width = 15
+width = 12
 height = width / golden_ratio
 
 mpl.rcParams['figure.figsize'] = (width, height)
@@ -75,7 +76,7 @@ def evaluate_depths(criterion, trials=50):
 # Define criterions to use for the decision trees
 criterions = ['entropy', 'gini']
 
-# Evaluate decision trees as a function of criterion and depth.
+# Evaluate decision tree accuracy as a function of criterion and depth.
 # Plot accuracy results
 for criterion in criterions:
     train_acc, test_acc = evaluate_depths(criterion)
@@ -91,5 +92,6 @@ for criterion in criterions:
     ax.yaxis.set_minor_locator(mtick.MultipleLocator(0.02))
     ax.set_xlabel('Max Tree Depth')
     ax.set_ylabel('Accuracy')
+    ax.set_title(criterion)
     fig.tight_layout()
     plt.savefig('figs/prob2_' + criterion + '.eps', dpi=500)
