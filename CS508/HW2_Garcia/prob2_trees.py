@@ -30,12 +30,12 @@ mpl.rcParams['ytick.labelsize'] = 14
 
 # Load train data. Split into X matrix and Y array
 train_data = pd.read_csv('data/glass_train.csv', index_col=0)
-train_x = train_data.iloc[:,:9].values
+train_x = train_data.iloc[:,:-1].values
 train_y = train_data.iloc[:,-1].values
 
 # Load test data. Split into X matrix and Y array.
 test_data = pd.read_csv('data/glass_test.csv', index_col=0)
-test_x = test_data.iloc[:,:9].values
+test_x = test_data.iloc[:,:-1].values
 test_y = test_data.iloc[:,-1].values
 
 # Define array of max depths to use
@@ -82,16 +82,17 @@ for criterion in criterions:
     train_acc, test_acc = evaluate_depths(criterion)
     
     fig, ax = plt.subplots()
-    ax.errorbar(max_depths, train_acc[:,0], yerr=train_acc[:,1],
+    ax.errorbar(max_depths, train_acc[:,0], yerr=train_acc[:,1], label='Training',
                 color='blue', marker='o', markersize=5, markeredgewidth=2)
-    ax.errorbar(max_depths, test_acc[:,0], yerr=test_acc[:,1], capsize=5,
+    ax.errorbar(max_depths, test_acc[:,0], yerr=test_acc[:,1], capsize=5, label='Testing',
                 color='red', marker='o', markersize=5, markeredgewidth=2)
     ax.set_xlim(1, 26)
-    ax.set_ylim(0.54, 1.02)
+    ax.set_ylim(0.4, 1.02)
     ax.xaxis.set_minor_locator(mtick.MultipleLocator(1))
     ax.yaxis.set_minor_locator(mtick.MultipleLocator(0.02))
     ax.set_xlabel('Max Tree Depth')
     ax.set_ylabel('Accuracy')
     ax.set_title(criterion)
+    ax.legend()
     fig.tight_layout()
     plt.savefig('figs/prob2_' + criterion + '.eps', dpi=500)

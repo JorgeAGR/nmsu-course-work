@@ -14,7 +14,7 @@ glass = pd.read_csv('data/glass.csv', header=None, index_col=0)
 # Split the original data into 80% test and 20% train.
 # Fixed random seed to obtain repeated results
 glass_train, glass_test = train_test_split(glass, test_size=0.2, 
-                                           random_state=1)
+                                           random_state=0)
 
 # Save the train and test sets into their own CSV files
 glass_train.to_csv('data/glass_train.csv')

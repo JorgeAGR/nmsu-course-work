@@ -6,7 +6,7 @@ Created on Sat Sep 28 17:48:12 2019
 """
 
 import numpy as np
-from oneHotEncode import oneHotEncode
+from requiredFunctions.oneHotEncode import oneHotEncode
 
 class LeastSquares_Classifier(object):
     
@@ -24,4 +24,4 @@ class LeastSquares_Classifier(object):
     
     def predict(self, x_data):
         x_data = np.hstack((np.ones((len(x_data), 1)), x_data))
-        return np.dot(x_data, self.weights)
+        return np.argmax(np.dot(x_data, self.weights), axis=1)
