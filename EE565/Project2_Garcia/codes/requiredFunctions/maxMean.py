@@ -9,22 +9,40 @@ import numpy as np
 class MaxMeanProjection(object):
     
     def __init__(self, train_x, train_y):
+        
+        train_x = train_x.T
+        
         mu0, mu1 = self._calc_Means(train_x, train_y)
         self._calc_Weights(mu0, mu1)
+        self.discriminant = self.project(train_x.T).mean()# - self.weights[0]
         return
     
-    def _calc_Weights(self, mu0, mu1):
-        w = mu1 - mu0
+    def _calc_Weights(self, mu0, mu1):        
+        w = (mu1 - mu0)
         w_mag = np.sqrt((w**2).sum())
-        self.weights = w / w_mag
+        self.weights = (w / w_mag)
         return self.weights
     
     def _calc_Means(self, x, y):
         classes = np.unique(y)
-        means = np.zeros((len(classes), x.shape[1]))
+        self.means = np.zeros((x.shape[0], len(classes)))
         for i, c in enumerate(classes):
-            means[i] = x[np.where(y == c)].mean(axis=0)
-        return means[0], means[1]
+            self.means[:,i] = x[:,y == c].mean(axis=1)
+        mu0 = self.means[:,0].reshape(self.means.shape[0],1)
+        mu1 = self.means[:,1].reshape(self.means.shape[0],1)
+        return mu0, mu1
     
     def project(self, x_data):
         return np.dot(x_data, self.weights)
+    
+    def predict(self, x_data):
+        projection = self.project(x_data)
+        return (projection >= self.discriminant).astype(np.int).flatten()
+    
+    def score(self, x_data, y_data):
+        pred = self.predict(x_data)
+        wrong = np.abs(y_data - pred)
+        err = np.zeros_like(wrong)
+        err[wrong > 0] = 1
+        accuracy = 1 - np.sum(err)/len(y_data)
+        return accuracy

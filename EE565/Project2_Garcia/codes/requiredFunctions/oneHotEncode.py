@@ -16,7 +16,7 @@ def oneHotEncode(class_vector):
     
     class_matrix = np.zeros((len(class_vector), num_classes))
     
-    for c in classes:
-        class_matrix[np.where(class_vector == c), c] = 1
+    for c in range(num_classes):
+        class_matrix[np.where(class_vector == classes[c]), c] = 1
         
     return class_matrix

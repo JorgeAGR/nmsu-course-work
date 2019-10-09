@@ -25,3 +25,11 @@ class LeastSquares_Classifier(object):
     def predict(self, x_data):
         x_data = np.hstack((np.ones((len(x_data), 1)), x_data))
         return np.argmax(np.dot(x_data, self.weights), axis=1)
+    
+    def score(self, x_data, y_data):
+        pred = self.predict(x_data)
+        wrong = np.abs(y_data - pred)
+        err = np.zeros_like(wrong)
+        err[wrong > 0] = 1
+        accuracy = 1 - np.sum(err)/len(y_data)
+        return accuracy
