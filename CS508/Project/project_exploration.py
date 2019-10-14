@@ -11,13 +11,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 
-df = pd.read_csv('train_images.csv', header=None)
-df_labels = pd.read_csv('train_labels.csv')
+train_images = pd.read_csv('train_images.csv', header=None)
+train_labels = pd.read_csv('train_labels.csv')
+
+test_images = pd.read_csv('test_images.csv', header=None)
+test_labels = pd.read_csv('test_labels.csv')
 
 dataset_pixels = df.values.flatten()
 
-volcano_ind = np.where(df_labels['Volcano?'].values == 1)[0]
-not_ind = np.where(df_labels['Volcano?'].values == 0)[0]
+volcano_ind = np.where(train_labels['Volcano?'].values == 1)[0]
+not_ind = np.where(train_labels['Volcano?'].values == 0)[0]
 
 np.random.shuffle(volcano_ind)
 np.random.shuffle(not_ind)
