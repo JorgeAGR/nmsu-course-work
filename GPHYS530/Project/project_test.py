@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from keras.layers import Input, Dense, Conv1D, MaxPooling1D, UpSampling1D, BatchNormalization, Reshape, Flatten
 from keras.models import Model
+from keras.callbacks import EarlyStopping, ModelCheckpoint
 from keras.optimizers import Adam
 
 ''''
@@ -33,6 +34,15 @@ def get_Decoder_Output(autoencoder, compression_size, layer, i=1, layers=12):
         decoder_input = Input(shape=(compression_size,))
         return decoder_input, layer(decoder_input)
 '''
+
+def get_Callbacks(epochs):
+    
+    stopper = EarlyStopping(monitor='val_loss', min_delta=0.001, 
+                            patience=epochs//2, restore_best_weights=True)
+    checkpoint = ModelCheckpoint('./autoencoder_weights',
+                                 monitor='val_loss', save_best_only=True, save_weights_only=True)
+    return [stopper, checkpoint]
+
 def get_Decoder_Layers(autoencoder, layers=12):
     
     #expand = autoencoder.layers[-12]
@@ -99,3 +109,16 @@ def rossNet_CAE(input_length, compression_size):
                   optimizer=Adam(1e-3))
 
     return autoencoder, encoder, decoder
+
+# Load training and testing data
+batch_size = 128
+epochs = 20
+x_train = np.load('data/train/train_seismos.npy')
+x_test = np.load('data/test/test_seismos.npy')
+
+autoencoder, encoder, decoder = rossNet_CAE(x_train.shape[1], 32)
+autoencoder.fit(x_train, x_train,
+                validation_data=(x_test, x_test),
+                batch_size=batch_size,
+                epochs=epochs,
+                callbacks=get_Callbacks(epochs))
