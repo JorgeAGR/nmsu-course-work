@@ -40,7 +40,7 @@ y = data.loc[:, 4].values
 
 # Define 5 folds to split the data set
 splits = 5
-kf = KFold(n_splits=splits, random_state=0)
+kf = KFold(n_splits=splits, shuffle=True, random_state=0)
 kf.get_n_splits(x)
 
 # K neighbors to iterate and performance arrays
@@ -72,21 +72,20 @@ for k in k_neighbors:
 # Cap error at 0 or 1, since accuracy is constrained to that range
 test_std[1,:][(test_std[0,:] + test_avg) > 1] = 1 - test_avg[(test_std[0,:] + test_avg) > 1]
 test_std[1,:][(test_std[0,:] + test_avg) < 1] = test_std[0,:][(test_std[0,:] + test_avg) < 1]
-test_std[0,:][(test_avg - test_std[0,:]) < 0] = test_avg[(test_avg - test_std[0,:]) < 0]
 
 # Plot the results
 fig, ax = plt.subplots()
 ax.errorbar(k_neighbors, test_avg, yerr=test_std, capsize=5, label='Testing',
-            color='red', marker='o', markersize=5, markeredgewidth=2)
+           color='crimson', marker='o', markersize=5, markeredgewidth=2, ecolor='lightcoral')
 ax.errorbar(k_neighbors, train_avg, yerr=train_std, capsize=5, label='Training',
-            color='blue', marker='o', markersize=5, markeredgewidth=2)
+            color='blue', marker='o', markersize=5, markeredgewidth=2, ecolor='cornflowerblue') 
 ax.set_xlim(-1, 51)
-ax.set_ylim(-0.02, 1.02)
+ax.set_ylim(0.84, 1.01)
 ax.xaxis.set_minor_locator(mtick.MultipleLocator(2))
-ax.yaxis.set_major_locator(mtick.MultipleLocator(0.1))
-ax.yaxis.set_minor_locator(mtick.MultipleLocator(0.02))
+ax.yaxis.set_major_locator(mtick.MultipleLocator(0.05))
+ax.yaxis.set_minor_locator(mtick.MultipleLocator(0.01))
 ax.set_xlabel('k Neighbors')
 ax.set_ylabel('Accuracy')
 ax.legend()
 fig.tight_layout()
-plt.savefig('figs/prob1_kfold_knn.eps', dpi=500)
+#plt.savefig('figs/prob1_kfold_knn.eps', dpi=500)
