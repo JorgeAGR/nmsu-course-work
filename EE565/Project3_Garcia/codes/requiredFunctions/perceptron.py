@@ -18,4 +18,4 @@ def perceptron(x, w):
     y[y > 0] = 1
     y[y < 0] = -1
     
-    return y
+    return y.flatten()

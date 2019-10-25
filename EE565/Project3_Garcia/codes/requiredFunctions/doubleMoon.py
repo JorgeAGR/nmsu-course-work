@@ -27,5 +27,6 @@ def doubleMoon(N, w, r, d, seed=None):
     data[N//2:,0] = magnitudes[N//2:] * np.cos(neg_angles) + r
     data[N//2:,1] = magnitudes[N//2:] * np.sin(neg_angles) - d
     data[N//2:,2] = 1
+    data[:N//2,2] = -1
     
     return data
