@@ -127,4 +127,4 @@ for n, w0 in enumerate(w0s):
     ax.yaxis.set_minor_locator(mtick.MultipleLocator(5))
     ax.legend()
 fig.tight_layout(h_pad=0)
-plt.savefig('../prob4.eps', dpi=500)
+plt.savefig('../prob4abc.eps', dpi=500)
