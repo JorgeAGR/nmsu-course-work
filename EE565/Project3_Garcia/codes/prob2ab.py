@@ -30,9 +30,9 @@ N = 500
 r = 1
 w = 0.6
 d_range  = [0.5, 0, -0.5]
+trials = 30
 
 for d in d_range:
-    trials = 30
     trial_acc = np.zeros((trials, N))
     for i in range(trials):
         data = doubleMoon(N, w, r, d, seed=i)
@@ -52,7 +52,7 @@ for d in d_range:
     
     ax[0].errorbar(iter_grid, acc_avg, color='black')
     ax[0].set_xlim(-20, 520)
-    ax[0].set_ylim(0, 1.05)
+    ax[0].set_ylim(0.5, 1.05)
     ax[0].xaxis.set_major_locator(mtick.MultipleLocator(100))
     ax[0].xaxis.set_minor_locator(mtick.MultipleLocator(20))
     ax[0].yaxis.set_major_locator(mtick.MultipleLocator(0.25))

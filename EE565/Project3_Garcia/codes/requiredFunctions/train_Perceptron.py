@@ -45,7 +45,7 @@ class PerceptronClassifier(object):
         self.accuracy_log = np.asarray(self.accuracy_log)
         return self.weights
     
-    def fit_Batch(self, x_data, y_data, learning_rate=1e-6, threshold=1e-5, max_epochs=100, seed=None):
+    def fit_Batch(self, x_data, y_data, learning_rate=1e-3, threshold=1e-5, max_epochs=100, seed=None):
         np.random.seed(seed)
         weights_shape = (x_data.shape[1] + 1, 1)
         self.weights = np.random.rand(x_data.shape[1] + 1,1) - 0.5
@@ -56,7 +56,7 @@ class PerceptronClassifier(object):
             y_pred = perceptron(x_data, self.weights)
             wrong = y_pred != y_data
             #self.weights = self.weights + (learning_rate * x_data.T[wrong].T.sum(axis=1)).reshape(weights_shape)
-            self.weights = self.weights + (learning_rate * x_data[:,y_pred != y_data].sum(axis=1)).reshape(weights_shape)
+            self.weights = self.weights + (learning_rate * (x_data[:,wrong] * y_data[wrong]).sum(axis=1)).reshape(weights_shape)
             self.accuracy_log.append(self._fit_Score(x_data, y_data))
             self.cost_log.append(self.cost_Batch(x_data, y_data))
             if np.mean(np.abs(self.weights - w_old)) < threshold:
@@ -72,8 +72,10 @@ class PerceptronClassifier(object):
     
     def _fit_Score(self, x_data, y_data):
         y_pred = perceptron(x_data, self.weights)
-        error = np.abs(y_data - y_pred) / len(y_data)
-        return 1 - error.sum()
+        diff = y_data - y_pred
+        diff[diff!=0] = 1
+        error = diff.sum() / len(y_data)
+        return 1 - error
     
     def cost_Batch(self, x_data, y_data):
         y_pred = perceptron(x_data, self.weights)

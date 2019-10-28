@@ -30,10 +30,10 @@ N = 500
 r = 1
 w = 0.6
 d_range  = [0.5, 0, -0.5]
+trials = 30
 
 d_acc = np.zeros((3, N))
 for n, d in enumerate(d_range):
-    trials = 30
     trial_acc = np.zeros((trials, N))
     for i in range(trials):
         data = doubleMoon(N, w, r, d, seed=i)
