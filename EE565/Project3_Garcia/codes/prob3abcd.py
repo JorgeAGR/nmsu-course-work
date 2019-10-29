@@ -52,7 +52,7 @@ for n, d in enumerate(d_range):
     cost_avg = trial_cost.mean(axis=0)
     acc_per_d[n] = acc_avg
     cost_per_d[n] = cost_avg
-    
+    print('Final Acc:', acc_avg[-1], 'Final Cost:', cost_avg[-1])
     if d == 0:
         # Predict for the data points and assign indeces of what's right and wrong
         y_pred = perceptron.predict(x_train)

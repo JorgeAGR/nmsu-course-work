@@ -63,7 +63,6 @@ wStar=[[3,2],[-2.8,3.13],[-3.78,-3.28],[3.58,-1.85]] # ending point
 colors = ('lightgray', 'salmon', 'orange', 'mediumseagreen')
 labels = [r'$\lambda =$' + str(lam) for lam in lambdas]
 styles = ['-',':','-', '-']
-#labels.append('Exact Line Search')
 plt.figure(figsize=(10,10))
 plt.contour(X1,X2,ConMap)
 
@@ -83,7 +82,7 @@ for i in range(len(lambdas)):
                     [float(hess21.subs({w1:w[0],w2:w[1]})),float(hess22.subs({w1:w[0],w2:w[1]}))]])
         
         lam = lambdas[i]
-        # Exact Line Search
+        
         dw = -np.dot(np.linalg.inv(H + lam*np.eye(len(H))), g)
         
         wnew =  w+eta*dw 

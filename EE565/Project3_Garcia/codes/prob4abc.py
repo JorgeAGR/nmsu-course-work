@@ -53,15 +53,10 @@ hess22=sym.diff(j_grad2,w2)
 ew_thresh = 0.5
 jw_thresh = 0.5
 np.random.seed(seed=1)
-rand_w = np.random.normal(0, 3, 2)
+rand_w = np.random.normal(0, 3**2, 2)
 w0s = [[-5, 5], rand_w, rand_w]
-#prob_title = ('a', 'b', 'c')
 funcs = ('E', 'E', 'J')
 labels = ['{}({:.2f},{:.2f})'.format(funcs[i], w0s[i][0], w0s[i][1]) for i in range(len(w0s))]
-#fig = plt.figure()
-#axes = [plt.subplot2grid((3,1), (0,0), colspan=1, rowspan = 1, fig=fig),
-#      plt.subplot2grid((3,1), (1,0), colspan=1, rowspan = 1, fig=fig),
-#      plt.subplot2grid((3,1), (2,0), colspan=1, rowspan = 1, fig=fig)]
 fig, axes = plt.subplots(nrows=3, sharex=True)
 for n, w0 in enumerate(w0s):
     log_etas = np.arange(-3, 0.6, 0.1, dtype=np.float) # learning rate

@@ -65,7 +65,6 @@ wStar=[0,0] # ending point
 colors = ('lightgray', 'salmon', 'black')
 labels = [r'$\eta =$' + str(eta) for eta in etas]
 styles = ['-','-',':']
-#labels.append('Exact Line Search')
 plt.figure(figsize=(10,10))
 plt.contour(X1,X2,ConMap)
 
@@ -82,7 +81,6 @@ for i in range(len(etas)):
         H= np.array([[float(hess11.subs({w1:w[0],w2:w[1]})),float(hess12.subs({w1:w[0],w2:w[1]}))],
                     [float(hess21.subs({w1:w[0],w2:w[1]})),float(hess22.subs({w1:w[0],w2:w[1]}))]])
         
-        # Exact Line Search
         dw = -np.dot(np.linalg.inv(H), g)
 
         eta = etas[i]
