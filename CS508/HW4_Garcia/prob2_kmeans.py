@@ -16,7 +16,7 @@ import matplotlib.ticker as mtick
 
 # Settings for plots
 golden_ratio = (np.sqrt(5) + 1) / 2
-width = 15
+width = 14
 height = width / golden_ratio
 
 mpl.rcParams['figure.figsize'] = (width, height)
@@ -34,8 +34,8 @@ data = pd.read_csv('data.csv')
 
 cluster_sizes = np.arange(2, 21, 1)
 silh_per_clusters = np.zeros((len(cluster_sizes),2))
+trials = 10
 for k_clusters in cluster_sizes:
-    trials = 10
     silh_coeffs = np.zeros(trials)
     for i in range(trials):
         kmeans = KMeans(n_clusters=k_clusters, init='random', n_init=1, random_state=i)
@@ -44,7 +44,8 @@ for k_clusters in cluster_sizes:
     silh_per_clusters[k_clusters-2,0] = silh_coeffs.mean()
     silh_per_clusters[k_clusters-2,1] = silh_coeffs.std()
     
-best_k = cluster_sizes[np.argmax(silh_per_clusters[:,0])]
+# Want best possible Sillhouette score, so find best potential from mean + std
+best_k = cluster_sizes[np.argmax(silh_per_clusters[:,0] + silh_per_clusters[:,1])]
 print('Best Cluster Size:', best_k, 'clusters')
 best_kmeans = KMeans(n_clusters=best_k, init='random', random_state=0)
 best_kmeans.fit(data.values)
@@ -65,6 +66,6 @@ ax[0].errorbar(cluster_sizes, silh_per_clusters[:,0], yerr=silh_per_clusters[:,1
 ax[0].legend()
 for c in range(best_k):
     ax[1].scatter(x_trans[:,0][best_kmeans.labels_==c], x_trans[:,1][best_kmeans.labels_==c], 
-      c=[colors[c]], label=c+1)#c=best_kmeans.labels_, cmap=cmap)
+      c=[colors[c]], label=c+1, marker='.')
     fig.tight_layout(pad=0.5)
 ax[1].legend()
