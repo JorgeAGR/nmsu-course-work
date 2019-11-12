@@ -62,10 +62,30 @@ fig = plt.figure()
 ax = [plt.subplot2grid((3,1), (0,0)),
       plt.subplot2grid((3,1), (1,0), rowspan=2)]
 ax[0].errorbar(cluster_sizes, silh_per_clusters[:,0], yerr=silh_per_clusters[:,1], capsize=5,
-               marker='o', markersize=5, markeredgewidth=2, color='black', label='Sillhoute Score')
-ax[0].legend()
+               marker='o', markersize=5, markeredgewidth=2, color='black')
+ax[0].xaxis.set_major_locator(mtick.MultipleLocator(2))
+ax[0].xaxis.set_minor_locator(mtick.MultipleLocator(1))
+ax[0].set_xlabel(r'$k$ clusters')
+ax[0].set_ylabel('Silhouette Score')
+ax[0].set_xlim(1, 21)
+ax[0].set_ylim(0.1, 0.2)
+
 for c in range(best_k):
     ax[1].scatter(x_trans[:,0][best_kmeans.labels_==c], x_trans[:,1][best_kmeans.labels_==c], 
       c=[colors[c]], label=c+1, marker='.')
-    fig.tight_layout(pad=0.5)
 ax[1].legend()
+ax[1].text(5, 5, r'$\mathbf{K=}$' + str(best_k), fontweight='bold')
+ax[1].set_xlabel(r'$x_1$')
+ax[1].set_ylabel(r'$x_2$')
+fig.tight_layout(pad=0.5)
+fig.savefig('figs/prob2.eps', dpi=500)
+
+with open('tables/prob2.txt', 'w+') as latex:
+    print_c = lambda x: '|c'*x
+    print_cols = lambda x: 'C{}'.format(x)
+    cols = [print_cols(x) for x in range(1,25)]
+    df = pd.DataFrame(best_kmeans.cluster_centers_, columns=cols).round(2)
+    col_format=print_c(df.values.shape[1])+'|'
+    df.to_latex(latex, column_format=col_format, index=False)
+
+np.save('data/kmeans', silh_per_clusters)
