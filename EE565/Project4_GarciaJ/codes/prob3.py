@@ -27,7 +27,7 @@ mpl.rcParams['ytick.minor.size'] = 8
 mpl.rcParams['ytick.labelsize'] = 18
 
 # Data parameters
-N_train = 100
+N_train = 300
 N_val = 3000
 r = 1
 w = 0.6
@@ -36,7 +36,7 @@ d = -0.5
 # Model parameters
 learning_rate = 1e-3
 alpha = 0
-epochs = 1000
+epochs = 1000*5
 
 # Init train data
 train_data = doubleMoon(N_train, w, r, d, seed=None)
@@ -53,5 +53,5 @@ wh, wo, mse, mse_val = trainMLP(x_train, y_train, [10], learning_rate, alpha,
 
 epoch_grid = np.arange(0, epochs) + 1
 fig, ax = plt.subplots()
-ax.plot(epoch_grid, mse.flatten())
-ax.plot(epoch_grid, mse_val.flatten())
+ax.plot(epoch_grid, np.log10(mse.flatten()))
+ax.plot(epoch_grid, np.log10(mse_val.flatten()))
