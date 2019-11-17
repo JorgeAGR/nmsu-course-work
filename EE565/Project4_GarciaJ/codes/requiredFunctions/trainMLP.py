@@ -1,7 +1,8 @@
 import numpy as np
 import numpy.matlib
+from requiredFunctions.MLP import MLP
 
-def trainMLP(X,D,H,eta,alpha,epochMax,MSETarget=1e-12, verbose=True):
+def trainMLP(X,D,H,eta,alpha,epochMax,MSETarget=1e-12, verbose=True, X_val=None, D_val=None):
     '''%==========================================================================
     % Call Syntax:  [Wh,Wo,MSE] = trainMLP(X,D,H,eta,alpha,epochMax,MSETarget)
     %
@@ -92,7 +93,7 @@ def trainMLP(X,D,H,eta,alpha,epochMax,MSETarget=1e-12, verbose=True):
     Wo = np.random.rand(m,H[-1]+1)                                 #initialize output layer weights
     WoAnt = np.zeros([m,H[-1]+1])                            #initialize variable for weight correction using momentum
     MSETemp = np.zeros([epochMax,1])                   #allocate memory for MSE error for each epoch
-
+    MSETemp_val = np.zeros([epochMax,1])
     for i in range(epochMax):
         O=[]
         '''%-------------------------------------------------
@@ -124,13 +125,27 @@ def trainMLP(X,D,H,eta,alpha,epochMax,MSETarget=1e-12, verbose=True):
         mse = np.mean(E**2)    #%calculate mean square error
         
         MSETemp[i,0] = mse           #%save mse
+        
+        '''%------------------------
+        %Validation - Jorge Garcia
+        %------------------------'''
+        if np.all(X_val) and np.all(D_val):
+            Y_val = MLP(X_val, Wh, Wo)
+            E_val = D_val - Y_val
+            mse_val = np.mean(E_val**2)
+            MSETemp_val[i,0] = mse_val
+
 
         #%DISPLAY PROGRESS, BREAK IF ERROR CONSTRAINT MET
         if verbose:
             print('epoch = ' +str(i)+ ' mse = ' +str(mse))
         if (mse < MSETarget):
             MSE = MSETemp
-            return(Wh,Wo,MSE)
+            if np.all(X_val) and np.all(D_val):
+                MSE_val = MSETemp_val
+                return(Wh,Wo,MSE,MSE_val)
+            else:
+                return(Wh,Wo,MSE)
         
         '''%-------------------------------------------------
         %BACK PROPAGATE ERROR
@@ -170,4 +185,8 @@ def trainMLP(X,D,H,eta,alpha,epochMax,MSETarget=1e-12, verbose=True):
             WhAnt[j] =eta*DWh + alpha*WhAnt[j]     #%save weight correction for momentum calculation
 
     MSE = MSETemp
-    return(Wh,Wo,MSE)
+    if np.all(X_val) and np.all(D_val):
+        MSE_val = MSETemp_val
+        return(Wh,Wo,MSE,MSE_val)
+    else:
+        return(Wh,Wo,MSE)

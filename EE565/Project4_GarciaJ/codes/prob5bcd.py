@@ -42,7 +42,6 @@ for c in components:
         ax.spines['left'].set_visible(False)
         ax.spines['top'].set_visible(False)
         ax.spines['bottom'].set_position(('data',0))
-        ax.set_xlim(-0.00020, 0.00020)
     elif c == 2:
         ax.plot(data_trans[:,0], data_trans[:,1], 'k.')
         ax.set_ylabel(r'$x_1$')
@@ -54,8 +53,10 @@ for c in components:
         ax.xaxis.labelpad = 10
         ax.yaxis.labelpad = 10
         ax.zaxis.labelpad = 10
-        ax.view_init(elev=12, azim=-26)
+        ax.view_init(elev=24, azim=-26)
+    ax.set_xlim(-0.00020, 0.00020)
     ax.set_xlabel(r'$x_0$')
     ax.ticklabel_format(axis='both', style='sci', scilimits=(-4,-4))
     if c != 3:
         fig.tight_layout(pad=0.5)
+    fig.savefig('../prob5_' + str(c) + 'components.eps', dpi=500)

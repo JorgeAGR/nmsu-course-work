@@ -29,7 +29,7 @@ mpl.rcParams['ytick.labelsize'] = 18
 cmap = plt.get_cmap('Paired')
 cmap_scatter = mpl.colors.ListedColormap(cmap((1, 3, 5)))
 cmap_contour = mpl.colors.ListedColormap(cmap((0, 2)))
-
+titles = (('a', 'b'), ('c', 'd'), ('e', 'f'))
 # Data parameters
 N = 300
 var = 1
@@ -121,4 +121,4 @@ for i in range(3):
     ax[1].set_ylabel(r'$x_1$')
     ax[1].text(1.25, 2.25, 'MSE = {:.3f}'.format(best_mse))
     fig.tight_layout(pad=0.5)
-    fig.savefig('../prob2_' + str(len(layers[i])) + 'layers.eps', dpi=500)
+    fig.savefig('../prob2' + str(titles[i][0]) + str(titles[i][1]) + '.eps', dpi=500)
