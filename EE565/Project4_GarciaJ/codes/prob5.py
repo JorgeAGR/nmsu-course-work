@@ -9,6 +9,7 @@ import pandas as pd
 from sklearn.decomposition import PCA
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.ticker as mtick
 
 height = 10
@@ -30,4 +31,31 @@ data = spikes.values
 
 components = [1, 2, 3]
 for c in components:
-    data_trans = PCA(n_components=c, random_state=0).fit_transform(data)
+    pca = PCA(n_components=c, random_state=0)
+    data_trans = pca.fit_transform(data)
+    print('Variance of data captured: {:.2f}%'.format(pca.explained_variance_ratio_.sum()*100))
+    fig, ax = plt.subplots()
+    if c == 1:
+        ax.plot(data_trans, np.zeros(len(data_trans)), 'k.')
+        ax.get_yaxis().set_visible(False)
+        ax.spines['right'].set_visible(False)
+        ax.spines['left'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        ax.spines['bottom'].set_position(('data',0))
+        ax.set_xlim(-0.00020, 0.00020)
+    elif c == 2:
+        ax.plot(data_trans[:,0], data_trans[:,1], 'k.')
+        ax.set_ylabel(r'$x_1$')
+    else:
+        ax = Axes3D(fig)
+        ax.scatter(data_trans[:,0], data_trans[:,1], data_trans[:,2], color='black')
+        ax.set_ylabel(r'$x_1$')
+        ax.set_zlabel(r'$x_2$')
+        ax.xaxis.labelpad = 10
+        ax.yaxis.labelpad = 10
+        ax.zaxis.labelpad = 10
+        ax.view_init(elev=12, azim=-26)
+    ax.set_xlabel(r'$x_0$')
+    ax.ticklabel_format(axis='both', style='sci', scilimits=(-4,-4))
+    if c != 3:
+        fig.tight_layout(pad=0.5)

@@ -57,7 +57,7 @@ for i in range(3):
         
     mse_avg = trial_mse.mean(axis=0)
     mse_std = trial_mse.std(axis=0)
-    print('Best Final MSE:', best_mse)
+    print(len(layers[i]), 'Layers, Best Final MSE:', best_mse)
     
     epoch_grid = np.arange(1, epochs+1, 1)
     
