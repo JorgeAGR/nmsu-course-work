@@ -51,6 +51,7 @@ wh, wo, mse, mse_val = trainMLP(x_train, y_train, [5], learning_rate, alpha,
                                 epochs, verbose=False, X_val=x_val, D_val=y_val)
 
 epoch_grid = np.arange(0, epochs) + 1
+print('Early Stopping Point at', epoch_grid[np.argmin(mse_val)], 'epochs')
 fig, ax = plt.subplots()
 ax.plot(epoch_grid, np.log10(mse.flatten()), color='blue', markeredgewidth=2, label='Training')
 ax.plot(epoch_grid, np.log10(mse_val.flatten()), '--', color='crimson', markeredgewidth=2, label='Testing')
