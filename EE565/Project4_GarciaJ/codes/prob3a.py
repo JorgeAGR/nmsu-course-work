@@ -51,8 +51,21 @@ x_val, y_val = x_val.T, y_val.reshape(1, len(y_val))
 wh, wo, mse, mse_val = trainMLP(x_train, y_train, [5], learning_rate, alpha,
                                 epochs, verbose=False, X_val=x_val, D_val=y_val)
 
+train_pred = MLP(x_train, wh, wo).flatten()
+train_pred[train_pred > 0] = 1
+train_pred[train_pred < 0] = -1 
+val_pred = MLP(x_val, wh, wo).flatten()
+val_pred[val_pred > 0] = 1
+val_pred[val_pred < 0] = -1
+
+train_acc = (train_pred == y_train).sum() / N_train
+val_acc = (val_pred == y_val).sum() / N_val
+
 epoch_grid = np.arange(0, epochs) + 1
 print('Early Stopping Point at', epoch_grid[np.argmin(mse_val)], 'epochs')
+print('Final Accuracies')
+print('Training: {}%'.format(train_acc*100))
+print('Testing: {}%'.format(val_acc*100))
 fig, ax = plt.subplots()
 ax.plot(epoch_grid, np.log10(mse.flatten()), color='blue', markeredgewidth=2, label='Training')
 ax.plot(epoch_grid, np.log10(mse_val.flatten()), '--', color='crimson', markeredgewidth=2, label='Testing')

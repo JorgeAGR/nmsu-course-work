@@ -40,7 +40,6 @@ alpha = 0
 epochs = 1000
 
 layers = {0:[15,], 1:[10,5], 2:[8,4,3]}
-best_wh, best_wo = None, None
 best_mse = np.inf
 for i in range(3):
     # Part 1

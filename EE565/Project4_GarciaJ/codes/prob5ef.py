@@ -31,7 +31,7 @@ spikes = pd.read_csv('../data/spikes.csv', header=None)
 data = spikes.values
 
 components = 2
-pca = PCA(n_components=components, random_state=0)
+pca = PCA(n_components=components, svd_solver='full')
 data_trans = pca.fit_transform(data)
 
 trials = 100
@@ -82,7 +82,7 @@ ax[1].set_ylabel(r'$x_1$')
 ax[1].set_xlabel(r'$x_0$')
 ax[1].ticklabel_format(axis='both', style='sci', scilimits=(-4,-4), useMathText=True)
 fig.tight_layout(pad=0.5)
-fig.savefig('../prob5e.eps', dpi=500)
+#fig.savefig('../prob5e.eps', dpi=500)
 
 time = np.arange(0, 26)
 fig1, ax1 = plt.subplots()
@@ -93,4 +93,4 @@ ax1.set_xlim(0, 25)
 ax1.set_xlabel('Time Step')
 ax1.set_ylabel('Amplitude')
 fig1.tight_layout(pad=0.5)
-fig1.savefig('../prob5f.eps', dpi=500)
+#fig1.savefig('../prob5f.eps', dpi=500)

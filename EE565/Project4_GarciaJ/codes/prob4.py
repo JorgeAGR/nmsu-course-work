@@ -50,13 +50,18 @@ data = unpickle('../data/data_batch_1')
 # Normalize
 data = data / 255
 
+# Create model and add layers
 autoencoder = Sequential()
 autoencoder.add(Dense(50, activation='sigmoid'))
 autoencoder.add(Dense(len(data[0]), activation='sigmoid'))
 
+# Glue it all together
 autoencoder.compile(loss='mean_squared_error', optimizer=Adam())
 
+# Train the model
 train_hist = autoencoder.fit(data, data, epochs=epochs, batch_size=batch_size, verbose=2)
+
+# Evaluate to get MSE across the 50 images
 mse = autoencoder.evaluate(data, data)
 
 np.random.seed(0)
@@ -76,9 +81,9 @@ for i, ind in enumerate(indices):
     ax[i+3].imshow(build_image(noisy_dat))
     ax[4].set_title('Noisy')
     ax[i+6].imshow(build_image(recons_dat))
-    ax[7].set_title('Reconstructed')
+    ax[7].set_title('Denoised')
     print('Image ID:', ind)
     print('Noisy-Original MSE:', noisy_mse)
-    print('Reconstructed-Original MSE:', recons_mse, end='\n\n')
+    print('Denoised-Original MSE:', recons_mse, end='\n\n')
 fig.tight_layout(pad=0.5)
 fig.savefig('../prob4.eps', dpi=100)

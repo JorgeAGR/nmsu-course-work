@@ -29,7 +29,7 @@ mpl.rcParams['ytick.labelsize'] = 18
 spikes = pd.read_csv('../data/spikes.csv', header=None)
 data = spikes.values
 
-pca = PCA(n_components=3, random_state=0)
+pca = PCA(n_components=3, svd_solver='full')
 data_trans = pca.fit_transform(data)
 for c in range(3):
     print('Variance of data captured in {} components: {:.2f}%'.format(c+1,pca.explained_variance_ratio_[:c+1].sum()*100))
@@ -79,16 +79,3 @@ ax.yaxis.set_minor_locator(mtick.MultipleLocator(0.5e-4))
 ax.zaxis.set_major_locator(mtick.MultipleLocator(1e-4))
 ax.zaxis.set_minor_locator(mtick.MultipleLocator(0.5e-4))
 fig.savefig('../prob5d.pdf', dpi=500)
-    
-'''
-if c == 1:
-    ax.plot(data_trans, np.zeros(len(data_trans)), 'k.')
-    ax.get_yaxis().set_visible(False)
-    ax.spines['right'].set_visible(False)
-    ax.spines['left'].set_visible(False)
-    ax.spines['top'].set_visible(False)
-    ax.spines['bottom'].set_position(('data',0))
-elif c == 2:
-    ax.plot(data_trans[:,0], data_trans[:,1], 'k.')
-    ax.set_ylabel(r'$x_1$')
-'''
