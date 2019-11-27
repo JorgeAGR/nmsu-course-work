@@ -5,15 +5,17 @@ Created on Tue Nov 26 16:41:09 2019
 
 @author: jorgeagr
 """
-
+from warnings import simplefilter
+simplefilter(action='ignore', category=FutureWarning)
 import pandas as pd
 import numpy as np
 from sklearn.neighbors import LocalOutlierFactor
-from sklearn.metrics import roc_curve
+from sklearn.metrics import roc_curve, auc
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 import time
+
 
 # Settings for plots
 golden_ratio = (np.sqrt(5) + 1) / 2
@@ -48,21 +50,28 @@ data.loc[data[10] == 4, 10] = -1
 # Init and fit LOF
 # Outliers are malignant tumors (1 = inlier, -1 = outlier)
 lof = LocalOutlierFactor(n_neighbors=10, metric='euclidean')
-tic = time.time()
-lof.fit(data.values[:,:-1])
-toc = time.time()
-print('Fitting time:', (toc-tic)*1000, 'ms')
+trials = 100
+times = np.zeros(trials)
+for i in range(trials):
+    tic = time.time()
+    lof.fit(data.values[:,:-1])
+    toc = time.time()
+    times[i] = (toc-tic)*1000 # in ms
+print('Fitting time: {:.3f} ms'.format(times.mean()))
 # Take negative of scores such that outliers are scored higher, since
 # ROC tests score >= threshold
 score = -lof.negative_outlier_factor_
 
 # ROC curve for the malignant label
 fpr, tpr, tresholds = roc_curve(data.loc[:,10].values, score, -1)
+auc_val = auc(fpr, tpr)
+print('AUC:', auc_val)
 
 # Plotting routine for ROC
 fig, ax = plt.subplots()
 ax.plot(fpr, tpr, color='blue', label='Malignant ROC')
 ax.plot(np.linspace(0, 1), np.linspace(0, 1), '--', color='black', label='Chance')
+ax.text(0.8, 0.1, 'AUC = {:.3f}'.format(auc_val), fontweight='bold', fontsize='large')
 ax.xaxis.set_major_locator(mtick.MultipleLocator(0.5))
 ax.xaxis.set_minor_locator(mtick.MultipleLocator(0.1))
 ax.yaxis.set_major_locator(mtick.MultipleLocator(0.5))
@@ -73,5 +82,4 @@ ax.set_xlabel('FPR')
 ax.set_ylabel('TPR')
 ax.legend()
 fig.tight_layout(pad=0.5)
-#plt.close()
-#plt.savefig('figs/prob2_logreg_roc.eps', dpi=500)
+fig.savefig('figs/prob1_lof.eps', dpi=500)

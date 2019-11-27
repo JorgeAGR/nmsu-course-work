@@ -9,7 +9,7 @@ Created on Tue Nov 26 17:34:27 2019
 import pandas as pd
 import numpy as np
 from sklearn.ensemble import IsolationForest
-from sklearn.metrics import roc_curve
+from sklearn.metrics import roc_curve, auc
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
@@ -48,21 +48,28 @@ data.loc[data[10] == 4, 10] = -1
 # Init and fit LOF
 # Outliers are malignant tumors (1 = inlier, -1 = outlier)
 forest = IsolationForest(n_estimators=100, max_samples=256)
-tic = time.time()
-forest.fit(data.values[:,:-1])
-toc = time.time()
-print('Fitting time:', (toc-tic)*1000, 'ms')
+trials = 10
+times = np.zeros(trials)
+for i in range(trials):
+    tic = time.time()
+    forest.fit(data.values[:,:-1])
+    toc = time.time()
+    times[i] = (toc-tic)*1000 # in ms
+print('Fitting time: {:.3f} ms'.format(times.mean()))
 # Take negative of scores such that outliers are scored higher, since
 # ROC tests score >= threshold
 score = -forest.decision_function(data.values[:,:-1])
 
 # ROC curve for the malignant label
 fpr, tpr, thresholds = roc_curve(data.loc[:,10].values, score, -1)
+auc_val = auc(fpr, tpr)
+print('AUC:', auc_val)
 
 # Plotting routine for ROC
 fig, ax = plt.subplots()
 ax.plot(fpr, tpr, color='blue', label='Malignant ROC')
 ax.plot(np.linspace(0, 1), np.linspace(0, 1), '--', color='black', label='Chance')
+ax.text(0.8, 0.1, 'AUC = {:.3f}'.format(auc_val), fontweight='bold', fontsize='large')
 ax.xaxis.set_major_locator(mtick.MultipleLocator(0.5))
 ax.xaxis.set_minor_locator(mtick.MultipleLocator(0.1))
 ax.yaxis.set_major_locator(mtick.MultipleLocator(0.5))
@@ -71,4 +78,4 @@ ax.set_xlim(-0.05, 1.05)
 ax.set_ylim(-0.05, 1.05)
 ax.legend()
 fig.tight_layout(pad=0.5)
-#plt.savefig('figs/prob2_logreg_roc.eps', dpi=500)
+fig.savefig('figs/prob2_iso_forest.eps', dpi=500)
