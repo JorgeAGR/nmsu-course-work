@@ -13,6 +13,7 @@ from sklearn.metrics import roc_curve
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
+import time
 
 # Settings for plots
 golden_ratio = (np.sqrt(5) + 1) / 2
@@ -47,8 +48,13 @@ data.loc[data[10] == 4, 10] = -1
 # Init and fit LOF
 # Outliers are malignant tumors (1 = inlier, -1 = outlier)
 forest = IsolationForest(n_estimators=100, max_samples=256)
-labels = forest.fit_predict(data.values[:,:-1])
-score = forest.decision_function(data.values[:,:-1])
+tic = time.time()
+forest.fit(data.values[:,:-1])
+toc = time.time()
+print('Fitting time:', (toc-tic)*1000, 'ms')
+# Take negative of scores such that outliers are scored higher, since
+# ROC tests score >= threshold
+score = -forest.decision_function(data.values[:,:-1])
 
 # ROC curve for the malignant label
 fpr, tpr, thresholds = roc_curve(data.loc[:,10].values, score, -1)
@@ -64,4 +70,5 @@ ax.yaxis.set_minor_locator(mtick.MultipleLocator(0.1))
 ax.set_xlim(-0.05, 1.05)
 ax.set_ylim(-0.05, 1.05)
 ax.legend()
+fig.tight_layout(pad=0.5)
 #plt.savefig('figs/prob2_logreg_roc.eps', dpi=500)
