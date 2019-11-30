@@ -4,14 +4,17 @@
 Created on Mon Oct 14 16:59:42 2019
 
 @author: jorgeagr
+
+Split the dataset into small batches to upload into GitHub; used
+as a way to remotely acquire the data when working on Google Colab
 """
 import numpy as np
 import pandas as pd
 
-df = pd.read_csv('train_images.csv', header=None)
-df_labels = pd.read_csv('train_labels.csv')
-df_test = pd.read_csv('test_images.csv', header=None)
-df_test_labels = pd.read_csv('test_labels.csv')
+df = pd.read_csv('data/train_images.csv', header=None)
+df_labels = pd.read_csv('data/train_labels.csv')
+df_test = pd.read_csv('data/test_images.csv', header=None)
+df_test_labels = pd.read_csv('data/test_labels.csv')
 
 df = pd.concat([df, df_test])
 df_labels = pd.concat([df_labels, df_test_labels])

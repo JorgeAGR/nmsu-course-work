@@ -1,2 +1,3 @@
-CS508/Project/*.csv
+CS508/Project/data/train*
+CS508/Project/data/test*
 GPHYS530/Project/data/*
