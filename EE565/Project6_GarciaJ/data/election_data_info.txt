@@ -1,0 +1,87 @@
+Attribute descriptions
+
+Age:
+ - 0: Missing
+ - 1: 18 to 34
+ - 2: 35 to 64
+ - 3: 65 and above
+
+Gender:
+ - 0: Missing
+ - 1: Male
+ - 2: Female
+ - 3: Other
+
+Race/Ethnicity:
+ - 0: Missing
+ - 1: White non-Hispanic
+ - 2: Black non-Hispanic
+ - 3: Asian/Pacific Islander, non-Hispanic
+ - 4: American Indian/Alaska Native, non-Hispanic
+ - 5: Hispanic
+ - 6: Other/Multiple, non-Hispanic
+ - 7: Non-white and non-black
+
+Census Region:
+ - 0: Missing
+ - 1: Northeast (CT, ME, MA, NH, NJ, NY, PA, RI, VT)
+ - 2: North Central (IL, IN, IA, KS, MI, MN, MO, NE, ND, OH, SD, WI)
+ - 3: South (AL, AR, DE, D.C., FL, GA, KY, LA, MD, MS, NC, OK, SC,TN, TX, VA, WV)
+ - 4: West (AK, AZ, CA, CO, HI, ID, MT, NV, NM, OR, UT, WA, WY)
+
+Income Group:
+ - 0: Missing
+ - 1: 16th and below percentile
+ - 2: 17th to 33th percentile
+ - 3: 34th to 67th percentile
+ - 4: 68th to 95th percentile
+ - 5: 96th and above percentile
+
+Occupation:
+ - 0: Missing
+ - 1: Professional and managerial
+ - 2: Clerical and sales workers
+ - 3: Skilled, semi-skilled and service workers
+ - 4: Laborers, except farm
+ - 5: Farmers, farm managers, farm laborers and foremen; forestry and fishermen
+ - 6: Homemakers
+
+Work Status:
+ - 0: Missing
+ - 1: Employed
+ - 2: Temporarily laid off
+ - 4: Unemployed
+ - 5: Retired
+ - 6: Permanently disabled
+ - 7: Homemaker
+ - 8: Student
+
+Education:
+ - 0: Missing
+ - 1: 8th grade or less
+ - 2: High School but not completed
+ - 3: High School completed
+ - 4: High School completed, plus non-academic training
+ - 5: Some college, no degree; Associate's Degree
+ - 6: Bachelor's degree or above
+
+Marital Status:
+ - 0: Missing
+ - 1: Married
+ - 2: Never married
+ - 3: Divorced
+ - 4: Separated
+ - 5: Widowed
+ - 7: Partners, not married
+
+Vote (Training Set Only):
+ - 1: Democrat
+ - 2: Republican
+
+Vote (Testing Set Only):
+ - float: Weight of respondent (number of people represented by entry) * voter turnout due to race
+
+Sources:
+- Political Survey Data: https://electionstudies.org/data-center/
+- Census Data: https://www.census.gov/programs-surveys/acs/data/pums.html
+- Voter Turnout: https://www.census.gov/data/tables/time-series/demo/voting-and-registration/p20-583.html
