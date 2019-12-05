@@ -58,17 +58,17 @@ for i, k in enumerate(k_components):
     x_down, _ = gmm_down.sample(N_draw)
     
     #fig, ax = plt.subplots()
-    ax1[i%2][i//2].scatter(x_up[:,0], x_up[:,1], 30, c=[cmap_scatter(0)], marker='+')
-    ax1[i%2][i//2].scatter(x_down[:,0], x_down[:,1], 30, c=[cmap_scatter(1)], marker='x')
-    ax1[i%2][i//2].set_title(str(k) + ' components')
+    ax1[i//2][i%2].scatter(x_up[:,0], x_up[:,1], 30, c=[cmap_scatter(0)], marker='+')
+    ax1[i//2][i%2].scatter(x_down[:,0], x_down[:,1], 30, c=[cmap_scatter(1)], marker='x')
+    ax1[i//2][i%2].set_title(str(k) + ' components')
     ax1[1][i//2].set_xlabel(r'$x_0$')
     ax1[i%2][0].set_ylabel(r'$x_1$')
-    ax1[i%2][i//2].set_xlim(-2, 3)
-    ax1[i%2][i//2].set_ylim(-2, 2)
-    ax1[i%2][i//2].xaxis.set_major_locator(mtick.MultipleLocator(1))
-    ax1[i%2][i//2].xaxis.set_minor_locator(mtick.MultipleLocator(0.5))
-    ax1[i%2][i//2].yaxis.set_major_locator(mtick.MultipleLocator(1))
-    ax1[i%2][i//2].yaxis.set_minor_locator(mtick.MultipleLocator(0.5))
+    ax1[i//2][i%2].set_xlim(-2, 3)
+    ax1[i//2][i%2].set_ylim(-2, 2)
+    ax1[i//2][i%2].xaxis.set_major_locator(mtick.MultipleLocator(1))
+    ax1[i//2][i%2].xaxis.set_minor_locator(mtick.MultipleLocator(0.5))
+    ax1[i//2][i%2].yaxis.set_major_locator(mtick.MultipleLocator(1))
+    ax1[i//2][i%2].yaxis.set_minor_locator(mtick.MultipleLocator(0.5))
     
     # Part D
     data_test = doubleMoon(N, w, r, d, seed=100)
@@ -95,22 +95,22 @@ for i, k in enumerate(k_components):
     cc = cc.reshape(xx0.shape)
     
     #fig, ax = plt.subplots()
-    ax2[i%2][i//2].contourf(xx0, xx1, cc, cmap=cmap_contour)
-    ax2[i%2][i//2].scatter(x_test[:,0][blue_ind], x_test[:,1][blue_ind], 50, 
+    ax2[i//2][i%2].contourf(xx0, xx1, cc, cmap=cmap_contour)
+    ax2[i//2][i%2].scatter(x_test[:,0][blue_ind], x_test[:,1][blue_ind], 50, 
                   c=[cmap_scatter(0)], marker='+')
-    ax2[i%2][i//2].scatter(x_test[:,0][green_ind], x_test[:,1][green_ind], 50,
+    ax2[i//2][i%2].scatter(x_test[:,0][green_ind], x_test[:,1][green_ind], 50,
                   c=[cmap_scatter(1)], marker='x')
-    ax2[i%2][i//2].scatter(x_test[:,0][y_wrong], x_test[:,1][y_wrong], 50,
+    ax2[i//2][i%2].scatter(x_test[:,0][y_wrong], x_test[:,1][y_wrong], 50,
                   c=[cmap_scatter(2)], marker='*')
-    ax2[i%2][i//2].set_xlim(x0_min, x0_max)
-    ax2[i%2][i//2].set_ylim(x1_min, x1_max)
-    ax2[i%2][i//2].xaxis.set_major_locator(mtick.MultipleLocator(1))
-    ax2[i%2][i//2].xaxis.set_minor_locator(mtick.MultipleLocator(0.25))
-    ax2[i%2][i//2].yaxis.set_major_locator(mtick.MultipleLocator(1))
-    ax2[i%2][i//2].yaxis.set_minor_locator(mtick.MultipleLocator(0.25))
+    ax2[i//2][i%2].set_xlim(x0_min, x0_max)
+    ax2[i//2][i%2].set_ylim(x1_min, x1_max)
+    ax2[i//2][i%2].xaxis.set_major_locator(mtick.MultipleLocator(1))
+    ax2[i//2][i%2].xaxis.set_minor_locator(mtick.MultipleLocator(0.25))
+    ax2[i//2][i%2].yaxis.set_major_locator(mtick.MultipleLocator(1))
+    ax2[i//2][i%2].yaxis.set_minor_locator(mtick.MultipleLocator(0.25))
     ax2[1][i//2].set_xlabel(r'$x_0$')
     ax2[i%2][0].set_ylabel(r'$x_1$')
-    ax2[i%2][i//2].set_title(str(k) + ' components')
+    ax2[i//2][i%2].set_title(str(k) + ' components')
     
 fig1.tight_layout(pad=0.5)
 fig2.tight_layout(pad=0.5)

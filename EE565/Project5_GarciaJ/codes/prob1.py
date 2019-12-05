@@ -31,8 +31,8 @@ cmap = mpl.colors.ListedColormap(cmap((1, 7, 5)))
 data = np.loadtxt('../data/animals.txt').T
 names = ['Dove', 'Hen', 'Duck', 'Goose', 'Owl', 'Hawk', 'Eagle', 'Fox', 'Dog',
          'Wolf', 'Cat', 'Tiger', 'Lion', 'Horse', 'Zebra', 'Cow', 'Bear']
-nrows = 13
-ncols = 13
+nrows = 18
+ncols = 18
 '''
 NOTE! Library used requires to run setup.py first (located in requiredFunctions)
 '''
