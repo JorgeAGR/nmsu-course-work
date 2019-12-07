@@ -102,6 +102,8 @@ for i, k in enumerate(k_components):
                   c=[cmap_scatter(1)], marker='x')
     ax2[i//2][i%2].scatter(x_test[:,0][y_wrong], x_test[:,1][y_wrong], 50,
                   c=[cmap_scatter(2)], marker='*')
+    ax2[i//2][i%2].text(1.60, 1.25, 'Acc = {:.1f}%'.format(accuracy*100),
+                        horizontalalignment='center')
     ax2[i//2][i%2].set_xlim(x0_min, x0_max)
     ax2[i//2][i%2].set_ylim(x1_min, x1_max)
     ax2[i//2][i%2].xaxis.set_major_locator(mtick.MultipleLocator(1))

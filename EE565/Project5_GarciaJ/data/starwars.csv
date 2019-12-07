@@ -1,11 +1,15 @@
-species,mammal,reptile,medium,tall,large eyes,force sensitive,speak basic,blue skin,hair,nose,mouth,horns,ears
-Human,1,0,1,0,0,1,1,0,1,1,1,0,1
-Duros,0,1,1,0,1,1,1,1,0,0,1,0,0
-Trandoshian,0,1,0,1,0,1,1,0,0,0,1,1,0
-Chiss,1,0,1,0,0,0,1,1,1,1,1,0,1
-Twi'lek,1,0,1,0,0,1,1,1,0,1,1,0,1
-Togruta,1,0,1,0,0,1,1,0,0,1,1,1,0
-Rodian,0,1,1,0,1,1,1,0,0,0,0,0,1
-Wookiee,1,0,0,1,0,1,0,0,1,1,1,0,1
-Geonosian,0,0,0,0,0,0,0,0,0,0,1,0,0
-Ithorian,1,0,0,1,1,1,0,0,0,0,0,0,0
+species,mammal,reptile,amphibian,short,medium,tall,large eyes,force sensitive,speak basic,blue skin,hair,nose,mouth,horns,ears,antenna,long fingers,claws,5fingers
+Human,1,0,0,0,1,0,0,1,1,0,1,1,1,0,1,0,0,0,1
+Duros,0,1,0,0,1,0,1,1,1,1,0,0,1,0,0,0,0,0,1
+Trandoshian,0,1,0,0,0,1,0,1,1,0,0,0,1,1,0,0,0,1,0
+Chiss,1,0,0,0,1,0,0,0,1,1,1,1,1,0,1,0,0,0,1
+Twi'lek,1,0,0,0,1,0,0,1,1,1,0,1,1,0,1,0,0,0,1
+Togruta,1,0,0,0,1,0,0,1,1,0,0,1,1,1,0,0,0,0,1
+Rodian,0,1,0,0,1,0,1,1,1,0,0,0,0,0,1,1,1,0,1
+Wookiee,1,0,0,0,0,1,0,1,0,0,1,1,1,0,1,0,0,1,1
+Ithorian,1,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,1,0,1
+Sullustan,1,0,0,1,0,0,1,1,0,0,0,0,1,0,1,0,0,0,1
+Gungan,0,0,1,0,0,1,0,0,1,0,0,0,1,0,1,0,1,0,0
+Mon Calamari, 0,0,1,0,1,0,1,1,1,0,0,0,1,0,0,0,0,0,1
+Ewok,1,0,0,1,0,0,0,0,0,0,1,1,1,0,1,0,0,0,0
+Toydarian,1,0,0,1,0,0,0,0,1,1,0,1,1,0,0,0,0,1,0
