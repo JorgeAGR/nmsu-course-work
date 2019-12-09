@@ -78,7 +78,7 @@ Vote (Training Set Only):
  - 1: Democrat
  - 2: Republican
 
-Vote (Testing Set Only):
+Vote Weight (Testing Set Only):
  - float: Weight of respondent (number of people represented by entry) * voter turnout due to race
 
 Sources:
