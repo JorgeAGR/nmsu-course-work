@@ -30,8 +30,6 @@ mpl.rcParams['ytick.labelsize'] = 18
 
 # load training set
 data_train = pd.read_csv('../data/election_data_train.csv')
-data_train = data_train[data_train['Vote'] != 0]
-data_train = data_train.dropna()
 
 # split into features and labels
 x_train = data_train.values[:, :-1]
