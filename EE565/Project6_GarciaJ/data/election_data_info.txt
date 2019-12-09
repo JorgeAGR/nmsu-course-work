@@ -75,8 +75,8 @@ Marital Status:
  - 7: Partners, not married
 
 Vote (Training Set Only):
- - 1: Democrat
- - 2: Republican
+ - 0: Democrat
+ - 1: Republican
 
 Vote Weight (Testing Set Only):
  - float: Weight of respondent (number of people represented by entry) * voter turnout due to race

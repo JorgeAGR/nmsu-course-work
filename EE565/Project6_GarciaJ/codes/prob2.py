@@ -101,8 +101,8 @@ for i, inds in enumerate(kfold.split(x_train)):
         tree = DecisionTreeClassifier(criterion='entropy', max_depth=best_tree.max_depth, random_state=0)
         tree.fit(x_train[train_ind], y_train[train_ind])
         y_pred = tree.predict(x_test)
-        dem_results[i] = w_test[y_pred==1].sum() / total_votes
-        rep_results[i] = w_test[y_pred==2].sum() / total_votes
+        dem_results[i] = w_test[y_pred==0].sum() / total_votes
+        rep_results[i] = w_test[y_pred==1].sum() / total_votes
 
 print('Dem votes: {:.2f} +/- {:.2f}'.format(dem_results.mean()*100, dem_results.std()*100))
 print('Rep votes: {:.2f} +/- {:.2f}'.format(rep_results.mean()*100, rep_results.std()*100))
