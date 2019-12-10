@@ -45,7 +45,7 @@ max_trees = np.arange(150) + 1
 # find optimal model
 fig, ax = plt.subplots()
 criterion_list = ['entropy', 'gini']
-colors = ['indianred', 'royalblue', 'lightcoral', 'cornflowerblue']
+colors = ['indianred', 'royalblue']
 highest_acc = 0
 for c, criterion in enumerate(criterion_list):
     num_tree_accval = np.zeros((len(max_trees), 2))
@@ -97,7 +97,6 @@ print('Optimal performance with {} criterion, {} trees with {:.2f} +/- {:.2f}% a
           num_tree_accval[best_tree.max_depth-1][0]*100, num_tree_accval[best_tree.max_depth-1][1]*100,
           num_tree_tpr[best_tree.max_depth-1][0]*100, num_tree_tpr[best_tree.max_depth-1][1]*100,
           num_tree_tnr[best_tree.max_depth-1][0]*100, num_tree_tnr[best_tree.max_depth-1][1]*100))
-          #best_precision*100, best_recall*100))
 
 # load testing set to predict election results
 data_test = pd.read_csv('../data/election_data_test.csv')
