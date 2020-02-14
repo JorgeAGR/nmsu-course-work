@@ -4,12 +4,13 @@ Created on Sun Feb  2 20:34:37 2020
 
 @author: jorge
 """
-
+# Importing necessary libraries
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 
+# Setting plotting variables
 width = 10
 height = 10
 
@@ -24,30 +25,33 @@ mpl.rcParams['ytick.major.size'] = 12
 mpl.rcParams['ytick.minor.size'] = 8
 mpl.rcParams['ytick.labelsize'] = 18
 
+# Function that finds linear model parameters and their variance
 def fitLine(x, y):
-    g = np.ones((len(x),2))
-    g[:,1] = x
+    G = np.ones((len(x),2))
+    G[:,1] = x
     d = y.reshape(len(y),1)
-    m = np.dot(np.dot(np.linalg.inv(np.dot(g.T, g)), g.T), d)
+    m = np.dot(np.dot(np.linalg.inv(np.dot(G.T, G)), G.T), d)
     
-    y_model = np.dot(g, m).flatten()
-    r = y - y_model
+    d_model = np.dot(G, m)
+    r = d - d_model
     var = (r**2).sum() / (len(x) - 2)
-    m_var = np.linalg.inv(np.dot(g.T, g)) * var
+    m_var = np.linalg.inv(np.dot(G.T, G)) * var
     return m, m_var
 
+# Calculate for a linear model given input data and parameters
 def linear(x, m):
     g = np.ones((len(x),2))
     g[:,1] = x
     d = np.dot(g, m).flatten()
     return d
 
-# 1a
+# Problem 1a
 x = np.array([1, 3, 4, 6, 8, 9, 11, 14])
 y = np.array([1, 2, 4, 4, 5, 7, 8, 9])
 
 m, m_var = fitLine(x, y)
 
+# Plotting
 fig, ax = plt.subplots()
 ax.scatter(x, y, color='black', marker='.')
 ax.plot(np.linspace(0, 15), linear(np.linspace(0, 15), m), '--', color='red', label=r'Fit for $y$')
@@ -75,6 +79,7 @@ fig.tight_layout(pad=0.5)
 fig.savefig('prob1.eps', dpi=500)
 
 # 2a
+# Set seed for consitency and generate the data
 np.random.seed(0)
 datasets = np.random.random(size=(100,50))
 data = datasets.sum(axis=0)
