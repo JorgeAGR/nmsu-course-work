@@ -58,17 +58,14 @@ class LSF(object):
         r = self.d - d_model
         self.data_var = (r**2).sum() / (self.G.shape[0] - self.N)
         self.m_cov = np.linalg.inv(np.dot(self.G.T, self.G)) * self.data_var
-        self.m_std = np.sqrt(m_cov.diagonal())
+        self.m_std = np.sqrt(self.m_cov.diagonal())
         
         return self.m, self.m_cov
 
     # Calculate output for the model given input data
-    def func(self, x):
-        g = np.ones((len(x), self.N))
-        for i in np.arange(self.N):
-            g[:,i] = x**i
+    def func(self, g):
         d = np.dot(g, self.m).flatten()
-        d_var = np.dot(g, np.dot(self.m_cov, g.T)).flatten()
+        d_var = np.dot(g, np.dot(self.m_cov, g.T))
         return d, d_var
     
 x1 = np.array([0, 1, 1])
@@ -76,10 +73,41 @@ x2 = np.array([1, 0, 1])
 y1 = np.array([-2.1, 1, -0.9])
 y2 = np.array([1.1, 2, 2.8])
 
-print('Fits return same paremeters?', m.flatten() == m2.flatten())
+G = np.ones((6, 2))
+G[:3,0] =  x1
+G[3:,0] = x2
+G[:3,1] = -x2
+G[3:,1] = x1
+d = np.hstack([y1, y2])
 
-print('Fit Results')
-print('a =', m[0][0])
-print('b =', m[1][0])
+model = LSF(G, d)
+model.fit()
+a = model.m[0][0]
+b = model.m[1][0]
 
-print('\nData Variance')
+# Part A
+print('Model Parameters')
+print('a =', a)
+print('b =', b)
+
+# Part B
+print('\nData Variance:', model.data_var)
+
+# Part C
+print('\nCovariance Matrix:\n', model.m_cov)
+
+# Part D
+x1_new = 1
+x2_new = 2
+g = np.ones((2,2))
+g[0,0] = x1_new
+g[0,1] = -x2_new
+g[1,0] = x2_new
+g[1,1]= x1_new
+
+y_new, y_new_var = model.func(g)
+
+print('New point:', '(' + str(y_new[0]) + ',' + str(y_new[1]) + ')')
+
+# Part E
+print('New Point Covariance:\n', y_new_var)

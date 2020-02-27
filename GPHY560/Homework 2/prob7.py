@@ -60,7 +60,7 @@ class LSF(object):
         r = self.d - d_model
         self.data_var = (r**2).sum() / (len(x) - self.N)
         self.m_cov = np.linalg.inv(np.dot(self.G.T, self.G)) * self.data_var
-        self.m_std = np.sqrt(m_cov.diagonal())
+        self.m_std = np.sqrt(self.m_cov.diagonal())
         
         return self.m, self.m_cov
 
