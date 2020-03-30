@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Tue Feb 11 12:27:55 2020
+Created on Thu Mar 26 22:18:03 2020
 
 @author: jorgeagr
 """
@@ -25,8 +25,8 @@ mpl.rcParams['xtick.labelsize'] = 18
 mpl.rcParams['ytick.major.size'] = 12
 mpl.rcParams['ytick.minor.size'] = 8
 mpl.rcParams['ytick.labelsize'] = 18
-    
-class LSF(object):
+
+class Weighted_LSF(object):
     '''
         Inputs:
         x : array
@@ -36,10 +36,11 @@ class LSF(object):
         N : int
             order of fit
     '''
-    def __init__(self, G, d):
+    def __init__(self, G, d, var):
         self.N = G.shape[1]
         self.G = G
-        self.d = d
+        self.d = d.reshape(len(d),1)
+        self.W = np.eye(len(var)) * (1 / np.sqrt(var))
         return
     
     # LSF function to calcualte model parameters and covariance matrix
@@ -51,16 +52,17 @@ class LSF(object):
         m_var : (N+1)*(N+1) matrix
             covariance matrix
         '''
-        G = self.G
+        G = self.W @ self.G
         GTGinv = np.linalg.inv(G.T @ G)
+        d = self.W @ self.d
         
-        self.m = (GTGinv @ G.T) @ self.d
+        self.m = (GTGinv @ G.T) @ d
         
         d_model = self.G @ self.m
         r = self.d - d_model
         self.data_var = (r**2).sum() / (G.shape[0] - self.N)
         
-        self.m_cov = GTGinv * self.data_var
+        self.m_cov = np.linalg.inv(G.T @ G) * self.data_var
         self.m_std = np.sqrt(self.m_cov.diagonal())
         
         return self.m, self.m_cov
@@ -71,46 +73,12 @@ class LSF(object):
         d_var = g @ (self.m_cov @ g.T)
         return d, d_var
 
-x1 = np.array([0, 1, 1])
-x2 = np.array([1, 0, 1])
-y1 = np.array([-2.1, 1, -0.9])
-y2 = np.array([1.1, 2, 2.8])
+data = np.array([1, 2, 4, 8]).reshape(4,1)
+variance = np.array([1, 2, 3, 4])
+G = np.ones(len(variance)).reshape(4,1)
 
-G = np.ones((6, 2))
-G[:3,0] =  x1
-G[3:,0] = x2
-G[:3,1] = -x2
-G[3:,1] = x1
-d = np.hstack([y1, y2])
+model = Weighted_LSF(G, data, variance)
+m, _ = model.fit()
 
-model = LSF(G, d)
-model.fit()
-a = model.m[0]
-b = model.m[1]
-
-# Part A
-print('Model Parameters')
-print('a =', a)
-print('b =', b)
-
-# Part B
-print('\nData Variance:', model.data_var)
-
-# Part C
-print('\nCovariance Matrix:\n', model.m_cov)
-
-# Part D
-x1_new = 1
-x2_new = 2
-g = np.ones((2,2))
-g[0,0] = x1_new
-g[0,1] = -x2_new
-g[1,0] = x2_new
-g[1,1]= x1_new
-
-y_new, y_new_var = model.func(g)
-
-print('New point:', '(' + str(y_new[0]) + ',' + str(y_new[1]) + ')')
-
-# Part E
-print('New Point Covariance:\n', y_new_var)
+print('Estimate of m:')
+print('m = {}'.format(m.flatten()[0]))

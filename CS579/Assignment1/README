@@ -1,0 +1,9 @@
+Notes on submitted work:
+
+1) An attempt was made to write the Map and Reduce functions in Python and use Hadoop Streaming to train
+   the model. This was ultimately unsuccessful, but the code is attached for the grader's consideration.
+   If one is to run a pipeline (e.g. cat data.csv | python mapper.py | python reducer.py), the code is
+   able to perform the task at hand. Perhap the issue is my inexperience and not being able to figure out
+   Hadoop Streaming properly
+2) Apache Spark implementation for actual results obtained was done in a Google Colab notebook.
+   Link: https://colab.research.google.com/drive/1n2YeCmi2kcqDMyABFH4yr55SNFBIWnnj
