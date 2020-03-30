@@ -27,15 +27,7 @@ mpl.rcParams['ytick.minor.size'] = 8
 mpl.rcParams['ytick.labelsize'] = 18
 
 class Weighted_LSF(object):
-    '''
-        Inputs:
-        x : array
-            input data
-        y : array
-            output data
-        N : int
-            order of fit
-    '''
+    
     def __init__(self, G, d, var):
         self.N = G.shape[1]
         self.G = G
@@ -78,7 +70,7 @@ variance = np.array([1, 2, 3, 4])
 G = np.ones(len(variance)).reshape(4,1)
 
 model = Weighted_LSF(G, data, variance)
-m, _ = model.fit()
+m, cov = model.fit()
 
 print('Estimate of m:')
 print('m = {}'.format(m.flatten()[0]))

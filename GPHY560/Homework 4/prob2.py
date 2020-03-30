@@ -13,15 +13,7 @@ import matplotlib.ticker as mtick
 
 # Using damped LSF as suggested by Menke (Ch 12)
 class LSF(object):
-    '''
-        Inputs:
-        x : array
-            input data
-        y : array
-            output data
-        N : int
-            order of fit
-    '''
+    
     def __init__(self, G, d):
         self.N = G.shape[1]
         self.G = G

@@ -27,15 +27,7 @@ mpl.rcParams['ytick.minor.size'] = 8
 mpl.rcParams['ytick.labelsize'] = 18
 
 class Constrained_LSF(object):
-    '''
-        Inputs:
-        x : array
-            input data
-        y : array
-            output data
-        N : int
-            order of fit
-    '''
+    
     def __init__(self, G, d, F, h):
         self.N = G.shape[1]
         self.G = G
@@ -60,13 +52,13 @@ class Constrained_LSF(object):
         GTGinv = np.linalg.inv(GT @ G)
         
         self.m = (GTGinv @ GT) @ self.d
+        # Recalculate m for constrained version
+        self.m = self.m - GTGinv @ FT @ np.linalg.inv(F @ GTGinv @ FT) @ (F @ self.m - h)
         
         d_model = G @ self.m
         r = self.d - d_model
         self.data_var = (r**2).sum() / (G.shape[0] - self.N + len(self.h))
         
-        # Recalculate m for constrained version
-        self.m = self.m - GTGinv @ FT @ np.linalg.inv(F @ GTGinv @ FT) @ (F @ self.m - h)
         I = np.eye(len(self.m))
         self.m_cov = (I - GTGinv @ FT @ np.linalg.inv(F @ GTGinv @ FT) @ F) @ GTGinv @ (I - GTGinv @ FT @ np.linalg.inv(F @ GTGinv @ FT) @ F) * self.data_var
         self.m_std = np.sqrt(self.m_cov.diagonal())

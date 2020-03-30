@@ -12,15 +12,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 
 class LSF(object):
-    '''
-        Inputs:
-        x : array
-            input data
-        y : array
-            output data
-        N : int
-            order of fit
-    '''
+    
     def __init__(self, G, d):
         self.N = G.shape[1]
         self.G = G

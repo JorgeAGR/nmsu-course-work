@@ -27,15 +27,7 @@ mpl.rcParams['ytick.minor.size'] = 8
 mpl.rcParams['ytick.labelsize'] = 18
 
 class Weighted_Constrained_LSF(object):
-    '''
-        Inputs:
-        x : array
-            input data
-        y : array
-            output data
-        N : int
-            order of fit
-    '''
+    
     def __init__(self, G, d, F, h, error, delta):
         self.N = G.shape[1]
         self.G = np.vstack([G, F])
@@ -74,15 +66,7 @@ class Weighted_Constrained_LSF(object):
         return d, d_var
     
 class Weighted_LSF(object):
-    '''
-        Inputs:
-        x : array
-            input data
-        y : array
-            output data
-        N : int
-            order of fit
-    '''
+    
     def __init__(self, G, d, w):
         self.N = G.shape[1]
         self.G = G
@@ -123,7 +107,7 @@ class Weighted_LSF(object):
 elevation = np.array([3.1, 0.4, -3.3])
 distance = np.array([500, 1000, 750])
 error = 1/distance
-G = np.eye(3)
+G = np.eye(3)   
 
 # Part A
 F = np.array([[1, 1, 1]])
@@ -151,7 +135,7 @@ print('---')
 print('Estimated Elevations:')
 for l, h in zip(('A-B', 'B-C'), (m2.flatten())):
     print('{} = {} m'.format(l, h))
-print('C-A = -{}'.format(m2.sum()))
+print('C-A = {}'.format(-m2.sum()))
 print('Covariance:')
 print(m2_cov)
 
