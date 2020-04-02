@@ -88,7 +88,23 @@ fig = plt.figure()
 ax = [plt.subplot2grid((4,4), (0,0), colspan=2, rowspan=2, fig=fig),
       plt.subplot2grid((4,4), (0,2), colspan=2, rowspan=2, fig=fig),
       plt.subplot2grid((4,4), (2,1), colspan=2, rowspan=2, fig=fig)]
-ax[0].plot(f)
-ax[1].plot(m)
-ax[2].plot(np.convolve(f, m))
-ax[2].plot(d)
+ax[0].plot(f, label=r'$f(t)$')
+ax[1].plot(m, label=r'$f(t)^{-1}$')
+ax[2].plot(np.convolve(f, m), label='Convolution')
+ax[2].plot(d, linestyle=':', label='Delta Pulse')
+
+for i in (0, 2):
+    ax[i].xaxis.set_major_locator(mtick.MultipleLocator(50))
+    ax[i].xaxis.set_minor_locator(mtick.MultipleLocator(10))
+ax[0].yaxis.set_major_locator(mtick.MultipleLocator(0.05))
+ax[0].yaxis.set_minor_locator(mtick.MultipleLocator(0.025))
+ax[2].yaxis.set_major_locator(mtick.MultipleLocator(0.5))
+ax[2].yaxis.set_minor_locator(mtick.MultipleLocator(0.25))
+ax[1].xaxis.set_major_locator(mtick.MultipleLocator(1))
+ax[1].xaxis.set_minor_locator(mtick.MultipleLocator(1))
+ax[1].yaxis.set_major_locator(mtick.MultipleLocator(2))
+ax[1].yaxis.set_minor_locator(mtick.MultipleLocator(1))
+for a in ax:
+    a.legend()
+fig.tight_layout(pad=0.5)
+fig.savefig('prob2.eps', dpi=200)

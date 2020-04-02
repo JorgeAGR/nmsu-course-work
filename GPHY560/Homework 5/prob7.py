@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Fri Mar 27 01:23:29 2020
+Created on Thu Apr  2 05:53:59 2020
 
 @author: jorgeagr
 """
@@ -11,6 +11,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 
+# Using damped LSF as suggested by Menke (Ch 12)
 class LSF(object):
     
     def __init__(self, G, d):
@@ -35,7 +36,8 @@ class LSF(object):
         
         d_model = self.G @ self.m
         r = self.d - d_model
-        self.data_var = (r**2).sum() / (G.shape[0] - self.N)
+        self.dof = (G.shape[0] - self.N)
+        self.data_var = (r**2).sum() / self.dof
         
         self.m_cov = GTGinv @ G.T @ G @ GTGinv * self.data_var
         self.m_std = np.sqrt(self.m_cov.diagonal())
@@ -63,12 +65,12 @@ mpl.rcParams['ytick.major.size'] = 12
 mpl.rcParams['ytick.minor.size'] = 8
 mpl.rcParams['ytick.labelsize'] = 18
 
-f_points = 100
-filter_points = 3
+f_points = 7
+filter_points = 4
 
 # Build function
 f = np.zeros(f_points)
-f[0:7] = 1/7
+f[0:4] = np.array([2, 1, 0, -1])
 
 # Build G of function
 G = np.zeros((f_points, filter_points))
@@ -93,17 +95,37 @@ ax[2].plot(np.convolve(f, m), label='Convolution')
 ax[2].plot(d, linestyle=':', label='Delta Pulse')
 
 for i in (0, 2):
-    ax[i].xaxis.set_major_locator(mtick.MultipleLocator(50))
-    ax[i].xaxis.set_minor_locator(mtick.MultipleLocator(10))
-ax[0].yaxis.set_major_locator(mtick.MultipleLocator(0.05))
-ax[0].yaxis.set_minor_locator(mtick.MultipleLocator(0.025))
+    ax[i].xaxis.set_major_locator(mtick.MultipleLocator(2))
+    ax[i].xaxis.set_minor_locator(mtick.MultipleLocator(1))
+ax[0].yaxis.set_major_locator(mtick.MultipleLocator(1))
+ax[0].yaxis.set_minor_locator(mtick.MultipleLocator(0.5))
 ax[2].yaxis.set_major_locator(mtick.MultipleLocator(0.5))
 ax[2].yaxis.set_minor_locator(mtick.MultipleLocator(0.25))
 ax[1].xaxis.set_major_locator(mtick.MultipleLocator(1))
 ax[1].xaxis.set_minor_locator(mtick.MultipleLocator(1))
-ax[1].yaxis.set_major_locator(mtick.MultipleLocator(2))
-ax[1].yaxis.set_minor_locator(mtick.MultipleLocator(1))
+ax[1].yaxis.set_major_locator(mtick.MultipleLocator(0.2))
+ax[1].yaxis.set_minor_locator(mtick.MultipleLocator(0.1))
 for a in ax:
+    a.set_xlabel(r'$t$')
+    a.set_ylabel(r'$A$')
     a.legend()
 fig.tight_layout(pad=0.5)
-fig.savefig('prob1.eps', dpi=200)
+fig.savefig('prob7.eps', dpi=200)
+
+# Part C
+print('Data Variance: \nvar = {}'.format(model.data_var))
+print('Covariance: \ncov(m) = {}'.format(cov))
+
+# Part D
+s = np.array([2, 1, 0, -1, 4, 0, -1, -2, 1, 6, 3, -2, -4, 2, 2, 0, -1, 0, 2, 1, 0, -1, 0, 0, 0])
+fig2, ax2 = plt.subplots()
+ax2.plot(np.convolve(m, s), label=r'$f^{-1}$*Signal')
+ax2.xaxis.set_major_locator(mtick.MultipleLocator(5))
+ax2.xaxis.set_minor_locator(mtick.MultipleLocator(1))
+ax2.yaxis.set_major_locator(mtick.MultipleLocator(1))
+ax2.yaxis.set_minor_locator(mtick.MultipleLocator(0.5))
+ax2.set_xlabel(r'$t$')
+ax2.set_ylabel(r'$A$')
+ax2.legend()
+fig2.tight_layout(pad=0.5)
+fig2.savefig('prob7d.eps', dpi=200)
